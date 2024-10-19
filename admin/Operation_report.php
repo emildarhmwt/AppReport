@@ -1,0 +1,164 @@
+<?php
+include '../Koneksi.php';
+
+$query = "SELECT * FROM operation_report";
+$result = pg_query($conn, $query);
+
+if (!$result) {
+    echo "Terjadi kesalahan saat mengambil data.";
+    exit;
+}
+
+$data = pg_fetch_all($result);
+?>
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Report Application</title>
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo2.png" />
+    <link rel="stylesheet" href="../assets/css/styles.min.css">
+    <link rel=" stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Sidebar Start -->
+        <!-- <div id="sidebar"></div> -->
+        <!--  Sidebar End -->
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <div id="navbar"></div>
+            <!--  Header End -->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold mb-4">Operation Report</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="form-operation" onSubmit="return handleSubmit(event)">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="startDate" class="form-label">Tanggal Mulai:</label>
+                                            <input type="date" class="form-control" id="startDate"
+                                                aria-describedby="startDateHelp">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="endDate" class="form-label">Tanggal Selesai:</label>
+                                            <input type="date" class="form-control" id="endDate"
+                                                aria-describedby="endDateHelp">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Status :</label>
+                                        <select class="form-select" id="status" name="status">
+                                            <option value="" selected disabled>PRODUKSI / JAM JALAN </option>
+                                            <option value="PRODUCTION">PRODUCTION</option>
+                                            <option value="HOUR_METER">HOUR METER</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex justify-content-center mt-3">
+                                        <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i>
+                                            Search Data</button>
+                                        <button type="button" class="btn btn-primary mx-3" onclick="fetchAllData()">All
+                                            Data</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="rowsPerPageSelect" class="form-label">Tampilkan:</label>
+                            <select id="rowsPerPageSelect" class="form-select"
+                                style="width: auto; display: inline-block;">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                            </select>
+                            <span> data per halaman</span>
+                        </div>
+                        <div class="d-flex align-items-stretch">
+                            <div class="card w-100 overflow-hidden">
+                                <div data-simplebar class="position-relative">
+                                    <div class="table-responsive products-tabel" data-simplebar>
+                                        <table class="table table-bordered text-nowrap mb-0 align-middle table-hover">
+                                            <thead class="fs-4">
+                                                <tr>
+                                                    <th class="fs-3">No</th>
+                                                    <th class="fs-3">Hari / Tanggal</th>
+                                                    <th class="fs-3">Shift</th>
+                                                    <th class="fs-3">Giliran / Group</th>
+                                                    <th class="fs-3">Pengawas</th>
+                                                    <th class="fs-3">Lokasi Kerja</th>
+                                                    <th class="fs-3">Status</th>
+                                                    <th class="fs-3">PIC</th>
+                                                    <th class="fs-3">Opsi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="operationTableBody">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center mt-3" id="paginationContainer">
+                            </ul>
+                        </nav> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    fetch('Navbar.php')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('navbar').innerHTML = data;
+        });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const data = <?php echo json_encode($data); ?>;
+        const tbody = document.getElementById('operationTableBody');
+        tbody.innerHTML = '';
+
+        if (data.length === 0) {
+            tbody.innerHTML =
+                '<tr><td colspan="8" class="text-center">Tidak ada data yang ditemukan</td></tr>';
+        } else {
+            data.forEach((report, index) => {
+                const row = `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${report.tanggal}</td>
+                    <td>${report.shift}</td>
+                    <td>${report.grup}</td>
+                    <td>${report.pengawas}</td>
+                    <td>${report.lokasi}</td>
+                    <td>${report.status}</td>
+                    <td>${report.pic}</td>
+                    <td></td>
+                </tr
+            `;
+                tbody.innerHTML += row;
+            });
+        }
+    });
+    </script>
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/sidebarmenu.js"></script>
+    <script src="../assets/js/app.min.js"></script>
+    <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+</body>
+
+</html>
