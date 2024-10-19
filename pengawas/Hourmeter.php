@@ -208,37 +208,6 @@ fetch('Navbar.php')
         document.getElementById('navbar').innerHTML = data;
     });
 
-function deleteJamJalan(id) {
-    console.log('Deleting jam jalan with ID:', id); // Debugging: Log the ID being deleted
-    if (confirm('Apakah Anda yakin ingin menghapus jam jalan ini?')) {
-        fetch('deleteJamJalan.php', {
-                method: 'DELETE',
-                body: JSON.stringify({
-                    id: id
-                }), // Send ID in the request body
-                headers: {
-                    'Content-Type': 'application/json' // Set content type to JSON
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(text => {
-                        throw new Error(text);
-                    });
-                }
-                return response.json(); // Parse the JSON response
-            })
-            .then(data => {
-                alert(data.message); // Show success message
-                location.reload(); // Reload the page to see the changes
-            })
-            .catch(error => {
-                console.error('Error:', error); // Log any errors
-                alert('Error: ' + error.message); // Show error message
-            });
-    }
-}
-
 let rowsPerPage = 10; // Set the default number of rows per page
 let currentPage = 1;
 let allData = [];
@@ -293,11 +262,7 @@ function renderTable(data) {
                     <td>${report.no_operator}</td>
                     <td>${report.hujan}</td>
                     <td>${report.ket}</td>
-                    <td>
-                     <button onclick="deleteJamJalan(${report.id})" class="btn btn-danger btn-sm" title="Hapus">
-                        <i class="bi bi-trash3"></i>
-                    </button>
-                    </td>
+                    <td></td>
                 </tr>`;
             tbody.innerHTML += row;
         });

@@ -84,12 +84,12 @@ $data = pg_fetch_all($result);
                                             <!-- Data will be populated here -->
                                         </tbody>
                                     </table>
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-center mt-3" id="Pagination">
+                                            <!-- Pagination items will be added here by JavaScript -->
+                                        </ul>
+                                    </nav>
                                 </div>
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination justify-content-center mt-3" id="productionTableBody">
-                                        <!-- Pagination items will be added here by JavaScript -->
-                                    </ul>
-                                </nav>
                             </div>
                         </div>
                     </div>
@@ -102,27 +102,120 @@ $data = pg_fetch_all($result);
                     document.getElementById('navbar').innerHTML = data;
                 });
 
-            document.addEventListener('DOMContentLoaded', () => {
-                const data = <?php echo json_encode($data); ?>;
+            function deleteKontraktor(id) {
+                console.log('Deleting kontraktor with ID:', id); // Debugging: Log the ID being deleted
+                if (confirm('Apakah Anda yakin ingin menghapus kontraktor ini?')) {
+                    fetch('deleteKontraktor.php', {
+                            method: 'DELETE',
+                            body: JSON.stringify({
+                                id: id
+                            }), // Send ID in the request body
+                            headers: {
+                                'Content-Type': 'application/json' // Set content type to JSON
+                            }
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.text().then(text => {
+                                    throw new Error(text);
+                                });
+                            }
+                            return response.json(); // Parse the JSON response
+                        })
+                        .then(data => {
+                            alert(data.message); // Show success message
+                            location.reload(); // Reload the page to see the changes
+                        })
+                        .catch(error => {
+                            console.error('Error:', error); // Log any errors
+                            alert('Error: ' + error.message); // Show error message
+                        });
+                }
+            }
+
+            const rowsPerPage = document.getElementById('rowsPerPageSelect');
+            const searchInput = document.getElementById('searchInput'); // Add search input reference
+            let currentPage = 1;
+
+            function renderTable(data) {
                 const tbody = document.getElementById('kontraktorTableBody');
                 tbody.innerHTML = '';
+                const filteredData = data.filter(report =>
+                    report.nama.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+                    report.username.toLowerCase().includes(searchInput.value.toLowerCase())
+                ); // Filter data based on search input
+                const start = (currentPage - 1) * rowsPerPage.value;
+                const end = start + parseInt(rowsPerPage.value);
+                const paginatedData = filteredData.slice(start, end); // Use filtered data for pagination
 
-                if (data.length === 0) {
-                    tbody.innerHTML =
-                        '<tr><td colspan="8" class="text-center">Tidak ada data yang ditemukan</td></tr>';
-                } else {
-                    data.forEach((report, index) => {
-                        const row = `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${report.nama}</td>
-                    <td>${report.username}</td>
-                    <td></td>
-                </tr>
-            `;
-                        tbody.innerHTML += row;
-                    });
+                paginatedData.forEach((report, index) => {
+                    const row = `
+            <tr>
+                <td>${start + index + 1}</td>
+                <td>${report.nama}</td>
+                <td>${report.username}</td>
+                <td>
+                    <button onclick="window.location.href='editKontraktor.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
+                        <i class="bi bi-pen"></i>
+                    </button>
+                    <button onclick="deleteKontraktor(${report.id})" class="btn btn-danger btn-sm" title="Hapus">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </td>
+            </tr>
+        `;
+                    tbody.innerHTML += row;
+                });
+
+                renderPagination(filteredData.length);
+            }
+
+            function renderPagination(totalItems) {
+                const pagination = document.getElementById('Pagination');
+                pagination.innerHTML = '';
+                const totalPages = Math.ceil(totalItems / rowsPerPage.value);
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageItem = document.createElement('li');
+                    pageItem.className = 'page-item' + (i === currentPage ? ' active' :
+                        ''); // Add 'active' class for the current page
+                    pageItem.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
+                    pagination.appendChild(pageItem);
                 }
+            }
+
+            searchInput.addEventListener('input', () => {
+                currentPage = 1; // Reset to first page on search
+                const data = <?php echo json_encode($data); ?>;
+                renderTable(data); // Render table with search results
+            });
+
+            rowsPerPage.addEventListener('change', () => {
+                currentPage = 1; // Reset to first page
+                const data = <?php echo json_encode($data); ?>;
+                renderTable(data); // Render table with new rows per page
+            });
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const data = <?php echo json_encode($data); ?>;
+                renderTable(data); // Initial render
+            });
+
+            function changePage(page) {
+                currentPage = page;
+                const data = <?php echo json_encode($data); ?>;
+                renderTable(data);
+            }
+
+            rowsPerPage.addEventListener('change', () => {
+                currentPage = 1; // Reset to first page
+                const data = <?php echo json_encode($data); ?>;
+                renderTable(data);
+            });
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const data = <?php echo json_encode($data); ?>;
+                renderTable(data);
             });
             </script>
             <script src="../assets/libs/jquery/dist/jquery.min.js"></script>

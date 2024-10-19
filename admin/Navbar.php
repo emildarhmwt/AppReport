@@ -150,8 +150,9 @@ include '../Koneksi.php';
                         <li class="nav-item dropdown">
                             <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="../assets/images/profile/user1.jpg" alt="" width="35" height="35"
-                                    class="rounded-circle">
+                                <div>
+                                    <h5 class="profile"> Emilda Rahmawati [Admin]</h5>
+                                </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
                                 aria-labelledby="drop2">
@@ -169,21 +170,13 @@ include '../Koneksi.php';
                                 </div>
                             </div>
                         </li>
-                        <div>
-                            <h5 class="profile" id="adminNameDisplay"> <br> [Admin]</h5>
-                        </div>
+
                     </ul>
                 </div>
             </nav>
         </header>
         <!--  Header End -->
     </div>
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const adminName = "<?php echo $_SESSION['nama']; ?>";
-        document.getElementById('adminNameDisplay').innerText = adminName;
-    });
-    </script>
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/sidebarmenu.js"></script>

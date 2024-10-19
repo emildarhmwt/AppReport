@@ -100,6 +100,7 @@ $data = pg_fetch_all($result);
                                                     <th class="fs-3">Lokasi Kerja</th>
                                                     <th class="fs-3">Status</th>
                                                     <th class="fs-3">PIC</th>
+                                                    <th class="fs-3">Opsi</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="operationTableBody">
@@ -187,6 +188,7 @@ $data = pg_fetch_all($result);
                     <td>${report.lokasi}</td>
                     <td>${report.status}</td>
                     <td>${report.pic}</td>
+                    <td></td>
                 </tr>`;
                 tbody.innerHTML += row;
             });

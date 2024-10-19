@@ -117,23 +117,18 @@ include '../Koneksi.php';
                 </ul>
 
                 <ul class="navbar-nav me-auto flex-row align-items-center"
-                    style="flex-grow: 30; justify-content: center;">
-                    <li class="nav-item">
-                        <a class="dashboard nav-link" aria-current="page" href="Dashboard_admin.php">Dashboard</a>
+                    style="flex-grow: 40; justify-content: center;">
+                    <li class="nav-item mx-5">
+                        <a class="dashboard nav-link" aria-current="page" href="Dashboard_pengawas.php">Dashboard</a>
                     </li>
                     <li class="nav-item mx-5">
-                        <a class="operation nav-link" href="Operation.html">Operation</a>
+                        <a class="operation nav-link" href="Operation.php">Operation</a>
                     </li>
-                    <li class="nav-item dropdown me-5">
-                        <a class="dropdown-toggle report nav-link" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Report
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="Operation_report.php">Operation</a></li>
-                            <li><a class="dropdown-item" href="Production_report.php">Production</a></li>
-                            <li><a class="dropdown-item" href="Hourmeter_report.php">Hour Meter</a></li>
-                        </ul>
+                    <li class="nav-item mx-5">
+                        <a class="operation nav-link" href="Production.php">Produksi</a>
+                    </li>
+                    <li class="nav-item mx-5">
+                        <a class="operation nav-link" href="HourMeter.php">Jam Jalan</a>
                     </li>
                 </ul>
 
@@ -142,8 +137,9 @@ include '../Koneksi.php';
                         <li class="nav-item dropdown">
                             <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="../assets/images/profile/user1.jpg" alt="" width="35" height="35"
-                                    class="rounded-circle">
+                                <div>
+                                    <h5 class="profile" id="adminNameDisplay"> Emilda Rahmawati [Kontraktor]</h5>
+                                </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
                                 aria-labelledby="drop2">
@@ -161,10 +157,6 @@ include '../Koneksi.php';
                                 </div>
                             </div>
                         </li>
-                        <div>
-                            <h5 class="profile" id="adminNameDisplay"> <br> [Kontraktor]</h5>
-                        </div>
-
                     </ul>
                 </div>
             </nav>
