@@ -59,8 +59,8 @@ $data = pg_fetch_all($result);
                                         <label for="status" class="form-label">Status :</label>
                                         <select class="form-select" id="status" name="status">
                                             <option value="" selected disabled>PRODUKSI / JAM JALAN </option>
-                                            <option value="PRODUCTION">PRODUCTION</option>
-                                            <option value="HOUR_METER">HOUR METER</option>
+                                            <option value="Produksi">Produksi</option>
+                                            <option value="Jam Jalan">Jam Jalan</option>
                                         </select>
                                     </div>
                                     <div class="d-flex justify-content-center mt-3">
@@ -77,7 +77,7 @@ $data = pg_fetch_all($result);
                         <div class="mb-3">
                             <label for="rowsPerPageSelect" class="form-label">Tampilkan:</label>
                             <select id="rowsPerPageSelect" class="form-select"
-                                style="width: auto; display: inline-block;">
+                                style="width: auto; display: inline-block;" onchange="updateRowsPerPage()">
                                 <option value="5">5</option>
                                 <option value="10" selected>10</option>
                                 <option value="15">15</option>
@@ -110,10 +110,11 @@ $data = pg_fetch_all($result);
                                 </div>
                             </div>
                         </div>
-                        <!-- <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center mt-3" id="paginationContainer">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center" id="pagination">
+                                <!-- Pagination items will be dynamically added here -->
                             </ul>
-                        </nav> -->
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -126,19 +127,60 @@ $data = pg_fetch_all($result);
             document.getElementById('navbar').innerHTML = data;
         });
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const data = <?php echo json_encode($data); ?>;
+    let rowsPerPage = 10; // Set the default number of rows per page
+    let currentPage = 1;
+    let allData = [];
+
+    function updateRowsPerPage() {
+        const select = document.getElementById('rowsPerPageSelect');
+        rowsPerPage = parseInt(select.value);
+        currentPage = 1; // Reset to the first page
+        renderTable(allData);
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault(); // Prevent form submission
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        const status = document.getElementById('status').value;
+
+        const filteredData = allData.filter(report => {
+            const reportDate = new Date(report.tanggal);
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            const isDateInRange = (!startDate || reportDate >= start) && (!endDate || reportDate <= end);
+            const isStatusMatch = !status || report.status === status;
+
+            return isDateInRange && isStatusMatch;
+        });
+
+        currentPage = 1; // Reset to the first page
+        renderTable(filteredData);
+    }
+
+    function fetchAllData() {
+        document.getElementById('startDate').value = '';
+        document.getElementById('endDate').value = '';
+        document.getElementById('status').value = '';
+        currentPage = 1; // Reset to the first page
+        renderTable(allData);
+    }
+
+    function renderTable(data) {
         const tbody = document.getElementById('operationTableBody');
         tbody.innerHTML = '';
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const paginatedData = data.slice(start, end);
 
-        if (data.length === 0) {
+        if (paginatedData.length === 0) {
             tbody.innerHTML =
                 '<tr><td colspan="8" class="text-center">Tidak ada data yang ditemukan</td></tr>';
         } else {
-            data.forEach((report, index) => {
+            paginatedData.forEach((report, index) => {
                 const row = `
                 <tr>
-                    <td>${index + 1}</td>
+                    <td>${start + index + 1}</td>
                     <td>${report.tanggal}</td>
                     <td>${report.shift}</td>
                     <td>${report.grup}</td>
@@ -147,11 +189,35 @@ $data = pg_fetch_all($result);
                     <td>${report.status}</td>
                     <td>${report.pic}</td>
                     <td></td>
-                </tr
-            `;
+                </tr>`;
                 tbody.innerHTML += row;
             });
         }
+        renderPagination(data.length);
+    }
+
+    function renderPagination(totalRows) {
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+        const pageCount = Math.ceil(totalRows / rowsPerPage);
+
+        for (let i = 1; i <= pageCount; i++) {
+            const li = document.createElement('li');
+            li.className = 'page-item' + (i === currentPage ? ' active' : '');
+            li.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
+            pagination.appendChild(li);
+        }
+    }
+
+    function changePage(page) {
+        currentPage = page;
+        const data = <?php echo json_encode($data); ?>;
+        renderTable(data);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        allData = <?php echo json_encode($data); ?>; // Store all data for reference
+        renderTable(allData); // Render the initial table
     });
     </script>
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>

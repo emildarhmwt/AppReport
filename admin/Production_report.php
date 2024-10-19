@@ -61,8 +61,7 @@ $data = pg_fetch_all($result);
                                     </div>
                                     <div class="mb-3">
                                         <label for="grupSearch" class="form-label">Giliran / Group:</label>
-                                        <input type="text" class="form-control" id="grupSearch"
-                                            placeholder="Input Data">
+                                        <input type="text" class="form-control" id="grup" placeholder="Input Data">
                                     </div>
                                     <div class="mb-3">
                                         <label for="lokasiSearch" class="form-label">Lokasi Kerja:</label>
@@ -130,7 +129,7 @@ $data = pg_fetch_all($result);
                                     <div class="col-md-6">
                                         <label for="rowsPerPageSelect" class="form-label">Tampilkan:</label>
                                         <select id="rowsPerPageSelect" class="form-select"
-                                            style="width: auto; display: inline-block;">
+                                            style="width: auto; display: inline-block;" onchange="updateRowsPerPage()">
                                             <option value="5">5</option>
                                             <option value="10" selected>10</option>
                                             <option value="15">15</option>
@@ -142,10 +141,6 @@ $data = pg_fetch_all($result);
                                         <button type="button" class="btn btn-primary mx-3"
                                             style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .80rem;"
                                             onclick="exportToPDF()"><i class="bi bi-download"></i> Export PDF</button>
-                                        <button type="button" class="btn btn-primary"
-                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .80rem;"
-                                            onclick="exportToExcel()"><i class="bi bi-download"></i> Export
-                                            Excel</button>
                                     </div>
                                 </div>
                                 <div class="table-responsive products-table" data-simplebar>
@@ -166,36 +161,71 @@ $data = pg_fetch_all($result);
                                         </tbody>
                                     </table>
                                 </div>
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination justify-content-center mt-3" id="paginationContainer">
-                                        <!-- Pagination items will be added here by JavaScript -->
-                                    </ul>
-                                </nav>
                             </div>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center" id="pagination">
+                                    <!-- Pagination items will be dynamically added here -->
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
-            <script>
-            fetch('Navbar.php')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('navbar').innerHTML = data;
-                });
+        </div>
+    </div>
+    <script>
+    fetch('Navbar.php')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('navbar').innerHTML = data;
+        });
 
-            document.addEventListener('DOMContentLoaded', () => {
-                const data = <?php echo json_encode($data); ?>;
-                const tbody = document.getElementById('productionTableBody');
-                tbody.innerHTML = '';
+    let rowsPerPage = 10; // Set the default number of rows per page
+    let currentPage = 1;
+    let allData = [];
 
-                if (data.length === 0) {
-                    tbody.innerHTML =
-                        '<tr><td colspan="8" class="text-center">Tidak ada data yang ditemukan</td></tr>';
-                } else {
-                    data.forEach((report, index) => {
-                        const row = `
+    function updateRowsPerPage() {
+        const select = document.getElementById('rowsPerPageSelect');
+        rowsPerPage = parseInt(select.value);
+        currentPage = 1; // Reset to the first page
+        renderTable(allData); // Render the table with the updated rows per page
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault(); // Prevent form submission
+        const grup = document.getElementById('grup').value;
+
+        const filteredData = allData.filter(report => {
+            const isGrupMatch = !grup || report.grup === status;
+
+            return isGrupMatch;
+        });
+
+        currentPage = 1; // Reset to the first page
+        renderTable(filteredData);
+    }
+
+    function fetchAllData() {
+        document.getElementById('grup').value = '';
+        currentPage = 1; // Reset to the first page
+        renderTable(allData); // Render all data
+    }
+
+    function renderTable(data) {
+        const tbody = document.getElementById('productionTableBody');
+        tbody.innerHTML = '';
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const paginatedData = data.slice(start, end);
+
+        if (paginatedData.length === 0) {
+            tbody.innerHTML =
+                '<tr><td colspan="8" class="text-center">Tidak ada data yang ditemukan</td></tr>';
+        } else {
+            paginatedData.forEach((report, index) => {
+                const row = `
                 <tr>
-                    <td>${index + 1}</td>
+                    <td>${start + index + 1}</td>
                     <td>${report.alat}</td>
                     <td>${report.timbunan}</td>
                     <td>${report.material}</td>
@@ -203,18 +233,42 @@ $data = pg_fetch_all($result);
                     <td>${report.tipe}</td>
                     <td>${report.ritase}</td>
                     <td></td>
-                </tr
-            `;
-                        tbody.innerHTML += row;
-                    });
-                }
+                </tr>`;
+                tbody.innerHTML += row;
             });
-            </script>
-            <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-            <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="../assets/js/sidebarmenu.js"></script>
-            <script src="../assets/js/app.min.js"></script>
-            <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+        }
+        renderPagination(data.length);
+    }
+
+    function renderPagination(totalRows) {
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+        const pageCount = Math.ceil(totalRows / rowsPerPage);
+
+        for (let i = 1; i <= pageCount; i++) {
+            const li = document.createElement('li');
+            li.className = 'page-item' + (i === currentPage ? ' active' : '');
+            li.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
+            pagination.appendChild(li);
+        }
+    }
+
+    function changePage(page) {
+        currentPage = page;
+        const data = <?php echo json_encode($data); ?>;
+        renderTable(data);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        allData = <?php echo json_encode($data); ?>; // Store all data for reference
+        renderTable(allData); // Render the initial table
+    });
+    </script>
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/sidebarmenu.js"></script>
+    <script src="../assets/js/app.min.js"></script>
+    <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
 </body>
 
 </html>

@@ -69,6 +69,9 @@
                                     </div>
                                     <input type="hidden" id="operation_report_id" name="operation_report_id"
                                         value="<?php echo $_GET['id']; ?>">
+                                    <input type="hidden" id="proses_admin" name="proses_admin" value="Uploaded">
+                                    <input type="hidden" id="proses_pengawas" name="proses_pengawas" value="">
+                                    <input type="hidden" id="proses_kontraktor" name="proses_kontraktor" value="">
                                     <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>
                                         Submit</button>
                                     <button type="button" class="btn btn-warning mx-3" onclick="goBack()"><i
@@ -82,6 +85,26 @@
         </div>
     </div>
     <script>
+    document.getElementById('form-hourmeter').addEventListener('submit', function(event) {
+        event.preventDefault(); // Mencegah pengiriman form default
+        const formData = new FormData(this);
+
+        fetch('hourmeter_aksi.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    console.log(data.message); // Tampilkan pesan sukses di konsol
+                    this.reset(); // Hapus data form setelah berhasil disimpan
+                } else {
+                    console.error(data.error); // Tampilkan pesan error di konsol
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
     fetch('Navbar.php')
         .then(response => response.text())
         .then(data => {
