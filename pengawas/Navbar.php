@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../Koneksi.php';
 ?>
 
@@ -122,14 +123,14 @@ include '../Koneksi.php';
                         <a class="dashboard nav-link" aria-current="page" href="Dashboard_pengawas.php">Dashboard</a>
                     </li>
                     <li class="nav-item mx-5">
-                        <a class="operation nav-link" href="Operation.php">Operation</a>
+                        <a class="operation nav-link" href="Report.php">Report</a>
                     </li>
-                    <li class="nav-item mx-5">
+                    <!-- <li class="nav-item mx-5">
                         <a class="operation nav-link" href="Production.php">Produksi</a>
                     </li>
                     <li class="nav-item mx-5">
                         <a class="operation nav-link" href="HourMeter.php">Jam Jalan</a>
-                    </li>
+                    </li> -->
                 </ul>
 
                 <div class="navbar-collapse justify-content-end px-4" id="navbarNav">
@@ -138,7 +139,10 @@ include '../Koneksi.php';
                             <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <div>
-                                    <h5 class="profile" id="adminNameDisplay"> Emilda Rahmawati [Pengawas]</h5>
+                                    <h5 class="profile" id="adminNameDisplay">
+                                        <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; ?>
+                                        [Pengawas]
+                                    </h5>
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"

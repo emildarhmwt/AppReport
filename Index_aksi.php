@@ -9,30 +9,19 @@ $akses = $_POST['akses'];
 // Debugging: Log input
 error_log("Username: $username, Akses: $akses");
 
-// Cek kredensial pengguna
+$query = "";
 if ($akses == "admin") {
     $query = "SELECT * FROM admin_report WHERE username=$1";
-    $result = pg_query_params($conn, $query, array($username));
-} elseif ($akses == "user"){
+} elseif ($akses == "user") {
     $query = "SELECT * FROM user_report WHERE username=$1";
-    $result = pg_query_params($conn, $query, array($username));
 } else {
-     $query = "SELECT * FROM kontraktor_report WHERE username=$1";
-    $result = pg_query_params($conn, $query, array($username));
+    $query = "SELECT * FROM kontraktor_report WHERE username=$1";
 }
 
-// Debugging: Log query result
-if (!$result) {
-    error_log("Query failed: " . pg_last_error($conn));
-} else {
-    error_log("Query succeeded");
-}
+$result = pg_query_params($conn, $query, array($username));
 
-$cek = pg_num_rows($result);
-
-if ($cek > 0) {
+if ($result && pg_num_rows($result) > 0) {
     $data = pg_fetch_assoc($result);
-    // Verifikasi password
     if (password_verify($password, $data['password'])) {
         $_SESSION['id'] = $data['id'];
         $_SESSION['nama'] = $data['nama'];
@@ -46,12 +35,9 @@ if ($cek > 0) {
         } else {
             header("location:./kontraktor/dashboard_kontraktor.php");
         }
-    } else {
-        // Kirim pesan kesalahan ke halaman login
-        header("location:index.php?alert=gagal&message=Invalid username or password");
+        exit();
     }
-} else {
-    // Kirim pesan kesalahan ke halaman login
-    header("location:index.php?alert=gagal&message=Invalid username or password");
 }
+
+header("location:index.php?alert=gagal&message=Invalid username or password");
 ?>

@@ -90,10 +90,7 @@
                                         <label for="pic" class="form-label">PIC :</label>
                                         <select class="form-select" id="pic" name="pic" required>
                                             <option value="" selected disabled>PIC</option>
-                                            <option value="Supervisor 1">Supervisor 1</option>
-                                            <option value="Supervisor 2">Supervisor 2</option>
-                                            <option value="Supervisor 3">Supervisor 3</option>
-                                            <option value="Supervisor 4">Supervisor 4</option>
+                                            {{ edit_1 }} // Populate options dynamically
                                         </select>
                                     </div>
                                     <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>
@@ -141,6 +138,19 @@
         .then(data => {
             document.getElementById('navbar').innerHTML = data;
         });
+
+    fetch('user_report.php') // Fetch data from user_report
+        .then(response => response.json())
+        .then(users => {
+            const picSelect = document.getElementById('pic');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.username; // Use the 'username' field
+                option.textContent = user.username; // Display the username
+                picSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching user report:', error));
     </script>
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

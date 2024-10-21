@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $proses_admin = $_POST['proses_admin'];
     $proses_pengawas = $_POST['proses_pengawas'];
     $proses_kontraktor = $_POST['proses_kontraktor'];
+    $alasan_reject = $_POST['alasan_reject'];
     $operation_report_id = $_POST['operation_report_id'];
 
     // Validasi input
@@ -20,8 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Simpan data ke database
-    $query = "INSERT INTO production_report(alat, timbunan, material, jarak, tipe, ritase, operation_report_id, proses_admin, proses_pengawas, proses_kontraktor) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id";
-    $result = pg_query_params($conn, $query, array($alat, $timbunan, $material, $jarak, $tipe, $ritase, $operation_report_id, $proses_admin, $proses_pengawas, $proses_kontraktor));
+    $query = "INSERT INTO production_report(alat, timbunan, material, jarak, tipe, ritase, operation_report_id, proses_admin, proses_pengawas, proses_kontraktor, alasan_reject) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id";
+    $result = pg_query_params($conn, $query, array($alat, $timbunan, $material, $jarak, $tipe, $ritase, $operation_report_id, $proses_admin, $proses_pengawas, $proses_kontraktor, $alasan_reject));
 
     if ($result) {
         echo json_encode(["message" => "Production report created successfully"]);

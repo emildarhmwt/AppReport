@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $proses_admin = $_POST['proses_admin'];
     $proses_pengawas = $_POST['proses_pengawas'];
     $proses_kontraktor = $_POST['proses_kontraktor'];
+    $alasan_reject = $_POST['alasan_reject'];
 
     // Validasi input
     if (!$operation_report_id || !$equipment || !$hm_awal || !$hm_akhir || !$jam_lain || !$breakdown || !$no_operator || !$hujan || !$ket) {
@@ -22,8 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Simpan data ke database
-    $query = "INSERT INTO hourmeter_report(operation_report_id, equipment, hm_awal, hm_akhir, jam_lain, breakdown, no_operator, hujan, ket, proses_admin, proses_pengawas, proses_kontraktor) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id";
-    $result = pg_query_params($conn, $query, array($operation_report_id, $equipment, $hm_awal, $hm_akhir, $jam_lain, $breakdown, $no_operator, $hujan, $ket, $proses_admin, $proses_pengawas, $proses_kontraktor));
+    $query = "INSERT INTO hourmeter_report(operation_report_id, equipment, hm_awal, hm_akhir, jam_lain, breakdown, no_operator, hujan, ket, proses_admin, proses_pengawas, proses_kontraktor, alasan_reject) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id";
+    $result = pg_query_params($conn, $query, array($operation_report_id, $equipment, $hm_awal, $hm_akhir, $jam_lain, $breakdown, $no_operator, $hujan, $ket, $proses_admin, $proses_pengawas, $proses_kontraktor, $alasan_reject));
 
     if ($result) {
         echo json_encode(["message" => "Hour Meter report created successfully"]);

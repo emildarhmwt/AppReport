@@ -43,6 +43,17 @@ $data = pg_fetch_all($result);
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title fw-semibold mb-4">Data User</h5>
+                        <div class="row mt-3 mb-3">
+                            <div class="col-lg-4 border-end text-center">
+                                <a href="Admin.php"> Admin </a>
+                            </div>
+                            <div class="col-lg-4 border-end text-center">
+                                <a href="User.php"> Pengawas </a>
+                            </div>
+                            <div class="col-lg-4 text-center">
+                                <a href="Kontraktor.php"> Kontraktor </a>
+                            </div>
+                        </div>
                         <!-- Search-->
                         <!-- table -->
                         <div class="card">
@@ -73,11 +84,11 @@ $data = pg_fetch_all($result);
                                 <div class="table-responsive products-table" data-simplebar>
                                     <table class="table table-bordered text-nowrap mb-0 align-middle table-hover">
                                         <thead class="fs-4">
-                                            <tr>
-                                                <th class="fs-3">No</th>
-                                                <th class="fs-3">Nama</th>
-                                                <th class="fs-3">Username</th>
-                                                <th class="fs-3">Opsi</th>
+                                            <tr class="text-center">
+                                                <th class="fs-3" style="width: 5%;">No</th>
+                                                <th class="fs-3" style="width: 45%">Nama</th>
+                                                <th class="fs-3" style="width: 45%">Username</th>
+                                                <th class="fs-3" style="width: 5%">Opsi</th>
                                             </tr>
                                         </thead>
                                         <tbody id="kontraktorTableBody">
@@ -151,7 +162,7 @@ $data = pg_fetch_all($result);
                 paginatedData.forEach((report, index) => {
                     const row = `
             <tr>
-                <td>${start + index + 1}</td>
+                <td class="text-center";>${start + index + 1}</td>
                 <td>${report.nama}</td>
                 <td>${report.username}</td>
                 <td>
