@@ -265,21 +265,62 @@ if ($id) {
                         </div>
 
                         <div class="row mb-4 mt-4">
-                            <div class="col-md-12 d-flex justify-content-end align-items-center">
-                                <a target="_blank"
-                                    class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center  me-2"
-                                    href=" #">
-                                    <i class="ti ti-eye fs-7 mx-1"></i> Review Dokumen
+                            <div class="col-md-12 d-flex justify-content-between align-items-center">
+                                <a target="_blank" class="btn btn-custom-review btn-sm d-flex align-items-center  me-2"
+                                    href=" #" onclick="return false;">
+                                    Proses :
+                                    <?php
+                                    $uniqueProcesses = []; // Array to hold unique process values
+                                    $rejectedPengawasReasons = []; // Array to hold reasons for Rejected (Pengawas)
+
+                                    foreach ($production_reports as $index => $report) {
+                                        // Check and add unique process values based on the specified conditions
+                                        if (!empty($report['proses_kontraktor'])) {
+                                            $uniqueProcesses[$report['proses_kontraktor']] = true;
+                                        } elseif (!empty($report['proses_pengawas'])) {
+                                            $uniqueProcesses[$report['proses_pengawas']] = true;
+                                        } elseif (!empty($report['proses_admin'])) {
+                                            $uniqueProcesses[$report['proses_admin']] = true;
+                                        }
+
+                                        // Collect reasons for Rejected (Pengawas)
+                                        if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected (Pengawas)') {
+                                            $rejectedPengawasReasons[] = htmlspecialchars($report['alasan_reject']);
+                                        }
+                                    }
+
+                                    // If there are reasons for Rejected (Pengawas), combine them
+                                    if (!empty($rejectedPengawasReasons)) {
+                                        // Use array_unique to avoid duplicate reasons
+                                        $uniqueReasons = array_unique($rejectedPengawasReasons);
+                                        $uniqueProcesses['Rejected (Pengawas)'] = 'Rejected (Pengawas) (' . implode(', ', $uniqueReasons) . ')';
+                                    }
+
+                                    // Display unique processes
+                                    if (!empty($uniqueProcesses)) {
+                                        // Use array_keys to get the keys of the unique processes
+                                        echo implode(', ', array_keys($uniqueProcesses)); // Join unique processes with a comma
+                                    } else {
+                                        echo 'No data available';
+                                    }
+                                    ?>
                                 </a>
-                                <a target="_blank"
-                                    class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center"
-                                    href=" #">
-                                    <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
-                                </a>
-                                <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
-                                    href="Report.php">
-                                    <i class="ti ti-arrow-narrow-left fs-7 mx-1"></i></i> Kembali
-                                </a>
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <a target="_blank"
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center  me-2"
+                                        href="#">
+                                        <i class="ti ti-eye fs-5 mx-1"></i> Review Dokumen
+                                    </a>
+                                    <a target="_blank"
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center"
+                                        href="#">
+                                        <i class="bi bi-filetype-pdf fs-2 mx-1"></i> Export PDF
+                                    </a>
+                                    <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
+                                        href="Report.php">
+                                        <i class="ti ti-arrow-narrow-left fs-5 mx-1"></i></i> Kembali
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <div class="table-responsive products-table" data-simplebar>
@@ -293,55 +334,36 @@ if ($id) {
                                             </div>
                                         </th> -->
                                         <th class="fs-3" style="width: 3%;">No</th>
+                                        <th class="fs-3">Executor</th>
                                         <th class="fs-3">Alat Gali / Muat</th>
                                         <th class="fs-3">Timbunan</th>
                                         <th class="fs-3">Material Tanah</th>
                                         <th class="fs-3">Jarak Angkut</th>
                                         <th class="fs-3">Tipe Hauler</th>
                                         <th class="fs-3">Ritase</th>
-                                        <th class="fs-3">Proses</th>
-                                        <!-- <th class="fs-3" style="width: 5%;">Opsi</th> -->
-                                        <!-- <th class="fs-3"> </th> -->
+                                        <th class="fs-3">Tipe Hauler 2</th>
+                                        <th class="fs-3">Ritase 2</th>
+                                        <th class="fs-3">Muatan</th>
+                                        <th class="fs-3">Volume</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php if (!empty($production_reports)): ?>
                                     <?php foreach ($production_reports as $index => $report): ?>
                                     <tr>
-                                        <!-- <td class="text-center">
-                                            <div class="form-check d-flex justify-content-center">
-                                                <input class="form-check-input" type="checkbox" value=""
-                                                    id="flexCheckDefault">
-                                            </div>
-                                        </td> -->
                                         <td class="text-center"><?php echo $index + 1; ?></td>
+                                        <td><?php echo htmlspecialchars($report['excecutor']); ?></td>
                                         <td><?php echo htmlspecialchars($report['alat']); ?></td>
                                         <td><?php echo htmlspecialchars($report['timbunan']); ?></td>
                                         <td><?php echo htmlspecialchars($report['material']); ?></td>
                                         <td><?php echo htmlspecialchars($report['jarak']); ?></td>
                                         <td><?php echo htmlspecialchars($report['tipe']); ?></td>
                                         <td><?php echo htmlspecialchars($report['ritase']); ?></td>
-                                        <td>
-                                            <?php
-                                                    if (isset($report['proses_kontraktor']) && !empty($report['proses_kontraktor'])) {
-                                                        echo $report['proses_kontraktor'];
-                                                    } elseif (isset($report['proses_pengawas']) && !empty($report['proses_pengawas'])) {
-                                                        echo $report['proses_pengawas'];
-                                                    } elseif (isset($report['proses_admin']) && !empty($report['proses_admin'])) {
-                                                        echo $report['proses_admin'];
-                                                    } else {
-                                                        echo 'No data available';
-                                                    }
-                                                    ?>
+                                        <td><?php echo !empty($report['tipe2']) ? htmlspecialchars($report['tipe2']) : '-'; ?>
                                         </td>
-                                        <!-- <td class="text-center">
-                                            <button class="btn btn-primary btn-sm" title="Hapus">
-                                                <i class="bi bi-check2"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" title="Hapus">
-                                                <i class="bi bi-x-lg"></i>
-                                            </button>
-                                        </td> -->
+                                        <td><?php echo htmlspecialchars($report['ritase2']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['muatan']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['volume']); ?></td>
                                     </tr>
                                     <?php endforeach; ?>
                                     <?php else: ?>
@@ -369,15 +391,16 @@ if ($id) {
                                         <div class="modal-body">
                                             <input type="hidden" id="operationReportId">
                                             <div class="mb-3">
-                                                <label for="alasanReject" class="form-label">Alasan:</label>
-                                                <textarea class="form-control" id="alasanReject" rows="3"></textarea>
+                                                <label for="approveProduction" class="form-label">Alasan:</label>
+                                                <textarea class="form-control" id="approveProduction"
+                                                    rows="3"></textarea>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Close</button>
                                             <button type="button" class="btn btn-primary"
-                                                onclick="submitReject()">Kirim</button>
+                                                onclick="submitApprove()">Kirim</button>
                                         </div>
                                     </div>
                                 </div>

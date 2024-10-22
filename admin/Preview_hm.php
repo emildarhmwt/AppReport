@@ -289,14 +289,17 @@ if ($id) {
                                         <!-- <th class="fs-3" style="width: 5%;"></th> -->
                                         <th class="fs-3" style="width: 5%;">No</th>
                                         <th class="fs-3">Equipment</th>
+                                        <th class="fs-3">Tipe Unit</th>
                                         <th class="fs-3">HM Awal</th>
                                         <th class="fs-3">HM Akhir</th>
+                                        <th class="fs-3">Total HM</th>
                                         <th class="fs-3">Jam Lain</th>
+                                        <th class="fs-3">Jam Operasi</th>
                                         <th class="fs-3">Breakdown</th>
                                         <th class="fs-3">No Operator</th>
                                         <th class="fs-3">Hujan</th>
+                                        <th class="fs-3">No Order</th>
                                         <th class="fs-3">Keterangan</th>
-                                        <th class="fs-3">Proses</th>
                                         <!-- <th class="fs-3"> </th> -->
                                     </tr>
                                 </thead>
@@ -306,14 +309,17 @@ if ($id) {
                                     <tr>
                                         <td><?php echo $index + 1; ?></td>
                                         <td><?php echo htmlspecialchars($report['equipment']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['tipe_unit']); ?></td>
                                         <td><?php echo htmlspecialchars($report['hm_awal']); ?></td>
                                         <td><?php echo htmlspecialchars($report['hm_akhir']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['total_hm']); ?></td>
                                         <td><?php echo htmlspecialchars($report['jam_lain']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['jam_operasi']); ?></td>
                                         <td><?php echo htmlspecialchars($report['breakdown']); ?></td>
                                         <td><?php echo htmlspecialchars($report['no_operator']); ?></td>
                                         <td><?php echo htmlspecialchars($report['hujan']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['no_order']); ?></td>
                                         <td><?php echo htmlspecialchars($report['ket']); ?></td>
-                                        <td></td>
                                     </tr>
                                     <?php endforeach; ?>
                                     <?php else: ?>

@@ -8,6 +8,18 @@
     <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
     <link rel="stylesheet" href="../assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+    .notif {
+        font-size: 10px;
+        margin-top: 5px;
+        margin-left: 5px;
+        color: red;
+    }
+
+    .wajib_isi {
+        color: red;
+    }
+    </style>
 </head>
 
 <body>
@@ -24,34 +36,217 @@
                             <div class="card-body">
                                 <form id="form-production" method="POST" action="production_aksi.php">
                                     <div class="mb-3">
-                                        <label for="alat" class="form-label">Alat Gali / Muat :</label>
-                                        <input type="text" class="form-control" id="alat" name="alat"
-                                            placeholder="Input Data" required>
+                                        <label for="executor" class="form-label"><span class="wajib_isi">*</span>
+                                            Executor :</label>
+                                        <select class="form-select" id="excecutor" name="excecutor" required>
+                                            <option value="" selected disabled>Executor</option>
+                                            <option value="SPPH 95 - PT PUTRA PERKASA ABADI">
+                                                SPPH 95 - PT PUTRA PERKASA ABADI
+                                            </option>
+                                            <option value="SPPH 17518 - PT PUTRA PERKASA ABADI">
+                                                SPPH 17518 - PT PUTRA PERKASA ABADI
+                                            </option>
+                                            <option value="SPPH 17443 - PT PUTRA PERKASA ABADI">
+                                                SPPH 17443 - PT PUTRA PERKASA ABADI
+                                            </option>
+                                            <option value="ELEKTRIFIKASI - PT BUKIT ASAM TBK">
+                                                ELEKTRIFIKASI - PT BUKIT ASAM TBK
+                                            </option>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="timbunan" class="form-label">Timbunan :</label>
-                                        <input type="text" class="form-control" id="timbunan" name="timbunan"
-                                            placeholder="Input Data" required>
+                                        <label for="alat" class="form-label"><span class="wajib_isi">*</span> Alat Gali
+                                            / Muat :</label>
+                                        <select class="form-select" id="alat" name="alat" required>
+                                            <option value="" selected disabled>Alat Gali / Muat</option>
+                                            <option value="E2043 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
+                                                E2043 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
+                                            </option>
+                                            <option value="E2044 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
+                                                E2044 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
+                                            </option>
+                                            <option value="E2045 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
+                                                E2045 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
+                                            </option>
+                                            <option value="E1226 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
+                                                E1226 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
+                                            </option>
+                                            <option value="E1227 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
+                                                E1227 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
+                                            </option>
+                                            <option value="E1228 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
+                                                E1228 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
+                                            </option>
+                                            <option value="E1229 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
+                                                E1229 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
+                                            </option>
+                                            <option value="E1230 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
+                                                E1230 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
+                                            </option>
+                                            <option value="E6101 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
+                                                E6101 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
+                                            </option>
+                                            <option value="E6102 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
+                                                E6102 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
+                                            </option>
+                                            <option value="E6103 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
+                                                E6103 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
+                                            </option>
+                                            <option value="E6104 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
+                                                E6104 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
+                                            </option>
+                                            <option value="E6105 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
+                                                E6105 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
+                                            </option>
+                                            <option value="E52007 - PT PUTRA PERKASA ABADI">
+                                                E52007 - PT PUTRA PERKASA ABADI
+                                            </option>
+                                            <option value="E52009 - PT PUTRA PERKASA ABADI">
+                                                E52009 - PT PUTRA PERKASA ABADI
+                                            </option>
+                                            <option value="SE-3001 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
+                                                SE-3001 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
+                                            </option>
+                                            <option value="SE-3002 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
+                                                SE-3002 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
+                                            </option>
+                                            <option value="SE-3003 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
+                                                SE-3003 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
+                                            </option>
+                                            <option value="SE-3004 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
+                                                SE-3004 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
+                                            </option>
+                                            <option value="SE-3005 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
+                                                SE-3005 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
+                                            </option>
+                                            <option value="SE-3006 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
+                                                SE-3006 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
+                                            </option>
+                                            <option value="SE-3007 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
+                                                SE-3007 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
+                                            </option>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="material" class="form-label">Material :</label>
-                                        <input type="text" class="form-control" id="material" name="material"
-                                            placeholder="Input Data" required>
+                                        <label for="timbunan" class="form-label"><span class="wajib_isi">*</span>
+                                            Timbunan :</label>
+                                        <select class="form-select" id="timbunan" name="timbunan" required>
+                                            <option value="" selected disabled>Timbunan</option>
+                                            <option value="Banko Barat - Disposal Backfill Pit 1 Utara">
+                                                Banko Barat - Disposal Backfill Pit 1 Utara
+                                            </option>
+                                            <option value="Banko Tengah - Disposal Utara Pit 3 Timur">
+                                                Banko Tengah - Disposal Utara Pit 3 Timur
+                                            </option>
+                                            <option value="Banko Tengah - Disposal Selatan Pit 3 Timur">
+                                                Banko Tengah - Disposal Selatan Pit 3 Timur
+                                            </option>
+                                            <option value="Banko Barat - Disposal Selatan Timur Pit 2">
+                                                Banko Barat - Disposal Selatan Timur Pit 2
+                                            </option>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="jarak" class="form-label">Jarak :</label>
+                                        <label for="material" class="form-label"><span class="wajib_isi">*</span>
+                                            Material :</label>
+                                        <select class="form-select" id="material" name="material" required>
+                                            <option value="" selected disabled>Material</option>
+                                            <option value="OB A1">OB A1</option>
+                                            <option value="OB A2">OB A2</option>
+                                            <option value="OB B1">OB B1</option>
+                                            <option value="OB B2">OB B2</option>
+                                            <option value="OB BC">OB BC</option>
+                                            <option value="OB C">OB C</option>
+                                            <option value="Overburden">Overburden</option>
+                                            <option value="Lumpur">Lumpur</option>
+                                            <option value="Lumpur C">Lumpur C</option>
+                                            <option value="Interburden">Interburden</option>
+                                            <option value="Topsoil">Topsoil</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="jarak" class="form-label"><span class="wajib_isi">*</span> Jarak
+                                            :</label>
                                         <input type="text" class="form-control" id="jarak" name="jarak"
                                             placeholder="Input Data (gunakan titik untuk desimal)" required>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="tipe" class="form-label">Tipe Hauler :</label>
-                                        <input type="text" class="form-control" id="tipe" name="tipe"
-                                            placeholder="Input Data" required>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="tipe" class="form-label"><span class="wajib_isi">*</span>
+                                                    Tipe Hauler 1 :</label>
+                                                <select class="form-select" id="tipe" name="tipe" required>
+                                                    <option value="" selected disabled>Tipe Hauler</option>
+                                                    <option value="HD 785 - HD 91 Ton ()">HD 785 - HD 91 Ton ()
+                                                    </option>
+                                                    <option value="OHT-777E - HD 91 Ton ()">OHT-777E - HD 91 Ton ()
+                                                    </option>
+                                                    <option value="BELAZ 75135 - Rigid DT 100 TON ()">
+                                                        BELAZ 75135 - Rigid DT 100 TON ()
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="ritase" class="form-label"><span class="wajib_isi">*</span>
+                                                    Ritase 1 :</label>
+                                                <input type="number" class="form-control" id="ritase" name="ritase"
+                                                    placeholder="Input Data" required>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="ritase" class="form-label">Ritase :</label>
-                                        <input type="number" class="form-control" id="ritase" name="ritase"
-                                            placeholder="Input Data" required>
+
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="tipe" class="form-label">Tipe Hauler 2 :</label>
+                                                <select class="form-select" id="tipe2" name="tipe2">
+                                                    <option value="" selected disabled>Tipe Hauler</option>
+                                                    <option value="HD 785 - HD 91 Ton ()">HD 785 - HD 91 Ton ()
+                                                    </option>
+                                                    <option value="OHT-777E - HD 91 Ton ()">OHT-777E - HD 91 Ton ()
+                                                    </option>
+                                                    <option value="BELAZ 75135 - Rigid DT 100 TON ()">
+                                                        BELAZ 75135 - Rigid DT 100 TON ()
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="ritase" class="form-label">Ritase 2 :</label>
+                                                <input type="number" class="form-control" id="ritase2" name="ritase2"
+                                                    placeholder="Input Data" oninput="calculateTotalRitase()" required>
+                                                <h5 class="notif"> Jika tidak ada nilai ritase, isikan 0</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="total_ritase" class="form-label">
+                                                    Total Ritase :</label>
+                                                <input type="number" class="form-control" id="total_ritase"
+                                                    name="ritase" placeholder="Total Ritase" required
+                                                    oninput="calculateTotalRitase()">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="muatan" class="form-label"><span class="wajib_isi">*</span>
+                                                    Muatan :</label>
+                                                <input type="number" class="form-control" id="muatan" name="muatan"
+                                                    placeholder="Input Data" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="volume" class="form-label">Volume :</label>
+                                                <input type="number" class="form-control" id="volume" name="volume"
+                                                    placeholder="Volume" readonly>
+                                            </div>
+                                        </div>
                                     </div>
                                     <input type="hidden" id="operation_report_id" name="operation_report_id"
                                         value="<?php echo $_GET['id']; ?>">
@@ -91,6 +286,21 @@
             })
             .catch(error => console.error('Error:', error));
     });
+
+    function calculateTotalRitase() {
+        const ritase = parseFloat(document.getElementById('ritase').value) || 0;
+        const ritase2 = parseFloat(document.getElementById('ritase2').value) || 0;
+        const muatan = parseFloat(document.getElementById('muatan').value) || 0;
+
+        const totalRitase = ritase + ritase2;
+        document.getElementById('total_ritase').value = totalRitase;
+
+        // Menghitung volume
+        const volume = totalRitase * muatan;
+        document.getElementById('volume').value = volume;
+    }
+
+    document.getElementById('muatan').addEventListener('input', calculateTotalRitase);
 
     fetch('Navbar.php')
         .then(response => response.text())

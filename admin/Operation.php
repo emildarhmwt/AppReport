@@ -8,6 +8,11 @@
     <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
     <link rel="stylesheet" href="../assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+    .wajib_isi {
+        color: red;
+    }
+    </style>
 </head>
 
 <body>
@@ -24,11 +29,13 @@
                             <div class="card-body">
                                 <form id="form-operation" method="POST" action="operation_aksi.php">
                                     <div class="mb-3">
-                                        <label for="tanggal" class="form-label">Hari / Tanggal :</label>
+                                        <label for="tanggal" class="form-label">
+                                            <span class="wajib_isi">*</span> Hari / Tanggal :</label>
                                         <input type="date" class="form-control" id="tanggal" name="tanggal" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="shift" class="form-label">Shift :</label>
+                                        <label for="shift" class="form-label"> <span class="wajib_isi">*</span> Shift
+                                            :</label>
                                         <select class="form-select" id="shift" name="shift" required>
                                             <option value="" selected disabled>Shift</option>
                                             <option value="Shift 1 (23.00 s/d 07.00)">Shift 1 (23.00 s/d 07.00)</option>
@@ -37,49 +44,56 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="grup" class="form-label">Giliran / Group :</label>
+                                        <label for="grup" class="form-label"> <span class="wajib_isi">*</span> Giliran /
+                                            Group :</label>
                                         <select class="form-select" id="grup" name="grup" required>
                                             <option value="" selected disabled>Giliran / Grup</option>
                                             <option value="A">A</option>
                                             <option value="B">B</option>
                                             <option value="C">C</option>
                                             <option value="D">D</option>
-                                            <option value="E">E</option>
-                                            <option value="F">F</option>
-                                            <option value="G">G</option>
-                                            <option value="H">H</option>
-                                            <option value="I">I</option>
-                                            <option value="J">J</option>
-                                            <option value="K">K</option>
-                                            <option value="L">L</option>
-                                            <option value="M">M</option>
-                                            <option value="N">N</option>
-                                            <option value="O">O</option>
-                                            <option value="P">P</option>
-                                            <option value="Q">Q</option>
-                                            <option value="R">R</option>
-                                            <option value="S">S</option>
-                                            <option value="T">T</option>
-                                            <option value="U">U</option>
-                                            <option value="V">V</option>
-                                            <option value="W">W</option>
-                                            <option value="X">X</option>
-                                            <option value="Y">Y</option>
-                                            <option value="Z">Z</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="pengawas" class="form-label">Pengawas :</label>
-                                        <input type="text" class="form-control" id="pengawas" name="pengawas"
-                                            placeholder="Input Data" required>
+                                        <label for="pengawas" class="form-label"><span class="wajib_isi">*</span>
+                                            Pengawas :</label>
+                                        <select class="form-select" id="pengawas" name="pengawas" required>
+                                            <option value="" selected disabled>Pengawas</option>
+                                            <option value="DENIS YOGIS GEOFANI">DENIS YOGIS GEOFANI</option>
+                                            <option value="DOLVI SASMITA">DOLVI SASMITA</option>
+                                            <option value="EFY MAFTAZANI">EFY MAFTAZANI</option>
+                                            <option value="EKOMELAN HODIMANGKU">EKOMELAN HODIMANGKU</option>
+                                            <option value="ELMARC YOPHA PETRUS HUTASOIT">ELMARC YOPHA PETRUS HUTASOIT
+                                            </option>
+                                            <option value="FAUZI IRFAN MAULANA">FAUZI IRFAN MAULANA</option>
+                                            <option value="FREDI ALFINDO">FREDI ALFINDO</option>
+                                            <option value="HENDRIK KUSTIADI">HENDRIK KUSTIADI</option>
+                                            <option value="HERU KURNIAWAN">HERU KURNIAWAN</option>
+                                            <option value="JUMADI">JUMADI</option>
+                                            <option value="MARTINUS DIMAS RUSDIANTO">MARTINUS DIMAS RUSDIANTO</option>
+                                            <option value="MUHAMMAD NOVALDI ZUHRI">MUHAMMAD NOVALDI ZUHRI</option>
+                                            <option value="MUHAMMAD RIDHO">MUHAMMAD RIDHO</option>
+                                            <option value="MUHAMMAD SAZILI">MUHAMMAD SAZILI</option>
+                                            <option value="MUKHAMMAD IDHAM">MUKHAMMAD IDHAM</option>
+                                            <option value="NATANAIL GINTING">NATANAIL GINTING</option>
+                                            <option value="ROY REINALDY">ROY REINALDY</option>
+                                            <option value="RUDY SIREGAR">RUDY SIREGAR</option>
+                                            <option value="SUBANDI GUSMAN">SUBANDI GUSMAN</option>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="lokasi" class="form-label">Lokasi Kerja:</label>
-                                        <input type="text" class="form-control" id="lokasi" name="lokasi"
-                                            placeholder="Input Data" required>
+                                        <label for="lokasi" class="form-label"><span class="wajib_isi">*</span> Lokasi
+                                            Kerja :</label>
+                                        <select class="form-select" id="lokasi" name="lokasi" required>
+                                            <option value="" selected disabled>Lokasi Kerja</option>
+                                            <option value="Banko Barat - PIT 2">Banko Barat - PIT 2</option>
+                                            <option value="Banko Tengah - PIT 3 TIMUR">Banko Tengah - PIT 3 TIMUR
+                                            </option>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="status" class="form-label">Status :</label>
+                                        <label for="status" class="form-label"> <span class="wajib_isi">*</span> Status
+                                            :</label>
                                         <select class="form-select" id="status" name="status" required>
                                             <option value="" selected disabled>PRODUKSI / JAM JALAN </option>
                                             <option value="Produksi">Produksi</option>
@@ -87,10 +101,11 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="pic" class="form-label">PIC :</label>
+                                        <label for="pic" class="form-label"><span class="wajib_isi">*</span> PIC
+                                            :</label>
                                         <select class="form-select" id="pic" name="pic" required>
                                             <option value="" selected disabled>PIC</option>
-                                            {{ edit_1 }} // Populate options dynamically
+                                            {{ edit_1 }}
                                         </select>
                                     </div>
                                     <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>

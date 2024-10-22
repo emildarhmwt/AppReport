@@ -105,7 +105,11 @@ $data = pg_fetch_all($result);
             function renderTable(data) {
                 const tbody = document.getElementById('equipmentTableBody');
                 tbody.innerHTML = '';
-                const filteredData = data.filter(report =>
+
+                // Sort the data alphabetically by equipment name
+                const sortedData = data.sort((a, b) => a.equipment.localeCompare(b.equipment));
+
+                const filteredData = sortedData.filter(report =>
                     report.equipment.toLowerCase().includes(searchInput.value.toLowerCase()) ||
                     report.tipe_unit.toLowerCase().includes(searchInput.value.toLowerCase())
                 );
@@ -115,20 +119,20 @@ $data = pg_fetch_all($result);
 
                 paginatedData.forEach((report, index) => {
                     const row = `
-                        <tr>
-                            <td class="text-center">${start + index + 1}</td>
-                            <td>${report.equipment}</td>
-                            <td>${report.tipe_unit}</td>
-                            <td>
-                                <button onclick="window.location.href='editadmin.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
-                                    <i class="bi bi-pen"></i>
-                                </button>
-                                <button onclick="deleteAdmin(${report.id})" class="btn btn-danger btn-sm" title="Hapus">
-                                    <i class="bi bi-trash3"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    `;
+            <tr>
+                <td class="text-center">${start + index + 1}</td>
+                <td>${report.equipment}</td>
+                <td>${report.tipe_unit}</td>
+                <td>
+                    <button onclick="window.location.href='editadmin.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
+                        <i class="bi bi-pen"></i>
+                    </button>
+                    <button onclick="deleteAdmin(${report.id})" class="btn btn-danger btn-sm" title="Hapus">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </td>
+            </tr>
+        `;
                     tbody.innerHTML += row;
                 });
 

@@ -23,6 +23,14 @@ if ($id) {
 } else {
     die("Operation report ID not provided.");
 }
+
+if (isset($_GET['delete_id'])) {
+    $delete_id = $_GET['delete_id'];
+    $delete_sql = "DELETE FROM production_report WHERE id = $1";
+    pg_query_params($conn, $delete_sql, array($delete_id));
+    header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $id); // Redirect to the same page
+    exit();
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -288,12 +296,17 @@ if ($id) {
                                     <tr class="text-center">
                                         <!-- <th class="fs-3" style="width: 5%;"></th> -->
                                         <th class="fs-3" style="width: 3%;">No</th>
+                                        <th class="fs-3">Executor</th>
                                         <th class="fs-3">Alat Gali / Muat</th>
                                         <th class="fs-3">Timbunan</th>
                                         <th class="fs-3">Material Tanah</th>
                                         <th class="fs-3">Jarak Angkut</th>
-                                        <th class="fs-3">TIpe Hauler</th>
-                                        <th class="fs-3">Ritase</th>
+                                        <th class="fs-3">Tipe Hauler </th>
+                                        <th class="fs-3">Ritase </th>
+                                        <th class="fs-3">Tipe Hauler 2</th>
+                                        <th class="fs-3">Ritase 2</th>
+                                        <th class="fs-3">Muatan</th>
+                                        <th class="fs-3">Volume</th>
                                         <th class="fs-3">Proses</th>
                                         <th class="fs-3" style="width: 5%;">Opsi</th>
                                         <!-- <th class="fs-3"> </th> -->
@@ -304,15 +317,34 @@ if ($id) {
                                     <?php foreach ($production_reports as $index => $report): ?>
                                     <tr>
                                         <td class="text-center"><?php echo $index + 1; ?></td>
+                                        <td><?php echo htmlspecialchars($report['excecutor']); ?></td>
                                         <td><?php echo htmlspecialchars($report['alat']); ?></td>
                                         <td><?php echo htmlspecialchars($report['timbunan']); ?></td>
                                         <td><?php echo htmlspecialchars($report['material']); ?></td>
                                         <td><?php echo htmlspecialchars($report['jarak']); ?></td>
                                         <td><?php echo htmlspecialchars($report['tipe']); ?></td>
                                         <td><?php echo htmlspecialchars($report['ritase']); ?></td>
-                                        <td></td>
+                                        <td><?php echo !empty($report['tipe2']) ? htmlspecialchars($report['tipe2']) : '-'; ?>
+                                        </td>
+                                        <td><?php echo htmlspecialchars($report['ritase2']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['muatan']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['volume']); ?></td>
+                                        <td>
+                                            <?php
+                                                    if (isset($report['proses_kontraktor']) && !empty($report['proses_kontraktor'])) {
+                                                        echo $report['proses_kontraktor'];
+                                                    } elseif (isset($report['proses_pengawas']) && !empty($report['proses_pengawas'])) {
+                                                        echo $report['proses_pengawas'];
+                                                    } elseif (isset($report['proses_admin']) && !empty($report['proses_admin'])) {
+                                                        echo $report['proses_admin'];
+                                                    } else {
+                                                        echo 'No data available';
+                                                    }
+                                                    ?>
+                                        </td>
                                         <td class="text-center">
-                                            <button class="btn btn-danger btn-sm" title="Hapus">
+                                            <button class="btn btn-danger btn-sm" title="Hapus"
+                                                onclick="if(confirm('Are you sure you want to delete this report?')) { window.location.href='?id=<?php echo $id; ?>&delete_id=<?php echo $report['id']; ?>'; }">
                                                 <i class="bi bi-trash3"></i>
                                             </button>
                                         </td>
@@ -325,7 +357,6 @@ if ($id) {
                                     <?php endif; ?>
                                 </tbody>
                             </table>
-
                         </div>
                         <nav aria-label="Page navdivtion">
                             <ul class="pagination justify-content-center mt-3" id="paginationContainer">
