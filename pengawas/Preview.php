@@ -284,7 +284,7 @@ if ($id) {
                                         }
 
                                         // Collect reasons for Rejected (Pengawas)
-                                        if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected (Pengawas)') {
+                                        if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas') {
                                             $rejectedPengawasReasons[] = htmlspecialchars($report['alasan_reject']);
                                         }
                                     }
@@ -293,13 +293,13 @@ if ($id) {
                                     if (!empty($rejectedPengawasReasons)) {
                                         // Use array_unique to avoid duplicate reasons
                                         $uniqueReasons = array_unique($rejectedPengawasReasons);
-                                        $uniqueProcesses['Rejected (Pengawas)'] = 'Rejected (Pengawas) (' . implode(', ', $uniqueReasons) . ')';
+                                        $uniqueProcesses['Rejected Pengawas'] = 'Rejected Pengawas (' . implode(', ', $uniqueReasons) . ')';
                                     }
 
                                     // Display unique processes
                                     if (!empty($uniqueProcesses)) {
                                         // Use array_keys to get the keys of the unique processes
-                                        echo implode(', ', array_keys($uniqueProcesses)); // Join unique processes with a comma
+                                        echo implode(', ', array_values($uniqueProcesses)); // Join unique processes with a comma
                                     } else {
                                         echo 'No data available';
                                     }
