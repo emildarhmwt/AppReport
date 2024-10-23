@@ -266,45 +266,77 @@ if ($id) {
 
                         <div class="row mb-4 mt-4">
                             <div class="col-md-12 d-flex justify-content-between align-items-center">
-                                <a target="_blank" class="btn btn-custom-review btn-sm d-flex align-items-center  me-2"
-                                    href=" #" onclick="return false;">
+                                <a target="_blank" class="btn btn-custom-review btn-sm d-flex align-items-center me-2"
+                                    href="#" onclick="return false;">
                                     Proses :
                                     <?php
-                                    $uniqueProcesses = []; // Array to hold unique process values
+                                    $processDisplay = ''; // Variable to hold the process display string
                                     $rejectedPengawasReasons = []; // Array to hold reasons for Rejected (Pengawas)
 
                                     foreach ($production_reports as $index => $report) {
-                                        // Check and add unique process values based on the specified conditions
-                                        if (!empty($report['proses_kontraktor'])) {
-                                            $uniqueProcesses[$report['proses_kontraktor']] = true;
-                                        } elseif (!empty($report['proses_pengawas'])) {
-                                            $uniqueProcesses[$report['proses_pengawas']] = true;
-                                        } elseif (!empty($report['proses_admin'])) {
-                                            $uniqueProcesses[$report['proses_admin']] = true;
-                                        }
-
                                         // Collect reasons for Rejected (Pengawas)
                                         if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas') {
                                             $rejectedPengawasReasons[] = htmlspecialchars($report['alasan_reject']);
                                         }
+
+                                        // Check conditions based on the provided rules
+                                        if (
+                                            !empty($report['proses_kontraktor']) && $report['proses_kontraktor'] === 'Approved Kontraktor' &&
+                                            !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Approved Pengawas' &&
+                                            !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                        ) {
+                                            $processDisplay = 'Approved Kontraktor';
+                                            break; // Exit loop once the condition is met
+                                        }
+
+                                        if (
+                                            !empty($report['proses_kontraktor']) && $report['proses_kontraktor'] === 'Rejected Kontraktor' &&
+                                            !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Approved Pengawas' &&
+                                            !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                        ) {
+                                            $processDisplay = 'Rejected Kontraktor';
+                                            if (!empty($rejectedPengawasReasons)) {
+                                                $processDisplay .= ' (' . implode(', ', array_unique($rejectedPengawasReasons)) . ')';
+                                            }
+                                            break; // Exit loop once the condition is met
+                                        }
+
+                                        if (
+                                            empty($report['proses_kontraktor']) &&
+                                            !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Approved Pengawas' &&
+                                            !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                        ) {
+                                            $processDisplay = 'Approved Pengawas';
+                                            break; // Exit loop once the condition is met
+                                        }
+
+                                        if (
+                                            empty($report['proses_kontraktor']) &&
+                                            !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas' &&
+                                            !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                        ) {
+                                            $processDisplay = 'Rejected Pengawas';
+                                            if (!empty($rejectedPengawasReasons)) {
+                                                $processDisplay .= ' (' . implode(', ', array_unique($rejectedPengawasReasons)) . ')';
+                                            }
+                                            break; // Exit loop once the condition is met
+                                        }
+
+                                        if (
+                                            empty($report['proses_kontraktor']) &&
+                                            empty($report['proses_pengawas']) &&
+                                            !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                        ) {
+                                            $processDisplay = 'Uploaded';
+                                            break; // Exit loop once the condition is met
+                                        }
                                     }
 
-                                    // If there are reasons for Rejected (Pengawas), combine them
-                                    if (!empty($rejectedPengawasReasons)) {
-                                        // Use array_unique to avoid duplicate reasons
-                                        $uniqueReasons = array_unique($rejectedPengawasReasons);
-                                        $uniqueProcesses['Rejected Pengawas'] = 'Rejected Pengawas (' . implode(', ', $uniqueReasons) . ')';
-                                    }
-
-                                    // Display unique processes
-                                    if (!empty($uniqueProcesses)) {
-                                        // Use array_keys to get the keys of the unique processes
-                                        echo implode(', ', array_values($uniqueProcesses)); // Join unique processes with a comma
-                                    } else {
-                                        echo 'No data available';
-                                    }
+                                    // Display the process status
+                                    echo $processDisplay ? $processDisplay : 'No data available';
                                     ?>
                                 </a>
+
                                 <div class="d-flex justify-content-end align-items-center">
                                     <a target="_blank"
                                         class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center  me-2"

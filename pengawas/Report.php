@@ -1,8 +1,8 @@
 <?php
-session_start(); 
+session_start();
 include '../Koneksi.php';
 
-$query = "SELECT * FROM operation_report WHERE pic = '" . $_SESSION['username'] . "'"; 
+$query = "SELECT * FROM operation_report WHERE pic = '" . $_SESSION['username'] . "'";
 $result = pg_query($conn, $query);
 
 if (!$result) {
@@ -115,6 +115,66 @@ $data = pg_fetch_all($result);
                                                 </tr>
                                             </thead>
                                             <tbody id="operationTableBody">
+                                                <?php
+                                                // Fetch production reports based on the current operation report's ID
+                                                foreach ($data as $operation) {
+                                                    $production_query = "SELECT * FROM production_report WHERE operation_report_id = $1";
+                                                    $production_result = pg_query_params($conn, $production_query, array($operation['id']));
+
+                                                    if ($production_result) {
+                                                        $production_reports = pg_fetch_all($production_result);
+                                                    } else {
+                                                        $production_reports = [];
+                                                    }
+
+                                                    // Display operation report data
+                                                    echo '<tr>';
+                                                    echo '<td>' . htmlspecialchars($operation['id']) . '</td>';
+                                                    echo '<td>' . htmlspecialchars(date('d M Y', strtotime($operation['tanggal']))) . '</td>';
+                                                    echo '<td>' . htmlspecialchars($operation['shift']) . '</td>';
+                                                    echo '<td>' . htmlspecialchars($operation['grup']) . '</td>';
+                                                    echo '<td>' . htmlspecialchars($operation['pengawas']) . '</td>';
+                                                    echo '<td>' . htmlspecialchars($operation['lokasi']) . '</td>';
+                                                    echo '<td>' . htmlspecialchars($operation['status']) . '</td>';
+                                                    echo '<td>' . htmlspecialchars($operation['pic']) . '</td>';
+                                                    echo '<td>';
+                                                    $uniqueProcesses = []; // Array to hold unique process values
+                                                    $rejectedPengawasReasons = []; // Array to hold reasons for Rejected (Pengawas)
+
+                                                    foreach ($production_reports as $report) {
+                                                        // Check and add unique process values based on the specified conditions
+                                                        if (!empty($report['proses_kontraktor'])) {
+                                                            $uniqueProcesses[$report['proses_kontraktor']] = true;
+                                                        } elseif (!empty($report['proses_pengawas'])) {
+                                                            $uniqueProcesses[$report['proses_pengawas']] = true;
+                                                        } elseif (!empty($report['proses_admin'])) {
+                                                            $uniqueProcesses[$report['proses_admin']] = true;
+                                                        }
+
+                                                        // Collect reasons for Rejected (Pengawas)
+                                                        if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas') {
+                                                            $rejectedPengawasReasons[] = htmlspecialchars($report['alasan_reject']);
+                                                        }
+                                                    }
+
+                                                    // If there are reasons for Rejected (Pengawas), combine them
+                                                    if (!empty($rejectedPengawasReasons)) {
+                                                        // Use array_unique to avoid duplicate reasons
+                                                        $uniqueReasons = array_unique($rejectedPengawasReasons);
+                                                        $uniqueProcesses['Rejected Pengawas'] = 'Rejected Pengawas (' . implode(', ', $uniqueReasons) . ')';
+                                                    }
+
+                                                    // Display unique processes
+                                                    if (!empty($uniqueProcesses)) {
+                                                        echo implode(', ', array_keys($uniqueProcesses)); // Join unique processes with a comma
+                                                    } else {
+                                                        echo 'No data available';
+                                                    }
+                                                    echo '</td>';
+                                                    echo '<td><button onclick="window.location.href=\'Preview.php?id=' . $operation['id'] . '\'" class="btn btn-primary btn-sm" title="Edit"><i class="bi bi-eye"></i></button></td>';
+                                                    echo '</tr>';
+                                                }
+                                                ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -211,19 +271,20 @@ $data = pg_fetch_all($result);
                     <td>${report.lokasi}</td>
                     <td>${report.status}</td>
                     <td>${report.pic}</td>
-                     <td>
-                        <?php
-                        if (isset($report['proses_kontraktor']) && !empty($report['proses_kontraktor'])) {
-                            echo $report['proses_kontraktor'];
-                        } elseif (isset($report['proses_pengawas']) && !empty($report['proses_pengawas'])) {
-                            echo $report['proses_pengawas'];
-                        } elseif (isset($report['proses_admin']) && !empty($report['proses_admin'])) {
-                            echo $report['proses_admin'];
-                        } else {
-                            echo 'No data available'; // Optional: to show when all are empty
-                        }
-                        ?>
-                    </td>
+<td>
+    <?php
+    // Check for the process values in the order of priority
+    if (isset($report['proses_kontraktor']) && !empty($report['proses_kontraktor'])) {
+        echo htmlspecialchars($report['proses_kontraktor']);
+    } elseif (isset($report['proses_pengawas']) && !empty($report['proses_pengawas'])) {
+        echo htmlspecialchars($report['proses_pengawas']);
+    } elseif (isset($report['proses_admin']) && !empty($report['proses_admin'])) {
+        echo htmlspecialchars($report['proses_admin']);
+    } else {
+        echo 'No data available'; // Optional: to show when all are empty
+    }
+    ?>
+</td>
                     <td>
                      <button onclick="window.location.href='Preview.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
                         <i class="bi bi-eye"></i>
