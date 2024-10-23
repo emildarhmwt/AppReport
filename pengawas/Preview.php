@@ -278,7 +278,6 @@ if ($id) {
                                         if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas') {
                                             $rejectedPengawasReasons[] = htmlspecialchars($report['alasan_reject']);
                                         }
-
                                         // Check conditions based on the provided rules
                                         if (
                                             !empty($report['proses_kontraktor']) && $report['proses_kontraktor'] === 'Approved Kontraktor' &&
@@ -288,7 +287,6 @@ if ($id) {
                                             $processDisplay = 'Approved Kontraktor';
                                             break; // Exit loop once the condition is met
                                         }
-
                                         if (
                                             !empty($report['proses_kontraktor']) && $report['proses_kontraktor'] === 'Rejected Kontraktor' &&
                                             !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Approved Pengawas' &&
@@ -300,7 +298,6 @@ if ($id) {
                                             }
                                             break; // Exit loop once the condition is met
                                         }
-
                                         if (
                                             empty($report['proses_kontraktor']) &&
                                             !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Approved Pengawas' &&
@@ -309,7 +306,6 @@ if ($id) {
                                             $processDisplay = 'Approved Pengawas';
                                             break; // Exit loop once the condition is met
                                         }
-
                                         if (
                                             empty($report['proses_kontraktor']) &&
                                             !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas' &&
@@ -321,7 +317,6 @@ if ($id) {
                                             }
                                             break; // Exit loop once the condition is met
                                         }
-
                                         if (
                                             empty($report['proses_kontraktor']) &&
                                             empty($report['proses_pengawas']) &&
@@ -331,12 +326,10 @@ if ($id) {
                                             break; // Exit loop once the condition is met
                                         }
                                     }
-
                                     // Display the process status
                                     echo $processDisplay ? $processDisplay : 'No data available';
                                     ?>
                                 </a>
-
                                 <div class="d-flex justify-content-end align-items-center">
                                     <a target="_blank"
                                         class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center  me-2"
@@ -421,22 +414,72 @@ if ($id) {
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <input type="hidden" id="operationReportId">
+                                            <input type="hidden" id="barcodeReportId">
                                             <div class="mb-3">
-                                                <label for="approveProduction" class="form-label">Alasan:</label>
-                                                <textarea class="form-control" id="approveProduction"
-                                                    rows="3"></textarea>
+                                                <label for="approveProduction" class="form-label">Ditujukan kepada
+                                                    :</label>
+                                                <select class="form-select" aria-label="Default select example"
+                                                    id="kontraktor" name="kontraktor" required>
+                                                    <option selected>Kontraktor</option>
+                                                    <?php
+                                                    $sql_kontraktor = "SELECT username FROM kontraktor_report";
+                                                    $result_kontraktor = pg_query($conn, $sql_kontraktor);
+
+                                                    if ($result_kontraktor) {
+                                                        while ($row = pg_fetch_assoc($result_kontraktor)) {
+                                                            echo '<option value="' . htmlspecialchars($row['username']) . '">' . htmlspecialchars($row['username']) . '</option>';
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="approveProduction" class="form-label">Nama Pengawas
+                                                    :</label>
+                                                <select class="form-select" aria-label="Default select example"
+                                                    id="nama" name="nama" required
+                                                    onchange="fetchPengawasData(this.value)">
+                                                    <option selected>Nama</option>
+                                                    <?php
+                                                    include '../Koneksi.php'; // Pastikan file koneksi sudah benar
+                                                    $sql_pengawas = "SELECT id, nama FROM barcode_pengawas"; // Pastikan kolom 'nama' sesuai dengan tabel
+                                                    $result_pengawas = pg_query($conn, $sql_pengawas);
+                                                    if ($result_pengawas) {
+                                                        while ($row = pg_fetch_assoc($result_pengawas)) {
+                                                            echo '<option value="' . htmlspecialchars($row['id']) . '">' . htmlspecialchars($row['nama']) . '</option>';
+                                                        }
+                                                    } else {
+                                                        echo '<option value="">No data available</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="approveProduction" class="form-label">Jabatan Pengawas
+                                                    :</label>
+                                                <input type="text" class="form-control" id="jabatan" name="jabatan"
+                                                    placeholder="Jabatan" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="approveProduction" class="form-label">NIP Pengawas :</label>
+                                                <input type="text" class="form-control" id="nip" name="nip"
+                                                    placeholder="NIP" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="approveProduction" class="form-label">TTD Pengawas :</label>
+                                                <img id="ttd" src="" alt="TTD" style="max-width: 200px; display: none;">
                                             </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
+                                                data-bs-dismiss="modal">Kembali</button>
                                             <button type="button" class="btn btn-primary"
-                                                onclick="submitApprove()">Kirim</button>
+                                                onclick="submitApprove()">Submit</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <button class="btn btn-danger btn-sm" title="Reject"
                                 onclick="showRejectModal(<?php echo $id; ?>)">
                                 <i class="bi bi-x-lg"></i> Reject
@@ -461,7 +504,7 @@ if ($id) {
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Close</button>
                                             <button type="button" class="btn btn-primary"
-                                                onclick="submitReject()">Kirim</button>
+                                                onclick="submitReject()">Submit</button>
                                         </div>
                                     </div>
                                 </div>
@@ -484,6 +527,23 @@ if ($id) {
             document.getElementById('navbar').innerHTML = data;
         });
 
+    function fetchPengawasData(pengawasId) {
+        fetch('fetch_pengawas_data.php?id=' + pengawasId)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('jabatan').value = data.jabatan || '';
+                document.getElementById('nip').value = data.nip || '';
+                const ttdImage = document.getElementById('ttd');
+                if (data.ttd) {
+                    ttdImage.src = 'data:image/png;base64,' + data.ttd; // Menggunakan base64
+                    ttdImage.style.display = 'block';
+                } else {
+                    ttdImage.style.display = 'none';
+                }
+            })
+            .catch(error => console.error('Error fetching pengawas data:', error));
+    }
+
     function showRejectModal(operationReportId) {
         document.getElementById('operationReportId').value = operationReportId;
         new bootstrap.Modal(document.getElementById('rejectModal')).show();
@@ -502,6 +562,33 @@ if ($id) {
                     'operation_report_id': operationReportId,
                     'alasan_reject': alasanReject
                 })
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                location.reload(); // Reload the page to see the changes
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function showApproveModal(barcodeReportId) {
+        document.getElementById('barcodeReportId').value = barcodeReportId;
+        new bootstrap.Modal(document.getElementById('approveModal')).show();
+    }
+
+    function submitApprove() {
+        const barcodeReportId = document.getElementById('barcodeReportId').value;
+        const kontraktor = document.getElementById('kontraktor').value;
+        const pengawas = document.getElementById('nama').value; // Get pengawas ID
+
+        const formData = new FormData();
+        formData.append('operation_report_id', barcodeReportId);
+        formData.append('kontraktor', kontraktor);
+        formData.append('pengawas', pengawas); // Append pengawas ID
+
+        fetch('Approve.php', {
+                method: 'POST',
+                body: formData
             })
             .then(response => response.text())
             .then(data => {
