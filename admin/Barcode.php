@@ -99,12 +99,8 @@ $data = pg_fetch_all($result);
                                                 <td><?php echo $report['jabatan']; ?></td>
                                                 <td><?php echo $report['nip']; ?></td>
                                                 <td>
-                                                    <?php if ($report['ttd']): ?>
-                                                    <img src="data:image/png;base64,<?php echo base64_encode(pg_unescape_bytea($report['ttd'])); ?>"
-                                                        alt="TTD" style="width: 50px; height: auto;">
-                                                    <?php else: ?>
-                                                    No Image
-                                                    <?php endif; ?>
+                                                    <img src="<?php echo $report['file_path']; ?>" alt="Image"
+                                                        style="width: 50px; height: auto;">
                                                 </td>
                                                 <td>
                                                     <button
@@ -173,27 +169,22 @@ $data = pg_fetch_all($result);
 
                 displayedData.forEach((report, index) => {
                     const row = `<tr>
-                                    <td class="text-center">${start + index + 1}</td>
-                                    <td>${report.nama}</td>
-                                    <td>${report.jabatan}</td>
-                                    <td>${report.nip}</td>
-                                    <td>
-                                    <?php if ($report['ttd']): ?>
-                                        <img src="data:image/png;base64,<?php echo base64_encode(pg_unescape_bytea($report['ttd'])); ?>"
-                                        alt="TTD" style="width: 50px; height: auto;">
-                                        <?php else: ?>
-                                        No Image
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <button onclick="window.location.href='editadmin.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
-                                            <i class="bi bi-pen"></i>
-                                        </button>
-                                        <button onclick="deleteAdmin(${report.id})" class="btn btn-danger btn-sm" title="Hapus">
-                                            <i class="bi bi-trash3"></i>
-                                        </button>
-                                    </td>
-                                    </tr>`;
+                        <td class="text-center">${start + index + 1}</td>
+                        <td>${report.nama}</td>
+                        <td>${report.jabatan}</td>
+                        <td>${report.nip}</td>
+                        <td>
+                            <img src="${report.file_path}" alt="Image" style="width: 50px; height: auto;">
+                        </td>
+                        <td>
+                            <button onclick="window.location.href='editadmin.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
+                                <i class="bi bi-pen"></i>
+                            </button>
+                            <button onclick="deleteAdmin(${report.id})" class="btn btn-danger btn-sm" title="Hapus">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </td>
+                    </tr>`;
                     tableBody.innerHTML += row;
                 });
 

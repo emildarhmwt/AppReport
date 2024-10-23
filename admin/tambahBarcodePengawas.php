@@ -46,7 +46,8 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="formFile" class="form-label">Barcode</label>
-                                        <input class="form-control" type="file" id="ttd" name="ttd">
+                                        <input class="form-control" type="file" name="image" id="image"
+                                            accept="image/png, image/jpeg">
                                     </div>
                                     <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>
                                         Submit</button>
