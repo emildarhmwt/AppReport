@@ -281,7 +281,7 @@ if (isset($_GET['delete_id'])) {
                                 </a>
                                 <a target="_blank"
                                     class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center"
-                                    href=" #">
+                                    href="./export_pdf.php?id=<?php echo $id; ?>">
                                     <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
                                 </a>
                                 <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
@@ -347,6 +347,11 @@ if (isset($_GET['delete_id'])) {
                                                 onclick="if(confirm('Are you sure you want to delete this report?')) { window.location.href='?id=<?php echo $id; ?>&delete_id=<?php echo $report['id']; ?>'; }">
                                                 <i class="bi bi-trash3"></i>
                                             </button>
+                                            <?php if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas'): ?>
+                                            <button class="btn btn-primary btn-sm" title="Edit">
+                                                <i class="bi bi-pen"></i>
+                                            </button>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>

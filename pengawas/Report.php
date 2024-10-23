@@ -271,20 +271,20 @@ $data = pg_fetch_all($result);
                     <td>${report.lokasi}</td>
                     <td>${report.status}</td>
                     <td>${report.pic}</td>
-<td>
-    <?php
-    // Check for the process values in the order of priority
-    if (isset($report['proses_kontraktor']) && !empty($report['proses_kontraktor'])) {
-        echo htmlspecialchars($report['proses_kontraktor']);
-    } elseif (isset($report['proses_pengawas']) && !empty($report['proses_pengawas'])) {
-        echo htmlspecialchars($report['proses_pengawas']);
-    } elseif (isset($report['proses_admin']) && !empty($report['proses_admin'])) {
-        echo htmlspecialchars($report['proses_admin']);
-    } else {
-        echo 'No data available'; // Optional: to show when all are empty
-    }
-    ?>
-</td>
+                    <td>
+                        <?php
+                        // Check for the process values in the order of priority
+                        if (isset($report['proses_kontraktor']) && !empty($report['proses_kontraktor'])) {
+                            echo htmlspecialchars($report['proses_kontraktor']);
+                        } elseif (isset($report['proses_pengawas']) && !empty($report['proses_pengawas'])) {
+                            echo htmlspecialchars($report['proses_pengawas']);
+                        } elseif (isset($report['proses_admin']) && !empty($report['proses_admin'])) {
+                            echo htmlspecialchars($report['proses_admin']);
+                        } else {
+                            echo 'No data available'; // Optional: to show when all are empty
+                        }
+                        ?>
+                    </td>
                     <td>
                      <button onclick="window.location.href='Preview.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
                         <i class="bi bi-eye"></i>
