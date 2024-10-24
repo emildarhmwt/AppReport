@@ -1,7 +1,7 @@
 <?php
 include '../Koneksi.php';
 
-$query = "SELECT * FROM equipment";
+$query = "SELECT * FROM muatan";
 $result = pg_query($conn, $query);
 
 if (!$result) {
@@ -35,7 +35,7 @@ $data = pg_fetch_all($result);
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-semibold mb-4">Data Equipment</h5>
+                        <h5 class="card-title fw-semibold mb-4">Data Muatan</h5>
                         <div class="card">
                             <div class="card-body">
                                 <div class="row mb-3">
@@ -61,12 +61,12 @@ $data = pg_fetch_all($result);
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title">Import Excel Equipment</h5>
+                                                        <h5 class="modal-title">Import Excel Muatan</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="hidden" id="EquipmentId">
+                                                        <input type="hidden" id="MuatanId">
                                                         <div class="mb-3">
                                                             <label for="importExcel" class="form-label">Excel :</label>
                                                             <input class="form-control" type="file" id="importExcel"
@@ -92,12 +92,12 @@ $data = pg_fetch_all($result);
                                         <thead class="fs-4">
                                             <tr class="text-center">
                                                 <th class="fs-3" style="width: 5%">No</th>
-                                                <th class="fs-3" style="width: 45%">Equipment</th>
-                                                <th class="fs-3" style="width: 45%">Tipe Unit</th>
+                                                <th class="fs-3" style="width: 45%">Tipe Hauler</th>
+                                                <th class="fs-3" style="width: 45%">Jumlah</th>
                                                 <th class="fs-3" style="width: 5%">Opsi</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="equipmentTableBody">
+                                        <tbody id="muatanTableBody">
                                             <!-- Data will be populated here -->
                                         </tbody>
                                     </table>
@@ -127,10 +127,10 @@ $data = pg_fetch_all($result);
                     document.getElementById('navbar').innerHTML = data;
                 });
 
-            function deleteEquipment(id) {
-                console.log('Deleting equipment with ID:', id); // Debugging: Log the ID being deleted
-                if (confirm('Apakah Anda yakin ingin menghapus equipment ini?')) {
-                    fetch('deleteEquipment.php', {
+            function deleteMuatan(id) {
+                console.log('Deleting muatan with ID:', id); // Debugging: Log the ID being deleted
+                if (confirm('Apakah Anda yakin ingin menghapus muatan ini?')) {
+                    fetch('deleteMuatan.php', {
                             method: 'DELETE',
                             body: JSON.stringify({
                                 id: id
@@ -158,20 +158,20 @@ $data = pg_fetch_all($result);
                 }
             }
 
-            function showImportModal(EquipmentId) {
-                document.getElementById('EquipmentId').value = EquipmentId;
+            function showImportModal(MuatanId) {
+                document.getElementById('MuatanId').value = MuatanId;
                 new bootstrap.Modal(document.getElementById('importModal')).show();
             }
 
             function submitImport() {
-                const EquipmentId = document.getElementById('EquipmentId').value;
+                const MuatanId = document.getElementById('MuatanId').value;
                 const importExcel = document.getElementById('importExcel').files[0];
 
                 const formData = new FormData();
                 formData.append('excelFile', importExcel);
-                formData.append('id', EquipmentId);
+                formData.append('id', MuatanId);
 
-                fetch('import_excel.php', {
+                fetch('import_muatan.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -189,16 +189,14 @@ $data = pg_fetch_all($result);
             const maxPageNumbers = 10; // Maximum number of page numbers to display
 
             function renderTable(data) {
-                const tbody = document.getElementById('equipmentTableBody');
+                const tbody = document.getElementById('muatanTableBody');
                 tbody.innerHTML = '';
 
-                // Sort the data alphabetically by equipment name
-                const sortedData = data.sort((a, b) => a.equipment.localeCompare(b.equipment));
+                const sortedData = data.sort((a, b) => a.tipe.localeCompare(b.tipe));
 
                 const filteredData = sortedData.filter(report =>
-                    (report.equipment && report.equipment.toLowerCase().includes(searchInput.value
-                        .toLowerCase())) ||
-                    (report.tipe_unit && report.tipe_unit.toLowerCase().includes(searchInput.value.toLowerCase()))
+                    report.tipe.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+                    report.jumlah.toLowerCase().includes(searchInput.value.toLowerCase())
                 );
                 const start = (currentPage - 1) * rowsPerPage.value;
                 const end = start + parseInt(rowsPerPage.value);
@@ -208,13 +206,13 @@ $data = pg_fetch_all($result);
                     const row = `
             <tr>
                 <td class="text-center">${start + index + 1}</td>
-                <td>${report.equipment}</td>
-                <td>${report.tipe_unit}</td>
+                <td>${report.tipe}</td>
+                <td>${report.jumlah}</td>
                 <td>
-                    <button onclick="window.location.href='editEquipment.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
+                    <button onclick="window.location.href='editMuatan.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
                         <i class="bi bi-pen"></i>
                     </button>
-                    <button onclick="deleteEquipment(${report.id})" class="btn btn-danger btn-sm" title="Hapus">
+                    <button onclick="deleteMuatan(${report.id})" class="btn btn-danger btn-sm" title="Hapus">
                         <i class="bi bi-trash3"></i>
                     </button>
                 </td>

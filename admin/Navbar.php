@@ -138,7 +138,7 @@ include '../Koneksi.php';
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="Barcode.php">Barcode</a></li>
-                            <li><a class="dropdown-item" href="#">Muatan</a></li>
+                            <li><a class="dropdown-item" href="Muatan.php">Muatan</a></li>
                             <li><a class="dropdown-item" href="Equipment.php">Equipment</a></li>
                         </ul>
                     </li>

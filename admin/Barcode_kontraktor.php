@@ -104,11 +104,12 @@ $data = pg_fetch_all($result);
                                                 </td>
                                                 <td>
                                                     <button
-                                                        onclick="window.location.href='editadmin.php?id=<?php echo $report['id']; ?>'"
+                                                        onclick="window.location.href='editBarcodeKontraktor.php?id=<?php echo $report['id']; ?>'"
                                                         class="btn btn-primary btn-sm" title="Edit">
                                                         <i class="bi bi-pen"></i>
                                                     </button>
-                                                    <button onclick="deleteAdmin(<?php echo $report['id']; ?>)"
+                                                    <button
+                                                        onclick="deleteBarcodeKontraktor(<?php echo $report['id']; ?>)"
                                                         class="btn btn-danger btn-sm" title="Hapus">
                                                         <i class="bi bi-trash3"></i>
                                                     </button>
@@ -134,6 +135,37 @@ $data = pg_fetch_all($result);
                 .then(data => {
                     document.getElementById('navbar').innerHTML = data;
                 });
+
+            function deleteBarcodeKontraktor(id) {
+                console.log('Deleting barcode with ID:', id); // Debugging: Log the ID being deleted
+                if (confirm('Apakah Anda yakin ingin menghapus barcode ini?')) {
+                    fetch('deleteBarcodeKontraktor.php', {
+                            method: 'DELETE',
+                            body: JSON.stringify({
+                                id: id
+                            }), // Send ID in the request body
+                            headers: {
+                                'Content-Type': 'application/json' // Set content type to JSON
+                            }
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.text().then(text => {
+                                    throw new Error(text);
+                                });
+                            }
+                            return response.json(); // Parse the JSON response
+                        })
+                        .then(data => {
+                            alert(data.message); // Show success message
+                            location.reload(); // Reload the page to see the changes
+                        })
+                        .catch(error => {
+                            console.error('Error:', error); // Log any errors
+                            alert('Error: ' + error.message); // Show error message
+                        });
+                }
+            }
 
             const rowsPerPage = document.getElementById('rowsPerPageSelect');
             const searchInput = document.getElementById('searchInput');
@@ -177,10 +209,14 @@ $data = pg_fetch_all($result);
                                         <img src="${report.file_path}" alt="Image" style="width: 50px; height: auto;">
                                     </td>
                                     <td>
-                                        <button onclick="window.location.href='editadmin.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
+                                        <button
+                                            onclick="window.location.href='editBarcodeKontraktor.php?id=<?php echo $report['id']; ?>'"
+                                            class="btn btn-primary btn-sm" title="Edit">
                                             <i class="bi bi-pen"></i>
                                         </button>
-                                        <button onclick="deleteAdmin(${report.id})" class="btn btn-danger btn-sm" title="Hapus">
+                                        <button
+                                            onclick="deleteBarcodeKontraktor(<?php echo $report['id']; ?>)"
+                                            class="btn btn-danger btn-sm" title="Hapus">
                                             <i class="bi bi-trash3"></i>
                                         </button>
                                     </td>
