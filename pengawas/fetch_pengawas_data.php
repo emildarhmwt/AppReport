@@ -1,19 +1,18 @@
 <?php
 include '../Koneksi.php';
 
-$id = isset($_GET['id']) ? $_GET['id'] : null;
+// Fetch kontraktor data
+$sql_kontraktor = "SELECT username FROM kontraktor_report";
+$result_kontraktor = pg_query($conn, $sql_kontraktor);
+$kontraktor_options = pg_fetch_all($result_kontraktor);
 
-if ($id) {
-    $sql = "SELECT jabatan, nip, encode(ttd, 'base64') as ttd FROM barcode_pengawas WHERE id = $1";
-    $result = pg_query_params($conn, $sql, array($id));
+// Fetch pengawas data
+$sql_pengawas = "SELECT * FROM barcode_pengawas";
+$result_pengawas = pg_query($conn, $sql_pengawas);
+$pengawas_data = pg_fetch_all($result_pengawas);
 
-    if ($result) {
-        $data = pg_fetch_assoc($result);
-        echo json_encode($data);
-    } else {
-        echo json_encode(['jabatan' => '', 'nip' => '', 'ttd' => '']);
-    }
-} else {
-    echo json_encode(['jabatan' => '', 'nip' => '', 'ttd' => '']);
-}
+echo json_encode([
+    'kontraktor' => $kontraktor_options,
+    'pengawas' => $pengawas_data
+]);
 ?>

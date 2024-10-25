@@ -13,6 +13,10 @@ $sql_production = "SELECT * FROM production_report WHERE operation_report_id = $
 $result_production = pg_query_params($conn, $sql_production, array($id));
 $production_reports = pg_fetch_all($result_production);
 
+$sql_file = "SELECT DISTINCT ON (operation_report_id) file_pengawas FROM production_report WHERE operation_report_id = $1";
+$result_file = pg_query_params($conn, $sql_file, array($id));
+$file_pengawas = pg_fetch_assoc($result_file);
+
 // Hitung total
 $total_ritase = 0;
 $total_muatan = 0;
@@ -22,11 +26,6 @@ foreach ($production_reports as $report) {
     $total_muatan += $report['muatan'];
     $total_volume += $report['volume'];
 }
-
-// Ambil ttd dari database
-$ttd_supervisor = $production_reports[0]['ttd'] ?? null; // Pastikan ini sesuai dengan kolom di database
-// $ttd_kontraktor = $production_reports[0]['ttd_kontraktor'] ?? null;
-
 // Buat PDF dengan orientasi landscape
 $pdf = new FPDF('L', 'mm', 'A4'); // 'L' untuk landscape
 $pdf->AddPage();
@@ -170,44 +169,24 @@ $pdf->Cell(20, 10, $total_muatan, 1,0,'C');
 $pdf->Cell(20, 10, $total_volume, 1,0,'C');
 $pdf->Ln();
 
+
 // TTD
 $pdf->SetFont('Times', '', 12);
 $pdf->Cell(100, 40, 'Pengawas', 0, 0, 'C');
-// $pdf->Cell(200, 40, 'Kontraktor', 0, 1, 'C');
+$pdf->Cell(200, 40, 'Kontraktor', 0, 0, 'C');
+$pdf->Ln(); 
 
-if ($ttd_supervisor) {
-    $imageData = pg_unescape_bytea($ttd_supervisor);
-    
-    // Debugging: Check the length of the binary data
-    if (strlen($imageData) > 0) {
-        // Check the first few bytes to identify the format
-        $header = substr($imageData, 0, 4);
-        if ($header === "\x89PNG" || substr($header, 0, 3) === "\xFF\xD8\xFF") {
-            // It's a PNG or JPEG image
-            $image = imagecreatefromstring($imageData);
-        } else {
-            $pdf->Cell(100, 10, 'Unsupported image format', 0, 1, 'C');
-            $image = false;
-        }
-        
-        if ($image !== false) {
-            // Save the image to a temporary file
-            $tempImagePath = tempnam(sys_get_temp_dir(), 'ttd_') . '.png';
-            imagepng($image, $tempImagePath);
-            imagedestroy($image); // Free up memory
+// Check if file_pengawas is empty
+if (empty($file_pengawas['file_pengawas'])) {
+    $pdf->Cell(100, 20, 'Pending', 0, 1, 'C');
+} else {
+    $pdf->Ln(-10);
+    $y = $pdf->GetY();
+    $imageWidth = 30; 
+    $x = 45;
 
-            // Add the image to the PDF
-            $pdf->Image($tempImagePath, $pdf->GetX() + 10, $pdf->GetY() - 30, 30); // Sesuaikan posisi dan ukuran
-            
-            // Optionally delete the temporary file
-            unlink($tempImagePath);
-        } else {
-            // Handle error if image creation fails
-            $pdf->Cell(100, 10, 'Error loading image', 0, 1, 'C');
-        }
-    } else {
-        $pdf->Cell(100, 10, 'No image data found', 0, 1, 'C');
-    }
+    $pdf->Image($file_pengawas['file_pengawas'], $x, $y, $imageWidth);
+    $pdf->Ln(50);
 }
 
 $pdf->Output();

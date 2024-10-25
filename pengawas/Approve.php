@@ -1,29 +1,24 @@
 <?php
 include '../Koneksi.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $operationReportId = $_POST['operation_report_id'];
-    $kontraktor = $_POST['kontraktor'];
-    $pengawasId = $_POST['pengawas']; // Get the selected pengawas ID
+$id = $_POST['operation_report_id'];
+$kontraktor = $_POST['kontraktor'];
+$name_pengawas = $_POST['name_pengawas'];
+$file_pengawas = $_POST['file_pengawas'];
 
-    // Fetch TTD from barcode_pengawas table
-    $sql_ttd = "SELECT encode(ttd, 'base64') as ttd FROM barcode_pengawas WHERE id = $1";
-    $result_ttd = pg_query_params($conn, $sql_ttd, array($pengawasId));
+// Update production_report
+$sql_update = "UPDATE production_report SET 
+    proses_pengawas = 'Approved Pengawas', 
+    kontraktor = $1, 
+    name_pengawas = $2, 
+    file_pengawas = $3 
+    WHERE operation_report_id = $4";
 
-    if ($result_ttd) {
-        $ttdData = pg_fetch_result($result_ttd, 0, 'ttd'); // Get the base64 encoded TTD
-    } else {
-        $ttdData = null;
-    }
+$result_update = pg_query_params($conn, $sql_update, array($kontraktor, $name_pengawas, $file_pengawas, $id));
 
-    // Update the production_report table
-    $sql = "UPDATE production_report SET kontraktor = $1, ttd = $2, proses_pengawas = 'Approved Pengawas' WHERE operation_report_id = $3";
-    $result = pg_query_params($conn, $sql, array($kontraktor, $ttdData, $operationReportId));
-
-    if ($result) {
-        echo "Data produksi berhasil di approve";
-    } else {
-        echo "Error updating data: " . pg_last_error($conn);
-    }
+if ($result_update) {
+    echo "Data updated successfully.";
+} else {
+    echo "Error updating data.";
 }
 ?>

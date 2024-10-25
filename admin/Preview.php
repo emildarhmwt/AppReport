@@ -305,7 +305,7 @@ if (isset($_GET['delete_id'])) {
                                         <th class="fs-3">Ritase </th>
                                         <th class="fs-3">Tipe Hauler 2</th>
                                         <th class="fs-3">Ritase 2</th>
-                                        <th class="fs-3">Muatan</th>
+                                        <th class="fs-3">Total Ritase</th>
                                         <th class="fs-3">Volume</th>
                                         <th class="fs-3">Proses</th>
                                         <th class="fs-3" style="width: 5%;">Opsi</th>
@@ -324,10 +324,9 @@ if (isset($_GET['delete_id'])) {
                                         <td><?php echo htmlspecialchars($report['jarak']); ?></td>
                                         <td><?php echo htmlspecialchars($report['tipe']); ?></td>
                                         <td><?php echo htmlspecialchars($report['ritase']); ?></td>
-                                        <td><?php echo !empty($report['tipe2']) ? htmlspecialchars($report['tipe2']) : '-'; ?>
-                                        </td>
+                                        <td><?php echo htmlspecialchars($report['tipe2']); ?></td>
                                         <td><?php echo htmlspecialchars($report['ritase2']); ?></td>
-                                        <td><?php echo htmlspecialchars($report['muatan']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['total_ritase']); ?></td>
                                         <td><?php echo htmlspecialchars($report['volume']); ?></td>
                                         <td>
                                             <?php

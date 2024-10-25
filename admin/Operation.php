@@ -11,6 +11,7 @@
     <style>
     .wajib_isi {
         color: red;
+        font-size: 5px;
     }
     </style>
 </head>

@@ -27,6 +27,7 @@ while ($row = pg_fetch_assoc($result)) {
     <style>
     .wajib_isi {
         color: red;
+        font-size: 5px;
     }
 
     .suggestions {

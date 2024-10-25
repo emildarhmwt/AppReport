@@ -18,6 +18,7 @@
 
     .wajib_isi {
         color: red;
+        font-size: 5px;
     }
     </style>
 </head>
@@ -175,10 +176,8 @@
                                             <div class="mb-3">
                                                 <label for="tipe" class="form-label"><span class="wajib_isi">*</span>
                                                     Tipe Hauler 1 :</label>
-                                                <select class="form-select" id="tipe" name="tipe" required
-                                                    onchange="updateMuatan()">
+                                                <select class="form-select" id="tipe" name="tipe" required>
                                                     <option value="" selected disabled>Tipe Hauler</option>
-                                                    <!-- Populate options from muatan table -->
                                                 </select>
                                             </div>
                                         </div>
@@ -192,26 +191,27 @@
                                         </div>
                                     </div>
 
-                                    <input type="text" class="form-control" id="muatan" name="muatan"
+                                    <input type="hidden" class="form-control" id="muatan" name="muatan"
                                         placeholder="Muatan" readonly>
-                                    <input type="text" class="form-control" id="volume" name="volume"
-                                        placeholder="Volume" readonly>
+                                    <input type="hidden" class="form-control" id="volume" name="volume"
+                                        placeholder="Volume" readonly oninput="calculateVolumes()">
 
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="mb-3">
-                                                <label for="tipe" class="form-label">Tipe Hauler 2 :</label>
-                                                <select class="form-select" id="tipe2" name="tipe2"
-                                                    onchange="updateMuatan2()">
+                                                <label for="tipe" class="form-label"><span class="wajib_isi">*</span>
+                                                    Tipe Hauler 2 :</label>
+                                                <select class="form-select" id="tipe2" name="tipe2" required>
                                                     <option value="" selected disabled>Tipe Hauler</option>
-                                                    <option value="none">Tidak Ada</option> <!-- Added option -->
-                                                    <!-- Populate options from muatan table -->
                                                 </select>
+                                                <h5 class="notif"> Jika tidak ada tipe hauler, pilih (-)
+                                                </h5>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mb-3">
-                                                <label for="ritase" class="form-label">Ritase 2 :</label>
+                                                <label for="ritase" class="form-label"><span class="wajib_isi">*</span>
+                                                    Ritase 2 :</label>
                                                 <input type="number" class="form-control" id="ritase2" name="ritase2"
                                                     placeholder="Input Data" required>
                                                 <h5 class="notif"> Jika tidak ada nilai ritase, isikan 0
@@ -220,10 +220,10 @@
                                         </div>
                                     </div>
 
-                                    <input type="text" class="form-control" id="muatan2" name="muatan2"
+                                    <input type="hidden" class="form-control" id="muatan2" name="muatan2"
                                         placeholder="Muatan" readonly>
-                                    <input type="text" class="form-control" id="volume2" name="volume2"
-                                        placeholder="Volume" readonly>
+                                    <input type="hidden" class="form-control" id="volume2" name="volume2"
+                                        placeholder="Volume" readonly oninput="calculateVolumes()">
 
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -231,22 +231,16 @@
                                                 <label for="total_ritase" class="form-label">
                                                     Total Ritase :</label>
                                                 <input type="number" class="form-control" id="total_ritase"
-                                                    name="ritase" placeholder="Total Ritase" required>
+                                                    name="total_ritase" placeholder="Total Ritase" required
+                                                    oninput="calculateTotalRitase()">
                                             </div>
                                         </div>
-                                        <!-- <div class="col-lg-4">
-                                            <div class="mb-3">
-                                                <label for="muatan" class="form-label"><span class="wajib_isi">*</span>
-                                                    Muatan :</label>
-                                                <input type="number" class="form-control" id="muatan" name="muatan"
-                                                    placeholder="Input Data" required>
-                                            </div>
-                                        </div> -->
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label for="volume" class="form-label">Volume :</label>
                                                 <input type="number" class="form-control" id="total_volume"
-                                                    name="total_volume" placeholder="Total Volume" readonly>
+                                                    name="total_volume" placeholder="Total Volume" readonly
+                                                    oninput="calculateVolumes()">
                                             </div>
                                         </div>
                                     </div>
@@ -256,6 +250,11 @@
                                     <input type="hidden" id="proses_pengawas" name="proses_pengawas" value="">
                                     <input type="hidden" id="proses_kontraktor" name="proses_kontraktor" value="">
                                     <input type="hidden" id="alasan_reject" name="alasan_reject" value="">
+                                    <input type="hidden" id="kontraktor" name="kontraktor" value="">
+                                    <input type="hidden" id="name_pengawas" name="name_pengawas" value="">
+                                    <input type="hidden" id="file_pengawas" name="file_pengawas" value="">
+                                    <input type="hidden" id="name_kontraktor" name="name_kontraktor" value="">
+                                    <input type="hidden" id="file_kontraktor" name="file_kontraktor" value="">
                                     <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>
                                         Submit</button>
                                     <button type="button" class="btn btn-warning mx-3" onclick="goBack()"><i
@@ -279,59 +278,6 @@
         window.location.href = 'operation.php';
     }
 
-    function updateMuatan() {
-        const tipe = document.getElementById('tipe').value;
-        // Fetch muatan based on tipe
-        fetch(`getMuatan.php?tipe=${tipe}`)
-            .then(response => response.json())
-            .then(data => {
-                const muatan = data.jumlah; // Assuming data returns jumlah
-                document.getElementById('muatan').value = muatan;
-                updateVolume();
-            });
-    }
-
-    function updateMuatan2() {
-        const tipe2 = document.getElementById('tipe2').value;
-        if (tipe2 === 'none') {
-            document.getElementById('ritase2').value = 0;
-            document.getElementById('muatan2').value = 0;
-            document.getElementById('volume2').value = 0;
-        } else {
-            // Fetch muatan based on tipe2
-            fetch(`getMuatan.php?tipe=${tipe2}`)
-                .then(response => response.json())
-                .then(data => {
-                    const muatan2 = data.jumlah; // Assuming data returns jumlah
-                    document.getElementById('muatan2').value = muatan2;
-                    updateVolume2();
-                });
-        }
-    }
-
-    function updateVolume() {
-        const ritase = document.getElementById('ritase').value;
-        const muatan = document.getElementById('muatan').value;
-        document.getElementById('volume').value = ritase * muatan;
-        updateTotal();
-    }
-
-    function updateVolume2() {
-        const ritase2 = document.getElementById('ritase2').value;
-        const muatan2 = document.getElementById('muatan2').value;
-        document.getElementById('volume2').value = ritase2 * muatan2;
-        updateTotal();
-    }
-
-    function updateTotal() {
-        const volume = document.getElementById('volume').value;
-        const volume2 = document.getElementById('volume2').value;
-        const ritase = document.getElementById('ritase').value;
-        const ritase2 = document.getElementById('ritase2').value;
-        document.getElementById('total_ritase').value = parseInt(ritase) + parseInt(ritase2);
-        document.getElementById('total_volume').value = parseInt(volume) + parseInt(volume2);
-    }
-
     document.getElementById('form-production').addEventListener('submit', function(event) {
         event.preventDefault(); // Mencegah pengiriman form default
         const formData = new FormData(this);
@@ -340,17 +286,93 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                return response.text(); // Change to text to see the raw response
+            })
             .then(data => {
-                if (data.message) {
-                    console.log(data.message); // Tampilkan pesan sukses di konsol
-                    this.reset(); // Hapus data form setelah berhasil disimpan
-                } else {
-                    console.error(data.error); // Tampilkan pesan error di konsol
+                console.log(data); // Log the raw response
+                try {
+                    const jsonData = JSON.parse(data); // Try to parse it as JSON
+                    if (jsonData.message) {
+                        console.log(jsonData.message); // Handle success
+                        this.reset(); // Clear form
+                    } else {
+                        console.error(jsonData.error); // Handle error
+                    }
+                } catch (e) {
+                    console.error('Error parsing JSON:', e); // Handle JSON parse error
                 }
             })
             .catch(error => console.error('Error:', error));
     });
+    let muatanData = {};
+
+    // Fetch muatan data from server
+    fetch('getMuatan.php')
+        .then(response => response.json())
+        .then(data => {
+            muatanData = data.reduce((acc, item) => {
+                acc[item.tipe] = item.jumlah;
+                return acc;
+            }, {});
+
+            // Populate select options
+            const tipeSelects = document.querySelectorAll('#tipe, #tipe2');
+            tipeSelects.forEach(select => {
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.tipe;
+                    option.textContent = item.tipe;
+                    select.appendChild(option);
+                });
+            });
+        });
+
+    // Update muatan value based on selected tipe
+    document.getElementById('tipe').addEventListener('change', function() {
+        const selectedTipe = this.value;
+        document.getElementById('muatan').value = muatanData[selectedTipe] || 0;
+        calculateTotalRitase();
+    });
+
+    document.getElementById('tipe2').addEventListener('change', function() {
+        const selectedTipe = this.value;
+        document.getElementById('muatan2').value = muatanData[selectedTipe] || 0;
+        calculateTotalRitase();
+    });
+
+    document.getElementById('ritase').addEventListener('input', function() {
+        calculateVolumes();
+        calculateTotalRitase();
+    });
+    document.getElementById('ritase2').addEventListener('input', function() {
+        calculateVolumes();
+        calculateTotalRitase();
+    });
+
+
+    function calculateTotalRitase() {
+        const ritase = parseFloat(document.getElementById('ritase').value) || 0;
+        const ritase2 = parseFloat(document.getElementById('ritase2').value) || 0;
+
+        const totalRitase = ritase + ritase2;
+        document.getElementById('total_ritase').value = totalRitase;
+    }
+
+    function calculateVolumes() {
+        const ritase = parseFloat(document.getElementById('ritase').value) || 0;
+        const muatan = parseFloat(document.getElementById('muatan').value) || 0;
+        const volume = ritase * muatan;
+        document.getElementById('volume').value = volume;
+
+        const ritase2 = parseFloat(document.getElementById('ritase2').value) || 0;
+        const muatan2 = parseFloat(document.getElementById('muatan2').value) || 0;
+        const volume2 = ritase2 * muatan2;
+        document.getElementById('volume2').value = volume2;
+
+        const totalVolume = volume + volume2;
+        document.getElementById('total_volume').value = totalVolume;
+    }
     </script>
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

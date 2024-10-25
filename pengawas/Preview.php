@@ -368,7 +368,7 @@ if ($id) {
                                         <th class="fs-3">Ritase</th>
                                         <th class="fs-3">Tipe Hauler 2</th>
                                         <th class="fs-3">Ritase 2</th>
-                                        <th class="fs-3">Muatan</th>
+                                        <th class="fs-3">Total Ritase</th>
                                         <th class="fs-3">Volume</th>
                                     </tr>
                                 </thead>
@@ -384,10 +384,9 @@ if ($id) {
                                         <td><?php echo htmlspecialchars($report['jarak']); ?></td>
                                         <td><?php echo htmlspecialchars($report['tipe']); ?></td>
                                         <td><?php echo htmlspecialchars($report['ritase']); ?></td>
-                                        <td><?php echo !empty($report['tipe2']) ? htmlspecialchars($report['tipe2']) : '-'; ?>
-                                        </td>
+                                        <td><?php echo htmlspecialchars($report['tipe2']); ?></td>
                                         <td><?php echo htmlspecialchars($report['ritase2']); ?></td>
-                                        <td><?php echo htmlspecialchars($report['muatan']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['total_ritase']); ?></td>
                                         <td><?php echo htmlspecialchars($report['volume']); ?></td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -420,38 +419,15 @@ if ($id) {
                                                     :</label>
                                                 <select class="form-select" aria-label="Default select example"
                                                     id="kontraktor" name="kontraktor" required>
-                                                    <option selected>Kontraktor</option>
-                                                    <?php
-                                                    $sql_kontraktor = "SELECT username FROM kontraktor_report";
-                                                    $result_kontraktor = pg_query($conn, $sql_kontraktor);
-
-                                                    if ($result_kontraktor) {
-                                                        while ($row = pg_fetch_assoc($result_kontraktor)) {
-                                                            echo '<option value="' . htmlspecialchars($row['username']) . '">' . htmlspecialchars($row['username']) . '</option>';
-                                                        }
-                                                    }
-                                                    ?>
+                                                    <option value="" selected disabled>Kontraktor</option>
                                                 </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="approveProduction" class="form-label">Nama Pengawas
                                                     :</label>
                                                 <select class="form-select" aria-label="Default select example"
-                                                    id="nama" name="nama" required
-                                                    onchange="fetchPengawasData(this.value)">
-                                                    <option selected>Nama</option>
-                                                    <?php
-                                                    include '../Koneksi.php'; // Pastikan file koneksi sudah benar
-                                                    $sql_pengawas = "SELECT id, nama FROM barcode_pengawas"; // Pastikan kolom 'nama' sesuai dengan tabel
-                                                    $result_pengawas = pg_query($conn, $sql_pengawas);
-                                                    if ($result_pengawas) {
-                                                        while ($row = pg_fetch_assoc($result_pengawas)) {
-                                                            echo '<option value="' . htmlspecialchars($row['id']) . '">' . htmlspecialchars($row['nama']) . '</option>';
-                                                        }
-                                                    } else {
-                                                        echo '<option value="">No data available</option>';
-                                                    }
-                                                    ?>
+                                                    id="nama" name="nama" required>
+                                                    <option value="" selected disabled>Pengawas</option>
                                                 </select>
                                             </div>
                                             <div class="mb-3">
@@ -467,8 +443,11 @@ if ($id) {
                                             </div>
                                             <div class="mb-3">
                                                 <label for="approveProduction" class="form-label">TTD Pengawas :</label>
-                                                <img id="ttd" src="" alt="TTD" style="max-width: 200px; display: none;">
+                                                <img id="file_pengawas" name="file_pengawas" src="" alt="TTD"
+                                                    style="max-width: 200px; display: none;">
                                             </div>
+                                            <input type="hidden" class="form-control" id="name_pengawas"
+                                                name="name_pengawas" placeholder="NIP" readonly>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -527,21 +506,72 @@ if ($id) {
             document.getElementById('navbar').innerHTML = data;
         });
 
-    function fetchPengawasData(pengawasId) {
-        fetch('fetch_pengawas_data.php?id=' + pengawasId)
+    function showApproveModal(barcodeReportId) {
+        document.getElementById('barcodeReportId').value = barcodeReportId;
+        new bootstrap.Modal(document.getElementById('approveModal')).show();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('fetch_pengawas_data.php')
             .then(response => response.json())
             .then(data => {
-                document.getElementById('jabatan').value = data.jabatan || '';
-                document.getElementById('nip').value = data.nip || '';
-                const ttdImage = document.getElementById('ttd');
-                if (data.ttd) {
-                    ttdImage.src = 'data:image/png;base64,' + data.ttd; // Menggunakan base64
-                    ttdImage.style.display = 'block';
-                } else {
-                    ttdImage.style.display = 'none';
-                }
+                const kontraktorSelect = document.getElementById('kontraktor');
+                const namaSelect = document.getElementById('nama');
+
+                // Populate kontraktor options
+                data.kontraktor.forEach(kontraktor => {
+                    const option = document.createElement('option');
+                    option.value = kontraktor.username;
+                    option.textContent = kontraktor.username;
+                    kontraktorSelect.appendChild(option);
+                });
+
+                // Populate nama options
+                data.pengawas.forEach(pengawas => {
+                    const option = document.createElement('option');
+                    option.value = pengawas.nama;
+                    option.textContent = pengawas.nama;
+                    namaSelect.appendChild(option);
+                });
+
+                // Handle nama change
+                namaSelect.addEventListener('change', function() {
+                    const selectedPengawas = data.pengawas.find(p => p.nama === this.value);
+                    if (selectedPengawas) {
+                        document.getElementById('jabatan').value = selectedPengawas.jabatan;
+                        document.getElementById('nip').value = selectedPengawas.nip;
+                        document.getElementById('name_pengawas').src = selectedPengawas.name;
+                        document.getElementById('file_pengawas').src = selectedPengawas.file_path;
+                        document.getElementById('file_pengawas').style.display = 'block';
+                    }
+                });
+            });
+    });
+
+    function submitApprove() {
+        const operationReportId = document.getElementById('barcodeReportId').value;
+        const kontraktor = document.getElementById('kontraktor').value;
+        const name_pengawas = document.getElementById('name_pengawas').src;
+        const file_pengawas = document.getElementById('file_pengawas').src;
+
+        fetch('Approve.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'operation_report_id': operationReportId,
+                    'kontraktor': kontraktor,
+                    'name_pengawas': name_pengawas,
+                    'file_pengawas': file_pengawas
+                })
             })
-            .catch(error => console.error('Error fetching pengawas data:', error));
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                location.reload(); // Reload the page to see the changes
+            })
+            .catch(error => console.error('Error:', error));
     }
 
     function showRejectModal(operationReportId) {
@@ -562,33 +592,6 @@ if ($id) {
                     'operation_report_id': operationReportId,
                     'alasan_reject': alasanReject
                 })
-            })
-            .then(response => response.text())
-            .then(data => {
-                alert(data);
-                location.reload(); // Reload the page to see the changes
-            })
-            .catch(error => console.error('Error:', error));
-    }
-
-    function showApproveModal(barcodeReportId) {
-        document.getElementById('barcodeReportId').value = barcodeReportId;
-        new bootstrap.Modal(document.getElementById('approveModal')).show();
-    }
-
-    function submitApprove() {
-        const barcodeReportId = document.getElementById('barcodeReportId').value;
-        const kontraktor = document.getElementById('kontraktor').value;
-        const pengawas = document.getElementById('nama').value; // Get pengawas ID
-
-        const formData = new FormData();
-        formData.append('operation_report_id', barcodeReportId);
-        formData.append('kontraktor', kontraktor);
-        formData.append('pengawas', pengawas); // Append pengawas ID
-
-        fetch('Approve.php', {
-                method: 'POST',
-                body: formData
             })
             .then(response => response.text())
             .then(data => {
