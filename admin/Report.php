@@ -109,6 +109,7 @@ $data = pg_fetch_all($result);
                                                     <th class="fs-3">Lokasi Kerja</th>
                                                     <th class="fs-3">Status</th>
                                                     <th class="fs-3">PIC</th>
+                                                    <th class="fs-3">Proses</th>
                                                     <th class="fs-3"> </th>
                                                 </tr>
                                             </thead>
@@ -209,6 +210,7 @@ $data = pg_fetch_all($result);
                     <td>${report.lokasi}</td>
                     <td>${report.status}</td>
                     <td>${report.pic}</td>
+                    <td></td>
                     <td>
                      <button onclick="window.location.href='Preview.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
                         <i class="bi bi-eye"></i>

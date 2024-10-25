@@ -305,6 +305,7 @@
             })
             .catch(error => console.error('Error:', error));
     });
+
     let muatanData = {};
 
     // Fetch muatan data from server

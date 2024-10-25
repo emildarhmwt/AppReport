@@ -347,10 +347,10 @@ if (isset($_GET['delete_id'])) {
                                                 <i class="bi bi-trash3"></i>
                                             </button>
                                             <?php if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas'): ?>
-                                            <button class="btn btn-primary btn-sm" title="Edit">
-                                                <i class="bi bi-pen"></i>
-                                            </button>
-                                            <?php endif; ?>
+                                            <button class="btn btn-primary btn-sm" title="Edit"
+                                                onclick="window.location.href='editProduction.php?id=<?php echo $report['id']; ?>';">
+                                                <i class="bi bi-pencil"></i>
+                                                <?php endif; ?>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
