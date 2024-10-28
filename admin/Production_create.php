@@ -275,7 +275,9 @@
         });
 
     function goBack() {
-        window.location.href = 'operation.php';
+        const operationReportId = document.getElementById('operation_report_id').value;
+        window.location.href = 'Preview.php?id=' +
+            operationReportId; // Redirect to Preview.php with operation_report_id
     }
 
     document.getElementById('form-production').addEventListener('submit', function(event) {

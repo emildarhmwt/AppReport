@@ -2,7 +2,11 @@
 include '../Koneksi.php'; // Ensure the database connection is included
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Retrieve form data
+     if (!isset($_POST['id'])) {
+        echo "ID is required.";
+        exit;
+    }
+    
     $id = $_POST['id'];
     $operation_report_id = $_POST['operation_report_id'];
     $alat = $_POST['alat'];
@@ -30,21 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name_kontraktor = $_POST['name_kontraktor'];
     $file_kontraktor = $_POST['file_kontraktor'];
 
-    // Validate input
-    // if (empty($equipment) || empty($tipe_unit)) {
-    //     echo "Equipment dan Tipe Unit harus diisi.";
-    //     exit;
-    // }
+$query = "UPDATE production_report SET operation_report_id = $1, alat = $2, timbunan = $3, material = $4, jarak = $5, tipe = $6, ritase = $7, proses_admin = $8, proses_pengawas = NULL, proses_kontraktor = NULL, alasan_reject = NULL, excecutor = $9, tipe2 = $10, ritase2 = $11, muatan = $12, volume = $13, total_ritase = $14, kontraktor = NULL, muatan2 = $15, volume2 = $16, total_volume = $17, name_pengawas = NULL, file_pengawas = NULL, name_kontraktor = NULL, file_kontraktor = NULL WHERE id = $18";
+    $result = pg_query_params($conn, $query, array($operation_report_id, $alat, $timbunan, $material, $jarak, $tipe, $ritase, $proses_admin, $excecutor, $tipe2, $ritase2, $muatan, $volume, $total_ritase, $muatan2, $volume2, $total_volume, $id));
 
-    $query = "UPDATE equipment SET equipment = $1, tipe_unit = $2 WHERE id = $3";
-    $result = pg_query_params($conn, $query, array($equipment, $tipe_unit, $id));
-
-    if ($result) {
-        echo "Equipment berhasil diperbarui.";
-        header("Location: Equipment.php"); // Redirect to the admin list page
+      if ($result) {
+        echo "Produksi berhasil diperbarui.";
+        header("Location: Preview.php?id=" . $operation_report_id); 
         exit;
     } else {
-        echo "Terjadi kesalahan saat memperbarui equipment.";
+        echo "Terjadi kesalahan saat memperbarui produksi.";
     }
 } else {
     echo "Invalid request method.";

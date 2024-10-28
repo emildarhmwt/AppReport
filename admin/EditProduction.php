@@ -312,8 +312,9 @@ if (isset($_GET['id'])) {
                                             </div>
                                         </div>
 
+                                        <input type="hidden" id="id" name="id" value="<?php echo $_GET['id']; ?>">
                                         <input type="hidden" id="operation_report_id" name="operation_report_id"
-                                            value="<?php echo $_GET['id']; ?>">
+                                            value="<?php echo htmlspecialchars($adminData['operation_report_id']); ?>">
                                         <input type="hidden" id="proses_admin" name="proses_admin"
                                             value="<?php echo htmlspecialchars($adminData['proses_admin']); ?>">
                                         <input type="hidden" id="proses_pengawas" name="proses_pengawas"
@@ -362,7 +363,9 @@ if (isset($_GET['id'])) {
         });
 
     function goBack() {
-        window.location.href = 'Report.php';
+        const operationReportId = document.getElementById('operation_report_id').value;
+        window.location.href = 'Preview.php?id=' +
+            operationReportId; // Redirect to Preview.php with operation_report_id
     }
 
     let muatanData = {};

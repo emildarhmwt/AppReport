@@ -273,21 +273,28 @@ if (isset($_GET['delete_id'])) {
                         </div>
 
                         <div class="row mb-4 mt-4">
-                            <div class="col-md-12 d-flex justify-content-end align-items-center">
+                            <div class="col-md-12 d-flex justify-content-between align-items-center">
                                 <a target="_blank"
-                                    class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center  me-2"
-                                    href="./export_pdf.php?id=<?php echo $id; ?>">
-                                    <i class="ti ti-eye fs-7 mx-1"></i> Review Dokumen
+                                    class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
+                                    href="./production_create.php?id=<?php echo $id; ?>">
+                                    <i class="bi bi-file-earmark-plus fs-4 mx-1"></i> Create
                                 </a>
-                                <a target="_blank"
-                                    class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center"
-                                    href="./export_pdf.php?id=<?php echo $id; ?>" download>
-                                    <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
-                                </a>
-                                <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
-                                    href="Report.php">
-                                    <i class="ti ti-arrow-narrow-left fs-7 mx-1"></i></i> Kembali
-                                </a>
+                                <div class="d-flex justify-content-end">
+                                    <a target="_blank"
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
+                                        href="./export_pdf.php?id=<?php echo $id; ?>">
+                                        <i class="ti ti-eye fs-7 mx-1"></i> Review Dokumen
+                                    </a>
+                                    <a target="_blank"
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
+                                        href="./export_pdf.php?id=<?php echo $id; ?>" download>
+                                        <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
+                                    </a>
+                                    <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
+                                        href="Report.php">
+                                        <i class="ti ti-arrow-narrow-left fs-7 mx-1"></i> Kembali
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <div class="table-responsive products-table" data-simplebar>
@@ -350,7 +357,33 @@ if (isset($_GET['delete_id'])) {
                                             <button class="btn btn-primary btn-sm" title="Edit"
                                                 onclick="window.location.href='editProduction.php?id=<?php echo $report['id']; ?>';">
                                                 <i class="bi bi-pencil"></i>
-                                                <?php endif; ?>
+                                            </button>
+
+                                            <form method="post" action="approve.php" style="display:inline;">
+                                                <input type="hidden" name="id" value="<?php echo $report['id']; ?>">
+                                                <input type="hidden" name="operation_report_id"
+                                                    value="<?php echo $report['operation_report_id']; ?>">
+                                                <input type="hidden" name="proses_pengawas"
+                                                    value="<?php echo $report['proses_pengawas']; ?>">
+                                                <input type="hidden" name="proses_kontraktor"
+                                                    value="<?php echo $report['proses_kontraktor']; ?>">
+                                                <input type="hidden" name="alasan_reject"
+                                                    value="<?php echo $report['alasan_reject']; ?>">
+                                                <input type="hidden" name="kontraktor"
+                                                    value="<?php echo $report['kontraktor']; ?>">
+                                                <input type="hidden" name="name_pengawas"
+                                                    value="<?php echo $report['name_pengawas']; ?>">
+                                                <input type="hidden" name="file_pengawas"
+                                                    value="<?php echo $report['file_pengawas']; ?>">
+                                                <input type="hidden" name="name_kontraktor"
+                                                    value="<?php echo $report['name_kontraktor']; ?>">
+                                                <input type="hidden" name="file_kontraktor"
+                                                    value="<?php echo $report['file_kontraktor']; ?>">
+                                                <button type="submit" class="btn btn-warning btn-sm" title="Selesai">
+                                                    <i class="bi bi-check-lg"></i>
+                                                </button>
+                                            </form>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>

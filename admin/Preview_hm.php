@@ -265,21 +265,28 @@ if ($id) {
                         </div>
 
                         <div class="row mb-4 mt-4">
-                            <div class="col-md-12 d-flex justify-content-end align-items-center">
+                            <div class="col-md-12 d-flex justify-content-between align-items-center">
                                 <a target="_blank"
-                                    class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center  me-2"
-                                    href=" #">
-                                    <i class="ti ti-eye fs-7 mx-1"></i> Review Dokumen
+                                    class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
+                                    href="./hourmeter.php?id=<?php echo $id; ?>">
+                                    <i class="bi bi-file-earmark-plus fs-4 mx-1"></i> Create
                                 </a>
-                                <a target="_blank"
-                                    class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center"
-                                    href=" #">
-                                    <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
-                                </a>
-                                <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
-                                    href="Report_hourmeter.php">
-                                    <i class="ti ti-arrow-narrow-left fs-7 mx-1"></i></i> Kembali
-                                </a>
+                                <div class="d-flex justify-content-end">
+                                    <a target="_blank"
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
+                                        href="./export_pdf.php?id=<?php echo $id; ?>">
+                                        <i class="ti ti-eye fs-7 mx-1"></i> Review Dokumen
+                                    </a>
+                                    <a target="_blank"
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
+                                        href="./export_pdf.php?id=<?php echo $id; ?>" download>
+                                        <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
+                                    </a>
+                                    <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
+                                        href="Report.php">
+                                        <i class="ti ti-arrow-narrow-left fs-7 mx-1"></i> Kembali
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <div class="table-responsive products-table" data-simplebar>
