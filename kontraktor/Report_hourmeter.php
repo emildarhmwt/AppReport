@@ -40,6 +40,15 @@ $data = pg_fetch_all($result);
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title fw-semibold mb-4">Operation Report</h5>
+                        <div class="row mt-3 mb-3">
+                            <div class="col-lg-6 border-end text-center">
+                                <a href="Report.php"> Produksi </a>
+                            </div>
+                            <div class="col-lg-6 text-center">
+                                <a href="Report_hourmeter.php"> Jam Jalan </a>
+                            </div>
+                        </div>
+
                         <div class="card">
                             <div class="card-body">
                                 <form id="form-operation" onSubmit="return handleSubmit(event)">
@@ -55,14 +64,14 @@ $data = pg_fetch_all($result);
                                                 aria-describedby="endDateHelp">
                                         </div>
                                     </div>
-                                    <div class="mb-3">
+                                    <!-- <div class="mb-3">
                                         <label for="status" class="form-label">Status :</label>
                                         <select class="form-select" id="status" name="status">
                                             <option value="" selected disabled>PRODUKSI / JAM JALAN </option>
                                             <option value="Produksi">Produksi</option>
                                             <option value="Jam Jalan">Jam Jalan</option>
                                         </select>
-                                    </div>
+                                    </div> -->
                                     <div class="d-flex justify-content-center mt-3">
                                         <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i>
                                             Search Data</button>
@@ -100,7 +109,7 @@ $data = pg_fetch_all($result);
                                                     <th class="fs-3">Lokasi Kerja</th>
                                                     <th class="fs-3">Status</th>
                                                     <th class="fs-3">PIC</th>
-                                                    <th class="fs-3">Opsi</th>
+                                                    <th class="fs-3"> </th>
                                                 </tr>
                                             </thead>
                                             <tbody id="operationTableBody">
@@ -142,14 +151,14 @@ $data = pg_fetch_all($result);
         event.preventDefault(); // Prevent form submission
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
-        const status = document.getElementById('status').value;
+        const status = "Jam Jalan";
 
         const filteredData = allData.filter(report => {
             const reportDate = new Date(report.tanggal);
             const start = new Date(startDate);
             const end = new Date(endDate);
             const isDateInRange = (!startDate || reportDate >= start) && (!endDate || reportDate <= end);
-            const isStatusMatch = !status || report.status === status;
+            const isStatusMatch = report.status === status;
 
             return isDateInRange && isStatusMatch;
         });
@@ -161,17 +170,29 @@ $data = pg_fetch_all($result);
     function fetchAllData() {
         document.getElementById('startDate').value = '';
         document.getElementById('endDate').value = '';
-        document.getElementById('status').value = '';
         currentPage = 1; // Reset to the first page
+        allData.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
         renderTable(allData);
     }
 
+    function formatDate(dateString) {
+        const options = {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        };
+        return new Date(dateString).toLocaleDateString('id-ID', options); // Format date to d M Y
+    }
+
     function renderTable(data) {
+        const filteredData = data
+            .filter(report => report.status === "Jam Jalan")
+            .sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
         const tbody = document.getElementById('operationTableBody');
         tbody.innerHTML = '';
         const start = (currentPage - 1) * rowsPerPage;
         const end = start + rowsPerPage;
-        const paginatedData = data.slice(start, end);
+        const paginatedData = filteredData.slice(start, end);
 
         if (paginatedData.length === 0) {
             tbody.innerHTML =
@@ -181,19 +202,23 @@ $data = pg_fetch_all($result);
                 const row = `
                 <tr>
                     <td>${start + index + 1}</td>
-                    <td>${report.tanggal}</td>
+                    <td>${formatDate(report.tanggal)}</td>
                     <td>${report.shift}</td>
                     <td>${report.grup}</td>
                     <td>${report.pengawas}</td>
                     <td>${report.lokasi}</td>
                     <td>${report.status}</td>
                     <td>${report.pic}</td>
-                    <td></td>
+                    <td>
+                     <button onclick="window.location.href='Preview_hm.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                    </td>
                 </tr>`;
                 tbody.innerHTML += row;
             });
         }
-        renderPagination(data.length);
+        renderPagination(filteredData.length);
     }
 
     function renderPagination(totalRows) {

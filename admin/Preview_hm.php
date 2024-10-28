@@ -234,7 +234,7 @@ if ($id) {
                             </div>
                         </div>
                         <!-- </div> -->
-                        <div class="row text-center justify-content-center align-items-center mt-4">
+                        <!-- <div class="row text-center justify-content-center align-items-center mt-4">
                             <div class="col-lg-12">
                                 <div class="timeline">
                                     <div class="timeline-item">
@@ -262,7 +262,7 @@ if ($id) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="row mb-4 mt-4">
                             <div class="col-md-12 d-flex justify-content-between align-items-center">

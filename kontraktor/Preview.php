@@ -23,14 +23,6 @@ if ($id) {
 } else {
     die("Operation report ID not provided.");
 }
-
-if (isset($_GET['delete_id'])) {
-    $delete_id = $_GET['delete_id'];
-    $delete_sql = "DELETE FROM production_report WHERE id = $1";
-    pg_query_params($conn, $delete_sql, array($delete_id));
-    header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $id); // Redirect to the same page
-    exit();
-}
 ?>
 <!doctype html>
 <html lang="en">
@@ -178,7 +170,7 @@ if (isset($_GET['delete_id'])) {
                             </div>
                             <?php
                             include '../Koneksi.php';
-                            $id = $_GET['id']; 
+                            $id = $_GET['id'];
                             $sql = "SELECT * FROM operation_report WHERE id = $1";
                             $result = pg_query_params($conn, $sql, array($id));
                             if ($result) {
@@ -274,12 +266,71 @@ if (isset($_GET['delete_id'])) {
 
                         <div class="row mb-4 mt-4">
                             <div class="col-md-12 d-flex justify-content-between align-items-center">
-                                <a target="_blank"
-                                    class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
-                                    href="./production_create.php?id=<?php echo $id; ?>">
-                                    <i class="bi bi-file-earmark-plus fs-4 mx-1"></i> Create
+                                <a target="_blank" class="btn btn-custom-review btn-sm d-flex align-items-center me-2"
+                                    href="#" onclick="return false;">
+                                    Proses :
+                                    <?php
+                                    $processDisplay = ''; // Variable to hold the process display string
+                                    $rejectedPengawasReasons = []; // Array to hold reasons for Rejected (Pengawas)
+
+                                    foreach ($production_reports as $index => $report) {
+                                        // Collect reasons for Rejected (Pengawas)
+                                        if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas') {
+                                            $rejectedPengawasReasons[] = htmlspecialchars($report['alasan_reject']);
+                                        }
+                                        // Check conditions based on the provided rules
+                                        if (
+                                            !empty($report['proses_kontraktor']) && $report['proses_kontraktor'] === 'Approved Kontraktor' &&
+                                            !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Approved Pengawas' &&
+                                            !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                        ) {
+                                            $processDisplay = 'Approved Kontraktor';
+                                            break; // Exit loop once the condition is met
+                                        }
+                                        if (
+                                            !empty($report['proses_kontraktor']) && $report['proses_kontraktor'] === 'Rejected Kontraktor' &&
+                                            !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Approved Pengawas' &&
+                                            !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                        ) {
+                                            $processDisplay = 'Rejected Kontraktor';
+                                            if (!empty($rejectedPengawasReasons)) {
+                                                $processDisplay .= ' (' . implode(', ', array_unique($rejectedPengawasReasons)) . ')';
+                                            }
+                                            break; // Exit loop once the condition is met
+                                        }
+                                        if (
+                                            empty($report['proses_kontraktor']) &&
+                                            !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Approved Pengawas' &&
+                                            !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                        ) {
+                                            $processDisplay = 'Approved Pengawas';
+                                            break; // Exit loop once the condition is met
+                                        }
+                                        if (
+                                            empty($report['proses_kontraktor']) &&
+                                            !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas' &&
+                                            !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                        ) {
+                                            $processDisplay = 'Rejected Pengawas';
+                                            if (!empty($rejectedPengawasReasons)) {
+                                                $processDisplay .= ' (' . implode(', ', array_unique($rejectedPengawasReasons)) . ')';
+                                            }
+                                            break; // Exit loop once the condition is met
+                                        }
+                                        if (
+                                            empty($report['proses_kontraktor']) &&
+                                            empty($report['proses_pengawas']) &&
+                                            !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                        ) {
+                                            $processDisplay = 'Uploaded';
+                                            break; // Exit loop once the condition is met
+                                        }
+                                    }
+                                    // Display the process status
+                                    echo $processDisplay ? $processDisplay : 'No data available';
+                                    ?>
                                 </a>
-                                <div class="d-flex justify-content-end">
+                                <div class="d-flex justify-content-end align-items-center">
                                     <a target="_blank"
                                         class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
                                         href="./export_pdf.php?id=<?php echo $id; ?>">
@@ -292,7 +343,7 @@ if (isset($_GET['delete_id'])) {
                                     </a>
                                     <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
                                         href="Report.php">
-                                        <i class="ti ti-arrow-narrow-left fs-7 mx-1"></i> Kembali
+                                        <i class="ti ti-arrow-narrow-left fs-5 mx-1"></i></i> Kembali
                                     </a>
                                 </div>
                             </div>
@@ -301,22 +352,24 @@ if (isset($_GET['delete_id'])) {
                             <table class="table table-bordered text-nowrap mb-0 align-middle table-hover">
                                 <thead class="fs-4">
                                     <tr class="text-center">
-                                        <!-- <th class="fs-3" style="width: 5%;"></th> -->
+                                        <!-- <th class="text-center fs-3" style="width: 3%;">
+                                            <div class="form-check d-flex justify-content-center">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="flexCheckDefault">
+                                            </div>
+                                        </th> -->
                                         <th class="fs-3" style="width: 3%;">No</th>
                                         <th class="fs-3">Executor</th>
                                         <th class="fs-3">Alat Gali / Muat</th>
                                         <th class="fs-3">Timbunan</th>
                                         <th class="fs-3">Material Tanah</th>
                                         <th class="fs-3">Jarak Angkut</th>
-                                        <th class="fs-3">Tipe Hauler </th>
-                                        <th class="fs-3">Ritase </th>
+                                        <th class="fs-3">Tipe Hauler</th>
+                                        <th class="fs-3">Ritase</th>
                                         <th class="fs-3">Tipe Hauler 2</th>
                                         <th class="fs-3">Ritase 2</th>
                                         <th class="fs-3">Total Ritase</th>
                                         <th class="fs-3">Volume</th>
-                                        <th class="fs-3">Proses</th>
-                                        <th class="fs-3" style="width: 5%;">Opsi</th>
-                                        <!-- <th class="fs-3"> </th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -335,56 +388,6 @@ if (isset($_GET['delete_id'])) {
                                         <td><?php echo htmlspecialchars($report['ritase2']); ?></td>
                                         <td><?php echo htmlspecialchars($report['total_ritase']); ?></td>
                                         <td><?php echo htmlspecialchars($report['volume']); ?></td>
-                                        <td>
-                                            <?php
-                                                    if (isset($report['proses_kontraktor']) && !empty($report['proses_kontraktor'])) {
-                                                        echo $report['proses_kontraktor'];
-                                                    } elseif (isset($report['proses_pengawas']) && !empty($report['proses_pengawas'])) {
-                                                        echo $report['proses_pengawas'];
-                                                    } elseif (isset($report['proses_admin']) && !empty($report['proses_admin'])) {
-                                                        echo $report['proses_admin'];
-                                                    } else {
-                                                        echo 'No data available';
-                                                    }
-                                                    ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <button class="btn btn-danger btn-sm" title="Hapus"
-                                                onclick="if(confirm('Are you sure you want to delete this report?')) { window.location.href='?id=<?php echo $id; ?>&delete_id=<?php echo $report['id']; ?>'; }">
-                                                <i class="bi bi-trash3"></i>
-                                            </button>
-                                            <?php if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas'): ?>
-                                            <button class="btn btn-primary btn-sm" title="Edit"
-                                                onclick="window.location.href='editProduction.php?id=<?php echo $report['id']; ?>';">
-                                                <i class="bi bi-pencil"></i>
-                                            </button>
-
-                                            <form method="post" action="approve.php" style="display:inline;">
-                                                <input type="hidden" name="id" value="<?php echo $report['id']; ?>">
-                                                <input type="hidden" name="operation_report_id"
-                                                    value="<?php echo $report['operation_report_id']; ?>">
-                                                <input type="hidden" name="proses_pengawas"
-                                                    value="<?php echo $report['proses_pengawas']; ?>">
-                                                <input type="hidden" name="proses_kontraktor"
-                                                    value="<?php echo $report['proses_kontraktor']; ?>">
-                                                <input type="hidden" name="alasan_reject"
-                                                    value="<?php echo $report['alasan_reject']; ?>">
-                                                <input type="hidden" name="kontraktor"
-                                                    value="<?php echo $report['kontraktor']; ?>">
-                                                <input type="hidden" name="name_pengawas"
-                                                    value="<?php echo $report['name_pengawas']; ?>">
-                                                <input type="hidden" name="file_pengawas"
-                                                    value="<?php echo $report['file_pengawas']; ?>">
-                                                <input type="hidden" name="name_kontraktor"
-                                                    value="<?php echo $report['name_kontraktor']; ?>">
-                                                <input type="hidden" name="file_kontraktor"
-                                                    value="<?php echo $report['file_kontraktor']; ?>">
-                                                <button type="submit" class="btn btn-warning btn-sm" title="Selesai">
-                                                    <i class="bi bi-check-lg"></i>
-                                                </button>
-                                            </form>
-                                            <?php endif; ?>
-                                        </td>
                                     </tr>
                                     <?php endforeach; ?>
                                     <?php else: ?>
@@ -394,6 +397,91 @@ if (isset($_GET['delete_id'])) {
                                     <?php endif; ?>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="mt-3">
+                            <button class="btn btn-primary btn-sm" title="Approve"
+                                onclick="showApproveModal(<?php echo $id; ?>)">
+                                <i class="bi bi-check2"></i> Approve
+                            </button>
+
+                            <div id="approveModal" class="modal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Lengkapi data berikut</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" id="barcodeReportId">
+                                            <div class="mb-3">
+                                                <label for="approveProduction" class="form-label">Nama Kontraktor
+                                                    :</label>
+                                                <select class="form-select" aria-label="Default select example"
+                                                    id="nama" name="nama" required>
+                                                    <option value="" selected disabled>Kontraktor</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="approveProduction" class="form-label">Jabatan Kontraktor
+                                                    :</label>
+                                                <input type="text" class="form-control" id="jabatan" name="jabatan"
+                                                    placeholder="Jabatan" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="approveProduction" class="form-label">NIP Kontraktor
+                                                    :</label>
+                                                <input type="text" class="form-control" id="nip" name="nip"
+                                                    placeholder="NIP" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="approveProduction" class="form-label">TTD Kontraktor
+                                                    :</label>
+                                                <img id="file_kontraktor" name="file_kontraktor" src="" alt="TTD"
+                                                    style="max-width: 200px; display: none;">
+                                            </div>
+                                            <input type="hidden" class="form-control" id="name_kontraktor"
+                                                name="name_kontraktor" placeholder="NIP" readonly>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Kembali</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="submitApprove()">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-danger btn-sm" title="Reject"
+                                onclick="showRejectModal(<?php echo $id; ?>)">
+                                <i class="bi bi-x-lg"></i> Reject
+                            </button>
+
+                            <div id="rejectModal" class="modal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Alasan Reject</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" id="operationReportId">
+                                            <div class="mb-3">
+                                                <label for="alasanReject" class="form-label">Alasan:</label>
+                                                <textarea class="form-control" id="alasanReject" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="submitReject()">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <nav aria-label="Page navdivtion">
                             <ul class="pagination justify-content-center mt-3" id="paginationContainer">
@@ -411,6 +499,91 @@ if (isset($_GET['delete_id'])) {
         .then(data => {
             document.getElementById('navbar').innerHTML = data;
         });
+
+    function showApproveModal(barcodeReportId) {
+        document.getElementById('barcodeReportId').value = barcodeReportId;
+        new bootstrap.Modal(document.getElementById('approveModal')).show();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('fetch_pengawas_data.php')
+            .then(response => response.json())
+            .then(data => {
+                const namaSelect = document.getElementById('nama');
+
+                // Populate nama options
+                data.kontraktor.forEach(kontraktor => {
+                    const option = document.createElement('option');
+                    option.value = kontraktor.nama;
+                    option.textContent = kontraktor.nama;
+                    namaSelect.appendChild(option);
+                });
+
+                // Handle nama change
+                namaSelect.addEventListener('change', function() {
+                    const selectedKontraktor = data.kontraktor.find(p => p.nama === this.value);
+                    if (selectedKontraktor) {
+                        document.getElementById('jabatan').value = selectedKontraktor.jabatan;
+                        document.getElementById('nip').value = selectedKontraktor.nip;
+                        document.getElementById('name_kontraktor').src = selectedKontraktor.name;
+                        document.getElementById('file_kontraktor').src =
+                            selectedKontraktor.file_path;
+                        document.getElementById('file_kontraktor').style.display = 'block';
+                    }
+                });
+            });
+    });
+
+    function submitApprove() {
+        const operationReportId = document.getElementById('barcodeReportId').value;
+        const name_kontraktor = document.getElementById('name_kontraktor').src;
+        const file_kontraktor = document.getElementById('file_kontraktor').src;
+
+        fetch('Approve.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'operation_report_id': operationReportId,
+                    'name_kontraktor': name_kontraktor,
+                    'file_kontraktor': file_kontraktor
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                location.reload(); // Reload the page to see the changes
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function showRejectModal(operationReportId) {
+        document.getElementById('operationReportId').value = operationReportId;
+        new bootstrap.Modal(document.getElementById('rejectModal')).show();
+    }
+
+    function submitReject() {
+        const operationReportId = document.getElementById('operationReportId').value;
+        const alasanReject = document.getElementById('alasanReject').value;
+
+        fetch('reject.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'operation_report_id': operationReportId,
+                    'alasan_reject': alasanReject
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                location.reload(); // Reload the page to see the changes
+            })
+            .catch(error => console.error('Error:', error));
+    }
     </script>
     <script src=" ../assets/libs/jquery/dist/jquery.min.js">
     </script>

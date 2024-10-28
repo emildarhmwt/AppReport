@@ -1,8 +1,32 @@
 <?php
+session_start();
 include '../Koneksi.php';
 
-$query = "SELECT * FROM operation_report";
-$result = pg_query($conn, $query);
+// Dapatkan username kontraktor yang sedang login
+$current_contractor = $_SESSION['username'];
+
+// Query untuk mendapatkan data operation_report yang berelasi dengan production_report
+$query = "
+    SELECT 
+        o.id, 
+        o.tanggal, 
+        o.shift, 
+        o.grup, 
+        o.pengawas, 
+        o.lokasi, 
+        o.status, 
+        o.pic,
+        STRING_AGG(DISTINCT p.kontraktor, ', ') AS kontraktor,
+        STRING_AGG(DISTINCT p.proses_kontraktor, ', ') AS proses_kontraktor,
+        STRING_AGG(DISTINCT p.proses_pengawas, ', ') AS proses_pengawas,
+        STRING_AGG(DISTINCT p.proses_admin, ', ') AS proses_admin
+    FROM operation_report o
+    JOIN production_report p ON o.id = p.operation_report_id
+    WHERE p.kontraktor = $1
+    GROUP BY o.id, o.tanggal, o.shift, o.grup, o.pengawas, o.lokasi, o.status, o.pic, p.proses_kontraktor, p.proses_pengawas, p.proses_admin
+";
+
+$result = pg_query_params($conn, $query, array($current_contractor));
 
 if (!$result) {
     echo "Terjadi kesalahan saat mengambil data.";
@@ -108,11 +132,35 @@ $data = pg_fetch_all($result);
                                                     <th class="fs-3">Pengawas</th>
                                                     <th class="fs-3">Lokasi Kerja</th>
                                                     <th class="fs-3">Status</th>
-                                                    <th class="fs-3">PIC</th>
+                                                    <th class="fs-3">Kontraktor</th>
+                                                    <th class="fs-3">Proses</th>
                                                     <th class="fs-3"> </th>
                                                 </tr>
                                             </thead>
                                             <tbody id="operationTableBody">
+                                                <?php
+                                    if ($data) {
+                                        foreach ($data as $index => $operation) {
+                                            echo '<tr>';
+                                            echo '<td>' . ($index + 1) . '</td>';
+                                            echo '<td>' . htmlspecialchars(date('d M Y', strtotime($operation['tanggal']))) . '</td>';
+                                            echo '<td>' . htmlspecialchars($operation['shift']) . '</td>';
+                                            echo '<td>' . htmlspecialchars($operation['grup']) . '</td>';
+                                            echo '<td>' . htmlspecialchars($operation['pengawas']) . '</td>';
+                                            echo '<td>' . htmlspecialchars($operation['lokasi']) . '</td>';
+                                            echo '<td>' . htmlspecialchars($operation['status']) . '</td>';
+                                            echo '<td>' . htmlspecialchars($operation['kontraktor']) . '</td>';
+                                            $processDisplay = $operation['proses_kontraktor'] ?: 
+                                                ($operation['proses_pengawas'] && !$operation['proses_kontraktor'] ? $operation['proses_pengawas'] : 
+                                                ($operation['proses_admin'] && !$operation['proses_kontraktor'] && !$operation['proses_pengawas'] ? $operation['proses_admin'] : ''));
+                                            echo '<td>' . htmlspecialchars($processDisplay) . '</td>';
+                                            echo '<td><button onclick="window.location.href=\'Preview.php?id=' . $operation['id'] . '\'" class="btn btn-primary btn-sm" title="Edit"><i class="bi bi-eye"></i></button></td>';
+                                            echo '</tr>';
+                                        }
+                                    } else {
+                                        echo '<tr><td colspan="10" class="text-center">Tidak ada data yang ditemukan</td></tr>';
+                                    }
+                                    ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -199,6 +247,11 @@ $data = pg_fetch_all($result);
                 '<tr><td colspan="8" class="text-center">Tidak ada data yang ditemukan</td></tr>';
         } else {
             paginatedData.forEach((report, index) => {
+                const processDisplay = report.proses_kontraktor ||
+                    (report.proses_pengawas && !report.proses_kontraktor ? report.proses_pengawas :
+                        (report.proses_admin && !report.proses_kontraktor && !report.proses_pengawas ? report
+                            .proses_admin : ''));
+
                 const row = `
                 <tr>
                     <td>${start + index + 1}</td>
@@ -208,7 +261,8 @@ $data = pg_fetch_all($result);
                     <td>${report.pengawas}</td>
                     <td>${report.lokasi}</td>
                     <td>${report.status}</td>
-                    <td>${report.pic}</td>
+                    <td>${report.kontraktor}</td>
+                    <td>${processDisplay}</td> 
                     <td>
                      <button onclick="window.location.href='Preview.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
                         <i class="bi bi-eye"></i>

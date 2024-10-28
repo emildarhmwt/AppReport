@@ -234,7 +234,7 @@ if ($id) {
                             </div>
                         </div>
                         <!-- </div> -->
-                        <div class="row text-center justify-content-center align-items-center mt-4">
+                        <!-- <div class="row text-center justify-content-center align-items-center mt-4">
                             <div class="col-lg-12">
                                 <div class="timeline">
                                     <div class="timeline-item">
@@ -262,7 +262,7 @@ if ($id) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="row mb-4 mt-4">
                             <div class="col-md-12 d-flex justify-content-between align-items-center">
@@ -332,14 +332,14 @@ if ($id) {
                                 </a>
                                 <div class="d-flex justify-content-end align-items-center">
                                     <a target="_blank"
-                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center  me-2"
-                                        href="#">
-                                        <i class="ti ti-eye fs-5 mx-1"></i> Review Dokumen
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
+                                        href="./export_pdf.php?id=<?php echo $id; ?>">
+                                        <i class="ti ti-eye fs-7 mx-1"></i> Review Dokumen
                                     </a>
                                     <a target="_blank"
-                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center"
-                                        href="#">
-                                        <i class="bi bi-filetype-pdf fs-2 mx-1"></i> Export PDF
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
+                                        href="./export_pdf.php?id=<?php echo $id; ?>" download>
+                                        <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
                                     </a>
                                     <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
                                         href="Report.php">
