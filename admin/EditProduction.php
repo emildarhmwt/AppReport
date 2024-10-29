@@ -45,7 +45,7 @@ if (isset($_GET['id'])) {
                 <div class="container-fluid">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title fw-semibold mb-4">Form Edit Production</h5>
+                            <h5 class="card-title fw-semibold mb-4">Edit Produksi</h5>
                             <div class="card">
                                 <div class="card-body">
                                     <form method="post" action="production_update.php" enctype="multipart/form-data">

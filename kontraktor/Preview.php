@@ -337,12 +337,12 @@ if ($id) {
                                 <div class="d-flex justify-content-end align-items-center">
                                     <a target="_blank"
                                         class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
-                                        href="./export_pdf.php?id=<?php echo $id; ?>">
+                                        href="./export_pdf.php?id=<?php echo $id; ?>&action=review">
                                         <i class="ti ti-eye fs-7 mx-1"></i> Review Dokumen
                                     </a>
                                     <a target="_blank"
                                         class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
-                                        href="./export_pdf.php?id=<?php echo $id; ?>" download>
+                                        href="./export_pdf.php?id=<?php echo $id; ?>&action=download">
                                         <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
                                     </a>
                                     <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"

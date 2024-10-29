@@ -1,7 +1,23 @@
 <?php
 include '../Koneksi.php';
 
-$query = "SELECT * FROM operation_report";
+$query = "
+    SELECT 
+        o.id, 
+        o.tanggal, 
+        o.shift, 
+        o.grup, 
+        o.pengawas, 
+        o.lokasi, 
+        o.status, 
+        o.pic,
+        STRING_AGG(DISTINCT p.proses_kontraktor, ', ') AS proses_kontraktor,
+        STRING_AGG(DISTINCT p.proses_pengawas, ', ') AS proses_pengawas,
+        STRING_AGG(DISTINCT p.proses_admin, ', ') AS proses_admin
+    FROM operation_report o
+    JOIN production_report p ON o.id = p.operation_report_id
+    GROUP BY o.id, o.tanggal, o.shift, o.grup, o.pengawas, o.lokasi, o.status, o.pic, p.proses_kontraktor, p.proses_pengawas, p.proses_admin
+";
 $result = pg_query($conn, $query);
 
 if (!$result) {
@@ -109,10 +125,32 @@ $data = pg_fetch_all($result);
                                                     <th class="fs-3">Lokasi Kerja</th>
                                                     <th class="fs-3">Status</th>
                                                     <th class="fs-3">PIC</th>
+                                                    <th class="fs-3">Proses</th>
                                                     <th class="fs-3"> </th>
                                                 </tr>
                                             </thead>
                                             <tbody id="operationTableBody">
+                                                <?php
+                                                if ($data) {
+                                                    foreach ($data as $index => $operation) {
+                                                        echo '<tr>';
+                                                        echo '<td>' . ($index + 1) . '</td>';
+                                                        echo '<td>' . htmlspecialchars(date('d M Y', strtotime($operation['tanggal']))) . '</td>';
+                                                        echo '<td>' . htmlspecialchars($operation['shift']) . '</td>';
+                                                        echo '<td>' . htmlspecialchars($operation['grup']) . '</td>';
+                                                        echo '<td>' . htmlspecialchars($operation['pengawas']) . '</td>';
+                                                        echo '<td>' . htmlspecialchars($operation['lokasi']) . '</td>';
+                                                        echo '<td>' . htmlspecialchars($operation['status']) . '</td>';
+                                                        echo '<td>' . htmlspecialchars($operation['pic']) . '</td>';
+                                                        $processDisplay = $operation['proses_kontraktor'] ?: ($operation['proses_pengawas'] && !$operation['proses_kontraktor'] ? $operation['proses_pengawas'] : ($operation['proses_admin'] && !$operation['proses_kontraktor'] && !$operation['proses_pengawas'] ? $operation['proses_admin'] : ''));
+                                                        echo '<td>' . htmlspecialchars($processDisplay) . '</td>';
+                                                        echo '<td><button onclick="window.location.href=\'Preview.php?id=' . $operation['id'] . '\'" class="btn btn-primary btn-sm" title="Edit"><i class="bi bi-eye"></i></button></td>';
+                                                        echo '</tr>';
+                                                    }
+                                                } else {
+                                                    echo '<tr><td colspan="10" class="text-center">Tidak ada data yang ditemukan</td></tr>';
+                                                }
+                                                ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -130,76 +168,81 @@ $data = pg_fetch_all($result);
         </div>
     </div>
     <script>
-    fetch('Navbar.php')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('navbar').innerHTML = data;
-        });
+        fetch('Navbar.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar').innerHTML = data;
+            });
 
-    let rowsPerPage = 10; // Set the default number of rows per page
-    let currentPage = 1;
-    let allData = [];
+        let rowsPerPage = 10; // Set the default number of rows per page
+        let currentPage = 1;
+        let allData = [];
 
-    function updateRowsPerPage() {
-        const select = document.getElementById('rowsPerPageSelect');
-        rowsPerPage = parseInt(select.value);
-        currentPage = 1; // Reset to the first page
-        renderTable(allData);
-    }
+        function updateRowsPerPage() {
+            const select = document.getElementById('rowsPerPageSelect');
+            rowsPerPage = parseInt(select.value);
+            currentPage = 1; // Reset to the first page
+            renderTable(allData);
+        }
 
-    function handleSubmit(event) {
-        event.preventDefault(); // Prevent form submission
-        const startDate = document.getElementById('startDate').value;
-        const endDate = document.getElementById('endDate').value;
-        const status = "Produksi";
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevent form submission
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const status = "Produksi";
 
-        const filteredData = allData.filter(report => {
-            const reportDate = new Date(report.tanggal);
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-            const isDateInRange = (!startDate || reportDate >= start) && (!endDate || reportDate <= end);
-            const isStatusMatch = report.status === status;
+            const filteredData = allData.filter(report => {
+                const reportDate = new Date(report.tanggal);
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                const isDateInRange = (!startDate || reportDate >= start) && (!endDate || reportDate <= end);
+                const isStatusMatch = report.status === status;
 
-            return isDateInRange && isStatusMatch;
-        });
+                return isDateInRange && isStatusMatch;
+            });
 
-        currentPage = 1; // Reset to the first page
-        renderTable(filteredData);
-    }
+            currentPage = 1; // Reset to the first page
+            renderTable(filteredData);
+        }
 
-    function fetchAllData() {
-        document.getElementById('startDate').value = '';
-        document.getElementById('endDate').value = '';
-        currentPage = 1; // Reset to the first page
-        allData.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
-        renderTable(allData);
-    }
+        function fetchAllData() {
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            currentPage = 1; // Reset to the first page
+            allData.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+            renderTable(allData);
+        }
 
-    function formatDate(dateString) {
-        const options = {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
-        };
-        return new Date(dateString).toLocaleDateString('id-ID', options); // Format date to d M Y
-    }
+        function formatDate(dateString) {
+            const options = {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            };
+            return new Date(dateString).toLocaleDateString('id-ID', options); // Format date to d M Y
+        }
 
-    function renderTable(data) {
-        const filteredData = data
-            .filter(report => report.status === "Produksi")
-            .sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
-        const tbody = document.getElementById('operationTableBody');
-        tbody.innerHTML = '';
-        const start = (currentPage - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-        const paginatedData = filteredData.slice(start, end);
+        function renderTable(data) {
+            const filteredData = data
+                .filter(report => report.status === "Produksi")
+                .sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+            const tbody = document.getElementById('operationTableBody');
+            tbody.innerHTML = '';
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedData = filteredData.slice(start, end);
 
-        if (paginatedData.length === 0) {
-            tbody.innerHTML =
-                '<tr><td colspan="8" class="text-center">Tidak ada data yang ditemukan</td></tr>';
-        } else {
-            paginatedData.forEach((report, index) => {
-                const row = `
+            if (paginatedData.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="8" class="text-center">Tidak ada data yang ditemukan</td></tr>';
+            } else {
+                paginatedData.forEach((report, index) => {
+                    const processDisplay = report.proses_kontraktor ||
+                        (report.proses_pengawas && !report.proses_kontraktor ? report.proses_pengawas :
+                            (report.proses_admin && !report.proses_kontraktor && !report.proses_pengawas ? report
+                                .proses_admin : ''));
+
+                    const row = `
                 <tr>
                     <td>${start + index + 1}</td>
                     <td>${formatDate(report.tanggal)}</td>
@@ -209,41 +252,42 @@ $data = pg_fetch_all($result);
                     <td>${report.lokasi}</td>
                     <td>${report.status}</td>
                     <td>${report.pic}</td>
+                    <td>${processDisplay}</td> 
                     <td>
                      <button onclick="window.location.href='Preview.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
                         <i class="bi bi-eye"></i>
                     </button>
                     </td>
                 </tr>`;
-                tbody.innerHTML += row;
-            });
+                    tbody.innerHTML += row;
+                });
+            }
+            renderPagination(filteredData.length);
         }
-        renderPagination(filteredData.length);
-    }
 
-    function renderPagination(totalRows) {
-        const pagination = document.getElementById('pagination');
-        pagination.innerHTML = '';
-        const pageCount = Math.ceil(totalRows / rowsPerPage);
+        function renderPagination(totalRows) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            const pageCount = Math.ceil(totalRows / rowsPerPage);
 
-        for (let i = 1; i <= pageCount; i++) {
-            const li = document.createElement('li');
-            li.className = 'page-item' + (i === currentPage ? ' active' : '');
-            li.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
-            pagination.appendChild(li);
+            for (let i = 1; i <= pageCount; i++) {
+                const li = document.createElement('li');
+                li.className = 'page-item' + (i === currentPage ? ' active' : '');
+                li.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
+                pagination.appendChild(li);
+            }
         }
-    }
 
-    function changePage(page) {
-        currentPage = page;
-        const data = <?php echo json_encode($data); ?>;
-        renderTable(data);
-    }
+        function changePage(page) {
+            currentPage = page;
+            const data = <?php echo json_encode($data); ?>;
+            renderTable(data);
+        }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        allData = <?php echo json_encode($data); ?>; // Store all data for reference
-        renderTable(allData); // Render the initial table
-    });
+        document.addEventListener('DOMContentLoaded', () => {
+            allData = <?php echo json_encode($data); ?>; // Store all data for reference
+            renderTable(allData); // Render the initial table
+        });
     </script>
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

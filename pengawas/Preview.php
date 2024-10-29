@@ -359,19 +359,6 @@ if ($id) {
                                         </button>
                                     </form>
 
-                                    <form method="post" action="ProduksiPending.php" style="display:inline;">
-                                        <input type="hidden" name="operation_report_id"
-                                            value="<?php echo $report['operation_report_id']; ?>">
-                                        <input type="hidden" name="proses_pengawas"
-                                            value="<?php echo $report['proses_pengawas']; ?>">
-                                        <button
-                                            class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
-                                            title="Pending">
-                                            <i class=" ti ti-loader-3 me-1"></i> Pending
-                                        </button>
-                                    </form>
-
-
                                     <button
                                         class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
                                         title="Reject" onclick="showRejectProduksiModal(<?php echo $id; ?>)">
@@ -387,7 +374,18 @@ if ($id) {
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <input type="hidden" id="operationReportProduksiId">
+                                                    <input type="hidden" id="operationReportProduksiId"
+                                                        value="<?php echo $report['operation_report_id']; ?>">
+                                                    <input type="hidden" id="prosesPengawas"
+                                                        value="<?php echo $report['proses_pengawas']; ?>">
+                                                    <input type="hidden" id="prosesKontraktor"
+                                                        value="<?php echo $report['proses_kontraktor']; ?>">
+                                                    <input type="hidden" id="kontraktor"
+                                                        value="<?php echo $report['kontraktor']; ?>">
+                                                    <input type="hidden" id="namePengawas"
+                                                        value="<?php echo $report['name_pengawas']; ?>">
+                                                    <input type="hidden" id="filePengawas"
+                                                        value="<?php echo $report['file_pengawas']; ?>">
                                                     <div class="mb-3">
                                                         <label for="alasanReject" class="form-label">Alasan:</label>
                                                         <textarea class="form-control" id="alasanRejectProduksi"
@@ -398,55 +396,7 @@ if ($id) {
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Close</button>
                                                     <button type="button" class="btn btn-primary"
-                                                        onclick="submitReject()">Submit</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <?php endif; ?>
-
-                                    <?php if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Pending'): ?>
-                                    <form method="post" action="ProduksiApprove.php" style="display:inline;">
-                                        <input type="hidden" name="operation_report_id"
-                                            value="<?php echo $report['operation_report_id']; ?>">
-                                        <input type="hidden" name="proses_kontraktor"
-                                            value="<?php echo $report['proses_kontraktor']; ?>">
-                                        <input type="hidden" name="alasan_reject"
-                                            value="<?php echo $report['alasan_reject']; ?>">
-                                        <button
-                                            class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
-                                            title="Approve">
-                                            <i class="bi bi-check2 me-1"></i> Approve
-                                        </button>
-                                    </form>
-
-                                    <button
-                                        class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
-                                        title="Reject" onclick="showRejectProduksiModal(<?php echo $id; ?>)">
-                                        <i class="bi bi-x-lg me-1"></i> Reject
-                                    </button>
-
-                                    <div id="rejectProduksiModal" class="modal" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Alasan Reject</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <input type="hidden" id="operationReportProduksiId">
-                                                    <div class="mb-3">
-                                                        <label for="alasanReject" class="form-label">Alasan:</label>
-                                                        <textarea class="form-control" id="alasanRejectProduksi"
-                                                            rows="3"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="submitReject()">Submit</button>
+                                                        onclick="submitRejectProduksi()">Submit</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -454,16 +404,15 @@ if ($id) {
                                     <?php endif; ?>
                                 </div>
 
-
                                 <div class="d-flex justify-content-end align-items-center">
                                     <a target="_blank"
                                         class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
-                                        href="./export_pdf.php?id=<?php echo $id; ?>">
+                                        href="./export_pdf.php?id=<?php echo $id; ?>&action=review">
                                         <i class="ti ti-eye fs-7 mx-1"></i> Review Dokumen
                                     </a>
                                     <a target="_blank"
                                         class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
-                                        href="./export_pdf.php?id=<?php echo $id; ?>" download>
+                                        href="./export_pdf.php?id=<?php echo $id; ?>&action=download">
                                         <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
                                     </a>
                                     <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center"
@@ -733,16 +682,21 @@ if ($id) {
 
     function submitRejectProduksi() {
         const operationReportProduksiId = document.getElementById('operationReportProduksiId').value;
-        const alasanReject = document.getElementById('alasanReject').value;
+        const alasanReject = document.getElementById('alasanRejectProduksi').value;
 
-        fetch('rejectProduksi.php', {
+        fetch('ProduksiRejected.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: new URLSearchParams({
                     'operation_report_id': operationReportProduksiId,
-                    'alasan_reject': alasanRejectProduksi
+                    'alasan_reject': alasanReject,
+                    'proses_pengawas': prosesPengawas,
+                    'proses_kontraktor': prosesKontraktor,
+                    'kontraktor': kontraktor,
+                    'name_pengawas': namePengawas,
+                    'file_pengawas': filePengawas
                 })
             })
             .then(response => response.text())

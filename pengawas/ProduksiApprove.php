@@ -2,13 +2,11 @@
 include '../Koneksi.php';
 
 $id = $_POST['operation_report_id'];
-$proses_pengawas = $_POST['proses_pengawas'];
 $proses_kontraktor = $_POST['proses_kontraktor'];
 $alasan_reject = $_POST['alasan_reject'];
 
 // Update production_report
 $sql_update = "UPDATE production_report SET 
-    proses_pengawas = Approved Pengawas, 
     proses_kontraktor = NULL, 
     alasan_reject = NULL
     WHERE operation_report_id = $1";

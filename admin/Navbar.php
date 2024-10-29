@@ -174,10 +174,10 @@ include '../Koneksi.php';
                                         <i class="ti ti-user fs-6"></i>
                                         <p class="mb-0 fs-3">Profil Saya</p>
                                     </a>
-                                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                    <!-- <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                                         <i class="ti ti-logout fs-6"></i>
                                         <p class="mb-0 fs-3">Ganti Password</p>
-                                    </a>
+                                    </a> -->
                                     <a href="../Logout.php"
                                         class="btn btn-outline-primary mx-3 mt-2 d-block shadow-none">Logout</a>
                                 </div>

@@ -170,7 +170,7 @@ if ($id) {
                             </div>
                             <?php
                             include '../Koneksi.php';
-                            $id = $_GET['id']; 
+                            $id = $_GET['id'];
                             $sql = "SELECT * FROM operation_report WHERE id = $1";
                             $result = pg_query_params($conn, $sql, array($id));
                             if ($result) {
@@ -265,21 +265,161 @@ if ($id) {
                         </div> -->
 
                         <div class="row mb-4 mt-4">
-                            <div class="col-md-12 d-flex justify-content-end align-items-center">
-                                <a target="_blank"
-                                    class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center  me-2"
-                                    href=" #">
-                                    <i class="ti ti-eye fs-7 mx-1"></i> Review Dokumen
-                                </a>
-                                <a target="_blank"
-                                    class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center"
-                                    href=" #">
-                                    <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
-                                </a>
-                                <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
-                                    href="Report_hourmeter.php">
-                                    <i class="ti ti-arrow-narrow-left fs-7 mx-1"></i></i> Kembali
-                                </a>
+                            <div class="col-md-12 d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <a target="_blank"
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
+                                        href="#" onclick="return false;">
+                                        Proses :
+                                        <?php
+                                        $processDisplay = ''; // Variable to hold the process display string
+                                        $rejectedPengawasReasons = []; // Array to hold reasons for Rejected (Pengawas)
+
+                                        foreach ($hourmeter_reports as $index => $report) {
+                                            // Collect reasons for Rejected (Pengawas)
+                                            if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas') {
+                                                $rejectedPengawasReasons[] = htmlspecialchars($report['alasan_reject']);
+                                            }
+                                            // Check conditions based on the provided rules
+                                            if (
+                                                !empty($report['proses_kontraktor']) && $report['proses_kontraktor'] === 'Approved Kontraktor' &&
+                                                !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Approved Pengawas' &&
+                                                !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                            ) {
+                                                $processDisplay = 'Approved Kontraktor';
+                                                break; // Exit loop once the condition is met
+                                            }
+                                            if (
+                                                !empty($report['proses_kontraktor']) && $report['proses_kontraktor'] === 'Rejected Kontraktor' &&
+                                                !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Approved Pengawas' &&
+                                                !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                            ) {
+                                                $processDisplay = 'Rejected Kontraktor';
+                                                if (!empty($rejectedPengawasReasons)) {
+                                                    $processDisplay .= ' (' . implode(', ', array_unique($rejectedPengawasReasons)) . ')';
+                                                }
+                                                if (!empty($report['alasan_reject'])) {
+                                                    $processDisplay .= ' ( ' . htmlspecialchars($report['alasan_reject'] . ' ) ');
+                                                }
+                                                break; // Exit loop once the condition is met
+                                            }
+                                            if (
+                                                empty($report['proses_kontraktor']) &&
+                                                !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Approved Pengawas' &&
+                                                !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                            ) {
+                                                $processDisplay = 'Approved Pengawas';
+                                                break; // Exit loop once the condition is met
+                                            }
+                                            if (
+                                                empty($report['proses_kontraktor']) &&
+                                                !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Pending' &&
+                                                !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                            ) {
+                                                $processDisplay = 'Pending';
+                                                break; // Exit loop once the condition is met
+                                            }
+                                            if (
+                                                empty($report['proses_kontraktor']) &&
+                                                !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas' &&
+                                                !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                            ) {
+                                                $processDisplay = 'Rejected Pengawas';
+                                                if (!empty($rejectedPengawasReasons)) {
+                                                    $processDisplay .= ' (' . implode(', ', array_unique($rejectedPengawasReasons)) . ')';
+                                                }
+                                                break; // Exit loop once the condition is met
+                                            }
+                                            if (
+                                                empty($report['proses_kontraktor']) &&
+                                                empty($report['proses_pengawas']) &&
+                                                !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                            ) {
+                                                $processDisplay = 'Uploaded';
+                                                break; // Exit loop once the condition is met
+                                            }
+                                        }
+                                        // Display the process status
+                                        echo $processDisplay ? $processDisplay : 'No data available';
+                                        ?>
+                                    </a>
+
+                                    <?php if (isset($report['proses_kontraktor']) && $report['proses_kontraktor'] === 'Rejected Kontraktor'): ?>
+                                    <form method="post" action="HourMeterApprove.php" style="display:inline;">
+                                        <input type="hidden" name="operation_report_id"
+                                            value="<?php echo $report['operation_report_id']; ?>">
+                                        <input type="hidden" name="proses_kontraktor"
+                                            value="<?php echo $report['proses_kontraktor']; ?>">
+                                        <input type="hidden" name="alasan_reject"
+                                            value="<?php echo $report['alasan_reject']; ?>">
+                                        <button
+                                            class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
+                                            title="Approve">
+                                            <i class="bi bi-check2 me-1"></i> Approve
+                                        </button>
+                                    </form>
+
+                                    <button
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
+                                        title="Reject" onclick="showRejectProduksiModal(<?php echo $id; ?>)">
+                                        <i class="bi bi-x-lg me-1"></i> Reject
+                                    </button>
+
+                                    <div id="rejectProduksiModal" class="modal" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Alasan Reject</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input type="hidden" id="operationReportProduksiId"
+                                                        value="<?php echo $report['operation_report_id']; ?>">
+                                                    <input type="hidden" id="prosesPengawas"
+                                                        value="<?php echo $report['proses_pengawas']; ?>">
+                                                    <input type="hidden" id="prosesKontraktor"
+                                                        value="<?php echo $report['proses_kontraktor']; ?>">
+                                                    <input type="hidden" id="kontraktor"
+                                                        value="<?php echo $report['kontraktor']; ?>">
+                                                    <input type="hidden" id="namePengawas"
+                                                        value="<?php echo $report['name_pengawas']; ?>">
+                                                    <input type="hidden" id="filePengawas"
+                                                        value="<?php echo $report['file_pengawas']; ?>">
+                                                    <div class="mb-3">
+                                                        <label for="alasanReject" class="form-label">Alasan:</label>
+                                                        <textarea class="form-control" id="alasanRejectProduksi"
+                                                            rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="submitRejectProduksi()">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <a target="_blank"
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
+                                        href="./export_hm.php?id=<?php echo $id; ?>&action=review">
+                                        <i class="ti ti-eye fs-7 mx-1"></i> Review Dokumen
+                                    </a>
+                                    <a target="_blank"
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
+                                        href="./export_hm.php?id=<?php echo $id; ?>&action=download">
+                                        <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
+                                    </a>
+                                    <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center"
+                                        href="Report_hourmeter.php">
+                                        <i class="ti ti-arrow-narrow-left fs-5 mx-1"></i></i> Kembali
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <div class="table-responsive products-table" data-simplebar>
@@ -289,14 +429,17 @@ if ($id) {
                                         <!-- <th class="fs-3" style="width: 5%;"></th> -->
                                         <th class="fs-3" style="width: 5%;">No</th>
                                         <th class="fs-3">Equipment</th>
+                                        <th class="fs-3">Tipe Unit</th>
                                         <th class="fs-3">HM Awal</th>
                                         <th class="fs-3">HM Akhir</th>
+                                        <th class="fs-3">Total HM</th>
                                         <th class="fs-3">Jam Lain</th>
+                                        <th class="fs-3">Jam Operasi</th>
                                         <th class="fs-3">Breakdown</th>
                                         <th class="fs-3">No Operator</th>
                                         <th class="fs-3">Hujan</th>
+                                        <th class="fs-3">No Order</th>
                                         <th class="fs-3">Keterangan</th>
-                                        <th class="fs-3">Proses</th>
                                         <!-- <th class="fs-3"> </th> -->
                                     </tr>
                                 </thead>
@@ -306,24 +449,117 @@ if ($id) {
                                     <tr>
                                         <td><?php echo $index + 1; ?></td>
                                         <td><?php echo htmlspecialchars($report['equipment']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['tipe_unit']); ?></td>
                                         <td><?php echo htmlspecialchars($report['hm_awal']); ?></td>
                                         <td><?php echo htmlspecialchars($report['hm_akhir']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['total_hm']); ?></td>
                                         <td><?php echo htmlspecialchars($report['jam_lain']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['jam_operasi']); ?></td>
                                         <td><?php echo htmlspecialchars($report['breakdown']); ?></td>
                                         <td><?php echo htmlspecialchars($report['no_operator']); ?></td>
                                         <td><?php echo htmlspecialchars($report['hujan']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['no_order']); ?></td>
                                         <td><?php echo htmlspecialchars($report['ket']); ?></td>
-                                        <td></td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                    <?php else: ?>
+                                        <?php endforeach; ?>
+                                        <?php else: ?>
                                     <tr>
                                         <td colspan="7" class="text-center">No hourmeter reports found.</td>
                                     </tr>
                                     <?php endif; ?>
                                 </tbody>
                             </table>
+                        </div>
 
+                        <div class="mt-3">
+                            <button class="btn btn-primary btn-sm" title="Approve"
+                                onclick="showApproveModal(<?php echo $id; ?>)">
+                                <i class="bi bi-check2"></i> Approve
+                            </button>
+
+                            <div id="approveModal" class="modal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Lengkapi data berikut</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" id="barcodeReportId">
+                                            <div class="mb-3">
+                                                <label for="approveProduction" class="form-label">Ditujukan kepada
+                                                    :</label>
+                                                <select class="form-select" aria-label="Default select example"
+                                                    id="kontraktor" name="kontraktor" required>
+                                                    <option value="" selected disabled>Kontraktor</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="approveProduction" class="form-label">Nama Pengawas
+                                                    :</label>
+                                                <select class="form-select" aria-label="Default select example"
+                                                    id="nama" name="nama" required>
+                                                    <option value="" selected disabled>Pengawas</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="approveProduction" class="form-label">Jabatan Pengawas
+                                                    :</label>
+                                                <input type="text" class="form-control" id="jabatan" name="jabatan"
+                                                    placeholder="Jabatan" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="approveProduction" class="form-label">NIP Pengawas :</label>
+                                                <input type="text" class="form-control" id="nip" name="nip"
+                                                    placeholder="NIP" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="approveProduction" class="form-label">TTD Pengawas :</label>
+                                                <img id="file_pengawas" name="file_pengawas" src="" alt="TTD"
+                                                    style="max-width: 200px; display: none;">
+                                            </div>
+                                            <input type="hidden" class="form-control" id="name_pengawas"
+                                                name="name_pengawas" placeholder="NIP" readonly>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Kembali</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="submitApprove()">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-danger btn-sm" title="Reject"
+                                onclick="showRejectModal(<?php echo $id; ?>)">
+                                <i class="bi bi-x-lg"></i> Reject
+                            </button>
+
+                            <div id="rejectModal" class="modal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Alasan Reject</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" id="operationReportId">
+                                            <div class="mb-3">
+                                                <label for="alasanReject" class="form-label">Alasan:</label>
+                                                <textarea class="form-control" id="alasanReject" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="submitReject()">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <nav aria-label="Page navdivtion">
                             <ul class="pagination justify-content-center mt-3" id="paginationContainer">
@@ -341,6 +577,133 @@ if ($id) {
         .then(data => {
             document.getElementById('navbar').innerHTML = data;
         });
+
+    function showApproveModal(barcodeReportId) {
+        document.getElementById('barcodeReportId').value = barcodeReportId;
+        new bootstrap.Modal(document.getElementById('approveModal')).show();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('fetch_pengawas_data.php')
+            .then(response => response.json())
+            .then(data => {
+                const kontraktorSelect = document.getElementById('kontraktor');
+                const namaSelect = document.getElementById('nama');
+
+                // Populate kontraktor options
+                data.kontraktor.forEach(kontraktor => {
+                    const option = document.createElement('option');
+                    option.value = kontraktor.username;
+                    option.textContent = kontraktor.username;
+                    kontraktorSelect.appendChild(option);
+                });
+
+                // Populate nama options
+                data.pengawas.forEach(pengawas => {
+                    const option = document.createElement('option');
+                    option.value = pengawas.nama;
+                    option.textContent = pengawas.nama;
+                    namaSelect.appendChild(option);
+                });
+
+                // Handle nama change
+                namaSelect.addEventListener('change', function() {
+                    const selectedPengawas = data.pengawas.find(p => p.nama === this.value);
+                    if (selectedPengawas) {
+                        document.getElementById('jabatan').value = selectedPengawas.jabatan;
+                        document.getElementById('nip').value = selectedPengawas.nip;
+                        document.getElementById('name_pengawas').src = selectedPengawas.name;
+                        document.getElementById('file_pengawas').src = selectedPengawas.file_path;
+                        document.getElementById('file_pengawas').style.display = 'block';
+                    }
+                });
+            });
+    });
+
+    function submitApprove() {
+        const operationReportId = document.getElementById('barcodeReportId').value;
+        const kontraktor = document.getElementById('kontraktor').value;
+        const name_pengawas = document.getElementById('name_pengawas').src;
+        const file_pengawas = document.getElementById('file_pengawas').src;
+
+        fetch('Approve_hm.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'operation_report_id': operationReportId,
+                    'kontraktor': kontraktor,
+                    'name_pengawas': name_pengawas,
+                    'file_pengawas': file_pengawas
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                location.reload(); // Reload the page to see the changes
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function showRejectModal(operationReportId) {
+        document.getElementById('operationReportId').value = operationReportId;
+        new bootstrap.Modal(document.getElementById('rejectModal')).show();
+    }
+
+    function submitReject() {
+        const operationReportId = document.getElementById('operationReportId').value;
+        const alasanReject = document.getElementById('alasanReject').value;
+
+        fetch('reject_hm.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'operation_report_id': operationReportId,
+                    'alasan_reject': alasanReject
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                location.reload(); // Reload the page to see the changes
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function showRejectProduksiModal(operationReportProduksiId) {
+        document.getElementById('operationReportProduksiId').value = operationReportProduksiId;
+        new bootstrap.Modal(document.getElementById('rejectProduksiModal')).show();
+    }
+
+    function submitRejectProduksi() {
+        const operationReportProduksiId = document.getElementById('operationReportProduksiId').value;
+        const alasanReject = document.getElementById('alasanRejectProduksi').value;
+
+        fetch('HourMeterRejected.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'operation_report_id': operationReportProduksiId,
+                    'alasan_reject': alasanReject,
+                    'proses_pengawas': prosesPengawas,
+                    'proses_kontraktor': prosesKontraktor,
+                    'kontraktor': kontraktor,
+                    'name_pengawas': namePengawas,
+                    'file_pengawas': filePengawas
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                location.reload(); // Reload the page to see the changes
+            })
+            .catch(error => console.error('Error:', error));
+    }
     </script>
     <script src=" ../assets/libs/jquery/dist/jquery.min.js">
     </script>

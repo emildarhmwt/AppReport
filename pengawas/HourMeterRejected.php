@@ -10,7 +10,7 @@ $name_pengawas = $_POST['name_pengawas'];
 $file_pengawas = $_POST['file_pengawas'];
 
 // Update production_report
-$sql_update = "UPDATE production_report SET 
+$sql_update = "UPDATE hourmeter_report SET 
     proses_pengawas = 'Rejected Pengawas', 
     proses_kontraktor = NULL, 
     alasan_reject = $1,
@@ -22,7 +22,7 @@ $sql_update = "UPDATE production_report SET
 $result_update = pg_query_params($conn, $sql_update, array($alasan_reject, $id));
 
 if ($result_update) {
-    echo "Produksi berhasil diperbarui.";
+    echo "Jam jalan berhasil diperbarui.";
     // header("Location: Preview.php?id=" . $id); 
     exit;
 } else {

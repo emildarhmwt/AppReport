@@ -23,6 +23,14 @@ if ($id) {
 } else {
     die("Operation report ID not provided.");
 }
+
+if (isset($_GET['delete_id'])) {
+    $delete_id = $_GET['delete_id'];
+    $delete_sql = "DELETE FROM hourmeter_report WHERE id = $1";
+    pg_query_params($conn, $delete_sql, array($delete_id));
+    header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $id); // Redirect to the same page
+    exit();
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -170,7 +178,7 @@ if ($id) {
                             </div>
                             <?php
                             include '../Koneksi.php';
-                            $id = $_GET['id']; 
+                            $id = $_GET['id'];
                             $sql = "SELECT * FROM operation_report WHERE id = $1";
                             $result = pg_query_params($conn, $sql, array($id));
                             if ($result) {
@@ -268,22 +276,22 @@ if ($id) {
                             <div class="col-md-12 d-flex justify-content-between align-items-center">
                                 <a target="_blank"
                                     class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
-                                    href="./hourmeter.php?id=<?php echo $id; ?>">
+                                    href="./hourmeter_create.php?id=<?php echo $id; ?>">
                                     <i class="bi bi-file-earmark-plus fs-4 mx-1"></i> Create
                                 </a>
                                 <div class="d-flex justify-content-end">
                                     <a target="_blank"
                                         class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
-                                        href="./export_pdf.php?id=<?php echo $id; ?>">
+                                        href="./export_hm.php?id=<?php echo $id; ?>&action=review">
                                         <i class="ti ti-eye fs-7 mx-1"></i> Review Dokumen
                                     </a>
                                     <a target="_blank"
                                         class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
-                                        href="./export_pdf.php?id=<?php echo $id; ?>" download>
+                                        href="./export_hm.php?id=<?php echo $id; ?>&action=download">
                                         <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
                                     </a>
                                     <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
-                                        href="Report.php">
+                                        href="Report_hourmeter.php">
                                         <i class="ti ti-arrow-narrow-left fs-7 mx-1"></i> Kembali
                                     </a>
                                 </div>
@@ -307,7 +315,8 @@ if ($id) {
                                         <th class="fs-3">Hujan</th>
                                         <th class="fs-3">No Order</th>
                                         <th class="fs-3">Keterangan</th>
-                                        <!-- <th class="fs-3"> </th> -->
+                                        <th class="fs-3">Proses</th>
+                                        <th class="fs-3">Opsi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -327,6 +336,56 @@ if ($id) {
                                         <td><?php echo htmlspecialchars($report['hujan']); ?></td>
                                         <td><?php echo htmlspecialchars($report['no_order']); ?></td>
                                         <td><?php echo htmlspecialchars($report['ket']); ?></td>
+                                        <td>
+                                            <?php
+                                                    if (isset($report['proses_kontraktor']) && !empty($report['proses_kontraktor'])) {
+                                                        echo $report['proses_kontraktor'];
+                                                    } elseif (isset($report['proses_pengawas']) && !empty($report['proses_pengawas'])) {
+                                                        echo $report['proses_pengawas'];
+                                                    } elseif (isset($report['proses_admin']) && !empty($report['proses_admin'])) {
+                                                        echo $report['proses_admin'];
+                                                    } else {
+                                                        echo 'No data available';
+                                                    }
+                                                    ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-danger btn-sm" title="Hapus"
+                                                onclick="if(confirm('Are you sure you want to delete this report?')) { window.location.href='?id=<?php echo $id; ?>&delete_id=<?php echo $report['id']; ?>'; }">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                            <?php if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Rejected Pengawas'): ?>
+                                            <button class="btn btn-primary btn-sm" title="Edit"
+                                                onclick="window.location.href='editHourmeter.php?id=<?php echo $report['id']; ?>';">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+
+                                            <form method="post" action="approve_hm.php" style="display:inline;">
+                                                <input type="hidden" name="id" value="<?php echo $report['id']; ?>">
+                                                <input type="hidden" name="operation_report_id"
+                                                    value="<?php echo $report['operation_report_id']; ?>">
+                                                <input type="hidden" name="proses_pengawas"
+                                                    value="<?php echo $report['proses_pengawas']; ?>">
+                                                <input type="hidden" name="proses_kontraktor"
+                                                    value="<?php echo $report['proses_kontraktor']; ?>">
+                                                <input type="hidden" name="alasan_reject"
+                                                    value="<?php echo $report['alasan_reject']; ?>">
+                                                <input type="hidden" name="kontraktor"
+                                                    value="<?php echo $report['kontraktor']; ?>">
+                                                <input type="hidden" name="name_pengawas"
+                                                    value="<?php echo $report['name_pengawas']; ?>">
+                                                <input type="hidden" name="file_pengawas"
+                                                    value="<?php echo $report['file_pengawas']; ?>">
+                                                <input type="hidden" name="name_kontraktor"
+                                                    value="<?php echo $report['name_kontraktor']; ?>">
+                                                <input type="hidden" name="file_kontraktor"
+                                                    value="<?php echo $report['file_kontraktor']; ?>">
+                                                <button type="submit" class="btn btn-warning btn-sm" title="Selesai">
+                                                    <i class="bi bi-check-lg"></i>
+                                                </button>
+                                            </form>
+                                            <?php endif; ?>
+                                        </td>
                                     </tr>
                                     <?php endforeach; ?>
                                     <?php else: ?>
