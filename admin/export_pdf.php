@@ -182,7 +182,7 @@ foreach ($production_reports as $index => $report) {
     
     $pdf->Cell(15, $maxHeight, $report['ritase2'], 1, 0, 'C');
     $pdf->Cell(20, $maxHeight, $report['muatan'], 1, 0, 'C');
-    $pdf->Cell(20, $maxHeight, $report['volume'], 1, 0, 'C');
+    $pdf->Cell(20, $maxHeight, number_format($report['volume'], 2), 1, 0, 'C'); 
     $pdf->Ln();
 }
 

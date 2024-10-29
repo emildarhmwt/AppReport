@@ -334,7 +334,7 @@ if (isset($_GET['delete_id'])) {
                                         <td><?php echo htmlspecialchars($report['tipe2']); ?></td>
                                         <td><?php echo htmlspecialchars($report['ritase2']); ?></td>
                                         <td><?php echo htmlspecialchars($report['total_ritase']); ?></td>
-                                        <td><?php echo htmlspecialchars($report['volume']); ?></td>
+                                        <td><?php echo number_format(htmlspecialchars($report['volume']), 2); ?></td>
                                         <td>
                                             <?php
                                                     if (isset($report['proses_kontraktor']) && !empty($report['proses_kontraktor'])) {

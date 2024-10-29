@@ -296,6 +296,9 @@ if ($id) {
                                             if (!empty($rejectedPengawasReasons)) {
                                                 $processDisplay .= ' (' . implode(', ', array_unique($rejectedPengawasReasons)) . ')';
                                             }
+                                             if (!empty($report['alasan_reject'])) {
+                                                 $processDisplay .= ' ( ' . htmlspecialchars($report['alasan_reject'] . ' ) ');
+                                            }
                                             break; // Exit loop once the condition is met
                                         }
                                         if (
@@ -330,6 +333,7 @@ if ($id) {
                                     echo $processDisplay ? $processDisplay : 'No data available';
                                     ?>
                                 </a>
+
                                 <div class="d-flex justify-content-end align-items-center">
                                     <a target="_blank"
                                         class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
@@ -387,7 +391,7 @@ if ($id) {
                                         <td><?php echo htmlspecialchars($report['tipe2']); ?></td>
                                         <td><?php echo htmlspecialchars($report['ritase2']); ?></td>
                                         <td><?php echo htmlspecialchars($report['total_ritase']); ?></td>
-                                        <td><?php echo htmlspecialchars($report['volume']); ?></td>
+                                        <td><?php echo number_format(htmlspecialchars($report['volume']), 2); ?></td>
                                     </tr>
                                     <?php endforeach; ?>
                                     <?php else: ?>

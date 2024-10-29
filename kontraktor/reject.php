@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $alasanReject = pg_escape_string($alasanReject);
 
     $query = "UPDATE production_report 
-              SET alasan_reject = $1, proses_pengawas = 'Rejected Pengawas' 
+              SET alasan_reject = $1, proses_kontraktor = 'Rejected Kontraktor' 
               WHERE operation_report_id = $2";
 
     $result = pg_query_params($conn, $query, array($alasanReject, $operationReportId));

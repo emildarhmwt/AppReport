@@ -57,9 +57,9 @@ $pdf->Ln(5);
 // Tabel
 $pdf->SetFont('Times', 'B', 10);
 $pdf->Cell(7, 12, 'No', 1, 0, 'C');
-$pdf->Cell(35, 12, 'Executor', 1, 0, 'C');
-$pdf->Cell(35, 12, 'Alat Gali/Muat', 1, 0, 'C');
-$pdf->Cell(35, 12, 'Timbunan', 1, 0, 'C');
+$pdf->Cell(43, 12, 'Executor', 1, 0, 'C');
+$pdf->Cell(43, 12, 'Alat Gali/Muat', 1, 0, 'C');
+$pdf->Cell(43, 12, 'Timbunan', 1, 0, 'C');
 
 // Pindahkan posisi Y sebelum MultiCell
 $x = $pdf->GetX();
@@ -74,7 +74,6 @@ $pdf->SetXY($x + 20, $y);
 
 // Gabungkan sel untuk "Ritase Alat Angkut"
 $pdf->Cell(80, 7, 'Ritase Alat Angkut', 1, 0, 'C');
-$pdf->Cell(20, 12, 'Muatan', 1, 0, 'C');
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 
@@ -89,7 +88,7 @@ $pdf->SetXY($x + 20, $y);
 $pdf->Ln();
 
 // Baris kedua untuk "Tipe" dan "Ritase"
-$pdf->Cell(152, 0, '', 0); // Sesuaikan posisi X
+$pdf->Cell(176, 0, '', 0); // Sesuaikan posisi X
 $pdf->Cell(25, 5, 'Tipe', 1, 0, 'C');
 $pdf->Cell(15, 5, 'Ritase', 1, 0, 'C');
 $pdf->Cell(25, 5, 'Tipe', 1, 0, 'C');
@@ -116,12 +115,12 @@ foreach ($production_reports as $index => $report) {
     
     // Mengatur tinggi border
     $borderHeight = $maxHeight; // Tinggi border sesuai dengan maxHeight
-    $pdf->Cell(35, $borderHeight, '', 1, 0, 'L'); // Buat sel dengan border
+    $pdf->Cell(43, $borderHeight, '', 1, 0, 'L'); // Buat sel dengan border
 
     // Mengatur tinggi tulisan
     $pdf->SetXY($x, $y);
-    $pdf->MultiCell(35, 7, $report['excecutor'], 0, 'C'); // Ubah border menjadi 0 untuk hanya menampilkan tulisan
-    $pdf->SetXY($x + 35, $y);
+    $pdf->MultiCell(43, 7, $report['excecutor'], 0, 'C'); // Ubah border menjadi 0 untuk hanya menampilkan tulisan
+    $pdf->SetXY($x + 43, $y);
 
     // Kolom 'Alat'
     $x = $pdf->GetX();
@@ -129,12 +128,12 @@ foreach ($production_reports as $index => $report) {
     
     // Mengatur tinggi border
     $borderHeight = $maxHeight; // Tinggi border sesuai dengan maxHeight
-    $pdf->Cell(35, $borderHeight, '', 1, 0, 'L'); // Buat sel dengan border
+    $pdf->Cell(43, $borderHeight, '', 1, 0, 'L'); // Buat sel dengan border
 
     // Mengatur tinggi tulisan
     $pdf->SetXY($x, $y);
-    $pdf->MultiCell(35, 7, $report['alat'], 0, 'C'); // Ubah border menjadi 0 untuk hanya menampilkan tulisan
-    $pdf->SetXY($x + 35, $y);
+    $pdf->MultiCell(43, 7, $report['alat'], 0, 'C'); // Ubah border menjadi 0 untuk hanya menampilkan tulisan
+    $pdf->SetXY($x + 43, $y);
 
     // Kolom 'Timbunan'
     $x = $pdf->GetX();
@@ -142,12 +141,12 @@ foreach ($production_reports as $index => $report) {
     
     // Mengatur tinggi border
     $borderHeight = $maxHeight; // Tinggi border sesuai dengan maxHeight
-    $pdf->Cell(35, $borderHeight, '', 1, 0, 'L'); // Buat sel dengan border
+    $pdf->Cell(43, $borderHeight, '', 1, 0, 'L'); // Buat sel dengan border
 
     // Mengatur tinggi tulisan
     $pdf->SetXY($x, $y);
-    $pdf->MultiCell(35, 7, $report['timbunan'], 0, 'C'); // Ubah border menjadi 0 untuk hanya menampilkan tulisan
-    $pdf->SetXY($x + 35, $y);
+    $pdf->MultiCell(43, 7, $report['timbunan'], 0, 'C'); // Ubah border menjadi 0 untuk hanya menampilkan tulisan
+    $pdf->SetXY($x + 43, $y);
 
     // Kolom-kolom lain
     $pdf->Cell(20, $maxHeight, $report['material'], 1, 0, 'C');
@@ -181,16 +180,14 @@ foreach ($production_reports as $index => $report) {
     $pdf->SetXY($x + 25, $y);
     
     $pdf->Cell(15, $maxHeight, $report['ritase2'], 1, 0, 'C');
-    $pdf->Cell(20, $maxHeight, $report['muatan'], 1, 0, 'C');
-    $pdf->Cell(20, $maxHeight, $report['volume'], 1, 0, 'C');
+    $pdf->Cell(20, $maxHeight, number_format($report['volume'], 2), 1, 0, 'C'); 
     $pdf->Ln();
 }
 
 // Total
 $pdf->SetFont('Times', 'B', 10); // Set font to bold for the total
-$pdf->Cell(217, 10, 'Total', 1);
+$pdf->Cell(241, 10, 'Total', 1);
 $pdf->Cell(15, 10, $total_ritase, 1, 0,'C');
-$pdf->Cell(20, 10, $total_muatan, 1,0,'C');
 $pdf->Cell(20, 10, $total_volume, 1,0,'C');
 $pdf->Ln();
 

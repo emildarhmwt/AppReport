@@ -266,10 +266,12 @@ if ($id) {
 
                         <div class="row mb-4 mt-4">
                             <div class="col-md-12 d-flex justify-content-between align-items-center">
-                                <a target="_blank" class="btn btn-custom-review btn-sm d-flex align-items-center me-2"
-                                    href="#" onclick="return false;">
-                                    Proses :
-                                    <?php
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <a target="_blank"
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
+                                        href="#" onclick="return false;">
+                                        Proses :
+                                        <?php
                                     $processDisplay = ''; // Variable to hold the process display string
                                     $rejectedPengawasReasons = []; // Array to hold reasons for Rejected (Pengawas)
 
@@ -296,6 +298,9 @@ if ($id) {
                                             if (!empty($rejectedPengawasReasons)) {
                                                 $processDisplay .= ' (' . implode(', ', array_unique($rejectedPengawasReasons)) . ')';
                                             }
+                                            if (!empty($report['alasan_reject'])) {
+                                                $processDisplay .= ' ( ' . htmlspecialchars($report['alasan_reject'] . ' ) ');
+                                            }
                                             break; // Exit loop once the condition is met
                                         }
                                         if (
@@ -304,6 +309,14 @@ if ($id) {
                                             !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
                                         ) {
                                             $processDisplay = 'Approved Pengawas';
+                                            break; // Exit loop once the condition is met
+                                        }
+                                         if (
+                                            empty($report['proses_kontraktor']) &&
+                                            !empty($report['proses_pengawas']) && $report['proses_pengawas'] === 'Pending' &&
+                                            !empty($report['proses_admin']) && $report['proses_admin'] === 'Uploaded'
+                                        ) {
+                                            $processDisplay = 'Pending';
                                             break; // Exit loop once the condition is met
                                         }
                                         if (
@@ -329,7 +342,119 @@ if ($id) {
                                     // Display the process status
                                     echo $processDisplay ? $processDisplay : 'No data available';
                                     ?>
-                                </a>
+                                    </a>
+
+                                    <?php if (isset($report['proses_kontraktor']) && $report['proses_kontraktor'] === 'Rejected Kontraktor'): ?>
+                                    <form method="post" action="ProduksiApprove.php" style="display:inline;">
+                                        <input type="hidden" name="operation_report_id"
+                                            value="<?php echo $report['operation_report_id']; ?>">
+                                        <input type="hidden" name="proses_kontraktor"
+                                            value="<?php echo $report['proses_kontraktor']; ?>">
+                                        <input type="hidden" name="alasan_reject"
+                                            value="<?php echo $report['alasan_reject']; ?>">
+                                        <button
+                                            class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
+                                            title="Approve">
+                                            <i class="bi bi-check2 me-1"></i> Approve
+                                        </button>
+                                    </form>
+
+                                    <form method="post" action="ProduksiPending.php" style="display:inline;">
+                                        <input type="hidden" name="operation_report_id"
+                                            value="<?php echo $report['operation_report_id']; ?>">
+                                        <input type="hidden" name="proses_pengawas"
+                                            value="<?php echo $report['proses_pengawas']; ?>">
+                                        <button
+                                            class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
+                                            title="Pending">
+                                            <i class=" ti ti-loader-3 me-1"></i> Pending
+                                        </button>
+                                    </form>
+
+
+                                    <button
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
+                                        title="Reject" onclick="showRejectProduksiModal(<?php echo $id; ?>)">
+                                        <i class="bi bi-x-lg me-1"></i> Reject
+                                    </button>
+
+                                    <div id="rejectProduksiModal" class="modal" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Alasan Reject</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input type="hidden" id="operationReportProduksiId">
+                                                    <div class="mb-3">
+                                                        <label for="alasanReject" class="form-label">Alasan:</label>
+                                                        <textarea class="form-control" id="alasanRejectProduksi"
+                                                            rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="submitReject()">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php endif; ?>
+
+                                    <?php if (isset($report['proses_pengawas']) && $report['proses_pengawas'] === 'Pending'): ?>
+                                    <form method="post" action="ProduksiApprove.php" style="display:inline;">
+                                        <input type="hidden" name="operation_report_id"
+                                            value="<?php echo $report['operation_report_id']; ?>">
+                                        <input type="hidden" name="proses_kontraktor"
+                                            value="<?php echo $report['proses_kontraktor']; ?>">
+                                        <input type="hidden" name="alasan_reject"
+                                            value="<?php echo $report['alasan_reject']; ?>">
+                                        <button
+                                            class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
+                                            title="Approve">
+                                            <i class="bi bi-check2 me-1"></i> Approve
+                                        </button>
+                                    </form>
+
+                                    <button
+                                        class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
+                                        title="Reject" onclick="showRejectProduksiModal(<?php echo $id; ?>)">
+                                        <i class="bi bi-x-lg me-1"></i> Reject
+                                    </button>
+
+                                    <div id="rejectProduksiModal" class="modal" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Alasan Reject</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input type="hidden" id="operationReportProduksiId">
+                                                    <div class="mb-3">
+                                                        <label for="alasanReject" class="form-label">Alasan:</label>
+                                                        <textarea class="form-control" id="alasanRejectProduksi"
+                                                            rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="submitReject()">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php endif; ?>
+                                </div>
+
+
                                 <div class="d-flex justify-content-end align-items-center">
                                     <a target="_blank"
                                         class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
@@ -341,7 +466,7 @@ if ($id) {
                                         href="./export_pdf.php?id=<?php echo $id; ?>" download>
                                         <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
                                     </a>
-                                    <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
+                                    <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center"
                                         href="Report.php">
                                         <i class="ti ti-arrow-narrow-left fs-5 mx-1"></i></i> Kembali
                                     </a>
@@ -387,7 +512,7 @@ if ($id) {
                                         <td><?php echo htmlspecialchars($report['tipe2']); ?></td>
                                         <td><?php echo htmlspecialchars($report['ritase2']); ?></td>
                                         <td><?php echo htmlspecialchars($report['total_ritase']); ?></td>
-                                        <td><?php echo htmlspecialchars($report['volume']); ?></td>
+                                        <td><?php echo number_format(htmlspecialchars($report['volume']), 2); ?></td>
                                     </tr>
                                     <?php endforeach; ?>
                                     <?php else: ?>
@@ -591,6 +716,33 @@ if ($id) {
                 body: new URLSearchParams({
                     'operation_report_id': operationReportId,
                     'alasan_reject': alasanReject
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                location.reload(); // Reload the page to see the changes
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function showRejectProduksiModal(operationReportProduksiId) {
+        document.getElementById('operationReportProduksiId').value = operationReportProduksiId;
+        new bootstrap.Modal(document.getElementById('rejectProduksiModal')).show();
+    }
+
+    function submitRejectProduksi() {
+        const operationReportProduksiId = document.getElementById('operationReportProduksiId').value;
+        const alasanReject = document.getElementById('alasanReject').value;
+
+        fetch('rejectProduksi.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'operation_report_id': operationReportProduksiId,
+                    'alasan_reject': alasanRejectProduksi
                 })
             })
             .then(response => response.text())
