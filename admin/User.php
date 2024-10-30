@@ -86,13 +86,35 @@ $data = pg_fetch_all($result);
                                         <thead class="fs-4">
                                             <tr class="text-center">
                                                 <th class="fs-3" style="width: 5%">No</th>
-                                                <th class="fs-3" style="width: 45%">Nama</th>
-                                                <th class="fs-3" style="width: 45%">Username</th>
+                                                <th class="fs-3" style="width: 10%">Foto</th>
+                                                <th class="fs-3" style="width: 40%">Nama</th>
+                                                <th class="fs-3" style="width: 40%">Username</th>
                                                 <th class="fs-3" style="width: 5%">Opsi</th>
                                             </tr>
                                         </thead>
                                         <tbody id="userTableBody">
-                                            <!-- Data will be populated here -->
+                                            <?php foreach ($data as $index => $report): ?>
+                                            <tr>
+                                                <td class="text-center"><?php echo $index + 1; ?></td>
+                                                <td>
+                                                    <img src="<?php echo $report['file_admin']; ?>" alt="Image"
+                                                        style="width: 50px; height: auto;">
+                                                </td>
+                                                <td><?php echo $report['nama']; ?></td>
+                                                <td><?php echo $report['username']; ?></td>
+                                                <td>
+                                                    <button
+                                                        onclick="window.location.href='edituser.php?id=${report.id}'"
+                                                        class="btn btn-primary btn-sm" title="Edit">
+                                                        <i class="bi bi-pen"></i>
+                                                    </button>
+                                                    <button onclick="deleteUser(<?php echo $report['id']; ?>)"
+                                                        class="btn btn-danger btn-sm" title="Hapus">
+                                                        <i class="bi bi-trash3"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <?php endforeach; ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -163,6 +185,9 @@ $data = pg_fetch_all($result);
                     const row = `
             <tr>
                 <td class="text-center";>${start + index + 1}</td>
+                <td>
+                    <img src="${report.file_admin}" alt="Image" style="width: 50px; height: auto;">
+                </td>
                 <td>${report.nama}</td>
                 <td>${report.username}</td>
                 <td>

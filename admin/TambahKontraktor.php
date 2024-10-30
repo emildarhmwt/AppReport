@@ -28,7 +28,7 @@
                         <h5 class="card-title fw-semibold mb-4">Form Admin</h5>
                         <div class="card">
                             <div class="card-body">
-                                <form action="kontraktor_aksi.php" method="POST">
+                                <form action="kontraktor_aksi.php" method="POST" enctype="multipart/form-data">
                                     <div class="mb-3">
                                         <label for="tanggal" class="form-label">Nama :</label>
                                         <input type="text" class="form-control" name="nama" id="nama"
@@ -44,12 +44,17 @@
                                         <input type="password" class="form-control" id="password" name="password"
                                             placeholder="Input Data" required>
                                     </div>
-                                    <div class="form-check mb-5">
+                                    <div class="form-check mb-3">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
                                             onclick="togglePasswordVisibility()">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             Show Password
                                         </label>
+                                    </div>
+                                    <div class="mb-5">
+                                        <label for="formFile" class="form-label">Foto</label>
+                                        <input class="form-control" type="file" name="image" id="image"
+                                            accept="image/png, image/jpeg">
                                     </div>
                                     <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>
                                         Submit</button>

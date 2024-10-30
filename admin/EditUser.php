@@ -71,12 +71,21 @@ if (isset($_GET['id'])) {
                                             <input type="password" class="form-control" id="password" name="password">
                                             <h5 class="password"> Kosongkan jika tidak ingin mengubah password</h5>
                                         </div>
-                                        <div class="form-check mb-5">
+                                        <div class="form-check mb-3">
                                             <input class="form-check-input" type="checkbox" value=""
                                                 id="flexCheckDefault" onclick="togglePasswordVisibility()">
                                             <label class="form-check-label" for="flexCheckDefault">
                                                 Show Password
                                             </label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="file_path" class="form-label">Foto :</label>
+                                            <input type="file" class="form-control" id="file_path" name="file_path">
+                                            <h5 class="password"> Kosongkan jika tidak ingin mengubah foto</h5>
+                                            <?php if ($userData['file_admin']): ?>
+                                            <img src="<?php echo htmlspecialchars($userData['file_admin']); ?>"
+                                                alt="Current Image" style="width: 100px; height: auto;">
+                                            <?php endif; ?>
                                         </div>
                                         <input type="hidden" id="id" name="id"
                                             value="<?php echo htmlspecialchars($userData['id']); ?>">
