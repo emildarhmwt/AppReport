@@ -17,17 +17,50 @@ while ($row = pg_fetch_assoc($result)) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report Application</title>
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo3.png" />
     <link rel="stylesheet" href="../assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Acme&family=Coiny&family=Concert+One&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Pacifico&family=Playpen+Sans:wght@100..800&family=Playwrite+DE+Grund:wght@100..400&family=Righteous&family=Sacramento&family=Varela+Round&family=Yatra+One&display=swap"
+        rel="stylesheet">
     <style>
     .wajib_isi {
-        color: red;
-        font-size: 5px;
+        color: #8b0707;
+        font-size: 15px;
+    }
+
+    .varela-round-regular {
+        font-family: "Varela Round", serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    .judul {
+        font-family: "Varela Round", serif;
+        text-align: center;
+        font-size: 30px;
+        margin-bottom: 50px;
+        margin-top: 10px;
+        color: white;
+    }
+
+    .sub-judul {
+        font-family: "Varela Round", serif;
+        color: white;
+    }
+
+    .form-select.text-white option {
+        color: black;
+    }
+
+    .form-select.text-white {
+        color: white;
     }
 
     .suggestions {
@@ -54,6 +87,11 @@ while ($row = pg_fetch_assoc($result)) {
 
     .notif {
         font-size: 13px;
+        color: #8b0707;
+    }
+
+    .form-control::placeholder {
+        color: white;
     }
     </style>
 </head>
@@ -67,143 +105,138 @@ while ($row = pg_fetch_assoc($result)) {
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-semibold mb-4">Form Hour Meter</h5>
-                        <div class="card">
-                            <div class="card-body">
-                                <form id="form-hourmeter" method="POST" action="hourmeter_aksi.php">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="equipment" class="form-label"><span
-                                                        class="wajib_isi">*</span> Equipment :</label>
-                                                <input type="text" class="form-control" id="equipment" name="equipment"
-                                                    placeholder="Type Equipment" required>
-                                                <div class="suggestions" id="suggestions"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="hm_awal" class="form-label">Tipe Unit :</label>
-                                                <input type="text" class="form-control" id="tipe_unit" name="tipe_unit"
-                                                    placeholder="Tipe Unit" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <div class="mb-3">
-                                                <label for="hm_awal" class="form-label"><span
-                                                        class="wajib_isi">*</span>Hour Meter Awal
-                                                    :</label>
-                                                <input type="number" class="form-control" id="hm_awal" name="hm_awal"
-                                                    placeholder="Input Data (gunakan titik untuk desimal)"
-                                                    oninput="calculateTotalHM()" required step="0.01">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="mb-3">
-                                                <label for="hm_akhir" class="form-label"><span
-                                                        class="wajib_isi">*</span> Hour Meter Akhir
-                                                    :</label>
-                                                <input type="number" class="form-control" id="hm_akhir" name="hm_akhir"
-                                                    placeholder="Input Data (gunakan titik untuk desimal)"
-                                                    oninput="calculateTotalHM()" required step="0.01">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="mb-3">
-                                                <label for="total_hm" class="form-label">Total HM :</label>
-                                                <input type="number" class="form-control" id="total_hm" name="total_hm"
-                                                    placeholder="Total HM" oninput="calculateTotalHM()" readonly>
-                                                <div id="error-message" class="text-danger notif"
-                                                    style="display: none;">Total HM tidak boleh minus (-)</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="jam_lain" class="form-label"><span
-                                                        class="wajib_isi">*</span> Jam Lain :</label>
-                                                <input type="number" class="form-control" id="jam_lain" name="jam_lain"
-                                                    placeholder="Input Data (gunakan titik untuk desimal)"
-                                                    oninput="calculateJamOperasi()" required step="0.01">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="jam_lain" class="form-label">Jam Operasi :</label>
-                                                <input type="number" class="form-control" id="jam_operasi"
-                                                    name="jam_operasi" placeholder="Jam Operasi"
-                                                    oninput="calculateJamOperasi()" readonly>
-                                                <div id="jam-operasi-error" class="text-danger" style="display: none;">
-                                                    Jam Operasi tidak boleh minus (-)</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <div class="mb-3">
-                                                <label for="breakdown" class="form-label"><span
-                                                        class="wajib_isi">*</span> Breakdown :</label>
-                                                <input type="number" class="form-control" id="breakdown"
-                                                    name="breakdown"
-                                                    placeholder="Input Data (gunakan titik untuk desimal)"
-                                                    oninput="calculateNoOrder()" required step="0.01">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="mb-3">
-                                                <label for="no_operator" class="form-label"><span
-                                                        class="wajib_isi">*</span> No Operator :</label>
-                                                <input type="number" class="form-control" id="no_operator"
-                                                    name="no_operator"
-                                                    placeholder="Input Data (gunakan titik untuk desimal)"
-                                                    oninput="calculateNoOrder()" required step="0.01">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="mb-3">
-                                                <label for="hujan" class="form-label"><span class="wajib_isi">*</span>
-                                                    Hujan :</label>
-                                                <input type="number" class="form-control" id="hujan" name="hujan"
-                                                    placeholder="Input Data (gunakan titik untuk desimal)"
-                                                    oninput="calculateNoOrder()" required step="0.01">
-                                            </div>
-                                        </div>
-                                    </div>
+                        <h5 class="judul fw-semibold">Form Jam Jalan</h5>
+                        <form id="form-hourmeter" method="POST" action="hourmeter_aksi.php">
+                            <div class="row">
+                                <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label for="hujan" class="form-label">No Order :</label>
-                                        <input type="number" class="form-control" id="no_order" name="no_order"
-                                            placeholder="No Order" oninput="calculateNoOrder()" readonly>
-                                        <div id="no-order-error" class="text-danger" style="display: none;">
-                                            No order tidak boleh minus (-)</div>
+                                        <label for="equipment" class="sub-judul mb-2"><span class="wajib_isi">*</span>
+                                            Equipment :</label>
+                                        <input type="text" class="form-control text-white" id="equipment"
+                                            name="equipment" placeholder="Type Equipment" required>
+                                        <div class="suggestions" id="suggestions"></div>
                                     </div>
+                                </div>
+                                <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label for="ket" class="form-label"><span class="wajib_isi">*</span> Keterangan
-                                            :</label>
-                                        <input type="text" class="form-control" id="ket" name="ket"
-                                            placeholder="Input Data" required>
+                                        <label for="hm_awal" class="sub-judul mb-2">Tipe Unit :</label>
+                                        <input type="text" class="form-control text-white" id="tipe_unit"
+                                            name="tipe_unit" placeholder="Tipe Unit" readonly>
                                     </div>
-                                    <input type="hidden" id="operation_report_id" name="operation_report_id"
-                                        value="<?php echo $_GET['id']; ?>">
-                                    <input type="hidden" id="proses_admin" name="proses_admin" value="Uploaded">
-                                    <input type="hidden" id="proses_pengawas" name="proses_pengawas" value="">
-                                    <input type="hidden" id="proses_kontraktor" name="proses_kontraktor" value="">
-                                    <input type="hidden" id="alasan_reject" name="alasan_reject" value="">
-                                    <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>
-                                        Submit</button>
-                                    <button type="button" class="btn btn-warning mx-3" onclick="goBack()"><i
-                                            class="bi bi-back"></i> Back</button>
-                                </form>
+                                </div>
                             </div>
-                        </div>
+
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="hm_awal" class="sub-judul mb-2"><span class="wajib_isi">*</span>Hour
+                                            Meter Awal :</label>
+                                        <input type="number" class="form-control text-white" id="hm_awal" name="hm_awal"
+                                            placeholder="Input Data (gunakan titik untuk desimal)"
+                                            oninput="calculateTotalHM()" required step="0.01">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="hm_akhir" class="sub-judul mb-2"><span class="wajib_isi">*</span>
+                                            Hour Meter Akhir :</label>
+                                        <input type="number" class="form-control text-white" id="hm_akhir"
+                                            name="hm_akhir" placeholder="Input Data (gunakan titik untuk desimal)"
+                                            oninput="calculateTotalHM()" required step="0.01">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="total_hm" class="sub-judul mb-2">Total HM :</label>
+                                        <input type="number" class="form-control text-white" id="total_hm"
+                                            name="total_hm" placeholder="Total HM" oninput="calculateTotalHM()"
+                                            readonly>
+                                        <div id="error-message" class="notif" style="display: none;">Total
+                                            HM tidak boleh minus (-)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="jam_lain" class="sub-judul mb-2"><span class="wajib_isi">*</span>
+                                            Jam Lain :</label>
+                                        <input type="number" class="form-control text-white" id="jam_lain"
+                                            name="jam_lain" placeholder="Input Data (gunakan titik untuk desimal)"
+                                            oninput="calculateJamOperasi()" required step="0.01">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="jam_lain" class="sub-judul mb-2">Jam Operasi :</label>
+                                        <input type="number" class="form-control text-white" id="jam_operasi"
+                                            name="jam_operasi" placeholder="Jam Operasi" oninput="calculateJamOperasi()"
+                                            readonly>
+                                        <div id="jam-operasi-error" class="notif" style="display: none;">
+                                            Jam Operasi tidak boleh minus (-)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="breakdown" class="sub-judul mb-2"><span class="wajib_isi">*</span>
+                                            Breakdown :</label>
+                                        <input type="number" class="form-control text-white" id="breakdown"
+                                            name="breakdown" placeholder="Input Data (gunakan titik untuk desimal)"
+                                            oninput="calculateNoOrder()" required step="0.01">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="no_operator" class="sub-judul mb-2"><span class="wajib_isi">*</span>
+                                            No Operator :</label>
+                                        <input type="number" class="form-control text-white" id="no_operator"
+                                            name="no_operator" placeholder="Input Data (gunakan titik untuk desimal)"
+                                            oninput="calculateNoOrder()" required step="0.01">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label for="hujan" class="sub-judul mb-2"><span class="wajib_isi">*</span>
+                                            Hujan :</label>
+                                        <input type="number" class="form-control text-white" id="hujan" name="hujan"
+                                            placeholder="Input Data (gunakan titik untuk desimal)"
+                                            oninput="calculateNoOrder()" required step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="hujan" class="sub-judul mb-2">No Order :</label>
+                                <input type="number" class="form-control text-white" id="no_order" name="no_order"
+                                    placeholder="No Order" oninput="calculateNoOrder()" readonly>
+                                <div id="no-order-error" class="notif" style="display: none;">
+                                    No order tidak boleh minus (-)</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="ket" class="sub-judul mb-2"><span class="wajib_isi">*</span> Keterangan
+                                    :</label>
+                                <input type="text" class="form-control text-white" id="ket" name="ket"
+                                    placeholder="Input Data" required>
+                            </div>
+                            <input type="hidden" id="operation_report_id" name="operation_report_id"
+                                value="<?php echo $_GET['id']; ?>">
+                            <input type="hidden" id="proses_admin" name="proses_admin" value="Uploaded">
+                            <input type="hidden" id="proses_pengawas" name="proses_pengawas" value="">
+                            <input type="hidden" id="proses_kontraktor" name="proses_kontraktor" value="">
+                            <input type="hidden" id="alasan_reject" name="alasan_reject" value="">
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>
+                                Submit</button>
+                            <button type="button" class="btn btn-danger mx-3" onclick="goBack()"><i
+                                    class="bi bi-back"></i> Back</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    </div>
     </div>
     <script>
     document.getElementById('form-hourmeter').addEventListener('submit', function(event) {

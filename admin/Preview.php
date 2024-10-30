@@ -153,6 +153,21 @@ if (isset($_GET['delete_id'])) {
         background-color: #b27373 !important;
         color: white !important;
     }
+
+    .card-preview {
+        background-color: #b37219 !important;
+    }
+
+    .sub-judul {
+        font-family: "Varela Round", serif;
+        color: white;
+    }
+
+    .table td {
+        word-break: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
     </style>
 </head>
 
@@ -173,7 +188,7 @@ if (isset($_GET['delete_id'])) {
                     <div class="card-body">
                         <!-- <div class="row"> -->
                         <div class="card card-preview" style="border-radius: 10px 10px 10px 10px;">
-                            <div class=" card-header" style="background-color: black; width: 100%; color:white;">
+                            <div class=" card-header" style="background-color: #b95b10; width: 100%; color:white;">
                                 Header
                             </div>
                             <?php
@@ -191,48 +206,48 @@ if (isset($_GET['delete_id'])) {
                                 <form method="get" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-lg-4 mb-3">
-                                            <label for="shift" class="form-label">Hari / Tanggal :</label>
-                                            <p>
+                                            <label for="shift" class="sub-judul">Hari / Tanggal :</label>
+                                            <p class="sub-judul mt-2">
                                                 <td><?php echo date('d M Y', strtotime($operation_report['tanggal'])); ?>
                                                 </td>
                                             </p>
                                         </div>
                                         <div class="col-lg-4 mb-3">
-                                            <label for="shift" class="form-label">Shift :</label>
-                                            <p>
+                                            <label for="shift" class="sub-judul">Shift :</label>
+                                            <p class="sub-judul mt-2">
                                                 <td><?php echo $operation_report['shift']; ?></td>
                                             </p>
                                         </div>
                                         <div class="col-lg-4 mb-3">
-                                            <label for="shift" class="form-label">Giliran / Group :</label>
-                                            <p>
+                                            <label for="shift" class="sub-judul">Giliran / Group :</label>
+                                            <p class="sub-judul mt-2">
                                                 <td><?php echo $operation_report['grup']; ?></td>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-4 mb-3">
-                                            <label for="shift" class="form-label">Pengawas :</label>
-                                            <p>
+                                            <label for="shift" class="sub-judul">Pengawas :</label>
+                                            <p class="sub-judul mt-2">
                                                 <td><?php echo $operation_report['pengawas']; ?></td>
                                             </p>
                                         </div>
                                         <div class="col-lg-4 mb-3">
-                                            <label for="shift" class="form-label">Lokasi Kerja :</label>
-                                            <p>
+                                            <label for="shift" class="sub-judul">Lokasi Kerja :</label>
+                                            <p class="sub-judul mt-2">
                                                 <td><?php echo $operation_report['lokasi']; ?></td>
                                             </p>
                                         </div>
                                         <div class="col-lg-4 mb-3">
-                                            <label for="shift" class="form-label">Status :</label>
-                                            <p>
+                                            <label for="shift" class="sub-judul">Status :</label>
+                                            <p class="sub-judul mt-2">
                                                 <td><?php echo $operation_report['status']; ?></td>
                                             </p>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-4 mb-3">
-                                                <label for="shift" class="form-label">PIC :</label>
-                                                <p>
+                                                <label for="shift" class="sub-judul">PIC :</label>
+                                                <p class="sub-judul mt-2">
                                                     <td><?php echo $operation_report['pic']; ?></td>
                                                 </p>
                                             </div>
@@ -303,19 +318,19 @@ if (isset($_GET['delete_id'])) {
                                     <tr class="text-center">
                                         <!-- <th class="fs-3" style="width: 5%;"></th> -->
                                         <th class="fs-3" style="width: 3%;">No</th>
-                                        <th class="fs-3">Executor</th>
-                                        <th class="fs-3">Alat Gali / Muat</th>
-                                        <th class="fs-3">Timbunan</th>
-                                        <th class="fs-3">Material Tanah</th>
-                                        <th class="fs-3">Jarak Angkut</th>
-                                        <th class="fs-3">Tipe Hauler </th>
-                                        <th class="fs-3">Ritase </th>
-                                        <th class="fs-3">Tipe Hauler 2</th>
-                                        <th class="fs-3">Ritase 2</th>
-                                        <th class="fs-3">Total Ritase</th>
-                                        <th class="fs-3">Volume</th>
-                                        <th class="fs-3">Proses</th>
-                                        <th class="fs-3" style="width: 5%;">Opsi</th>
+                                        <th class="fs-3" style="width: 5%;">Executor</th>
+                                        <th class="fs-3" style="width: 5%;">Alat Gali / Muat</th>
+                                        <th class="fs-3" style="width: 5%;">Timbunan</th>
+                                        <th class="fs-3" style="width: 5%;">Material Tanah</th>
+                                        <th class="fs-3" style="width: 5%;">Jarak Angkut</th>
+                                        <th class="fs-3" style="width: 5%;">Tipe Hauler </th>
+                                        <th class="fs-3" style="width: 5%;">Ritase </th>
+                                        <th class="fs-3" style="width: 5%;">Tipe Hauler 2</th>
+                                        <th class="fs-3" style="width: 5%;">Ritase 2</th>
+                                        <th class="fs-3" style="width: 5%;">Total Ritase</th>
+                                        <th class="fs-3" style="width: 5%;">Volume</th>
+                                        <th class="fs-3" style="width: 5%;">Proses</th>
+                                        <th class="fs-3" style="width: 10%;">Opsi</th>
                                         <!-- <th class="fs-3"> </th> -->
                                     </tr>
                                 </thead>
@@ -324,7 +339,8 @@ if (isset($_GET['delete_id'])) {
                                     <?php foreach ($production_reports as $index => $report): ?>
                                     <tr>
                                         <td class="text-center"><?php echo $index + 1; ?></td>
-                                        <td><?php echo htmlspecialchars($report['excecutor']); ?></td>
+                                        <td><?php echo htmlspecialchars($report['excecutor']); ?>
+                                        </td>
                                         <td><?php echo htmlspecialchars($report['alat']); ?></td>
                                         <td><?php echo htmlspecialchars($report['timbunan']); ?></td>
                                         <td><?php echo htmlspecialchars($report['material']); ?></td>
