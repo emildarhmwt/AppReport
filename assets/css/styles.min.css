@@ -4210,18 +4210,18 @@ fieldset:disabled .btn {
 
 .btn-primary {
     --bs-btn-color: #fff;
-    --bs-btn-bg: #0085db;
-    --bs-btn-border-color: #0085db;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #0071ba;
-    --bs-btn-hover-border-color: #006aaf;
+    --bs-btn-bg: #410606;
+    --bs-btn-border-color: #410606;
+    --bs-btn-hover-color: #370202;
+    --bs-btn-hover-bg: #dd8282;
+    --bs-btn-hover-border-color: #dd8282;
     --bs-btn-focus-shadow-rgb: 38, 151, 224;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #006aaf;
-    --bs-btn-active-border-color: #0064a4;
+    --bs-btn-active-bg: #410606;
+    --bs-btn-active-border-color: #410606;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #0085db;
+    --bs-btn-disabled-bg: #410606;
     --bs-btn-disabled-border-color: #0085db
 }
 
@@ -5628,7 +5628,7 @@ fieldset:disabled .btn {
     --bs-nav-link-padding-y: 0.5rem;
     --bs-nav-link-font-weight: ;
     --bs-nav-link-color: var(--bs-navbar-color);
-    --bs-nav-link-hover-color: var(--bs-navbar-hover-color);
+    --bs-nav-link-hover-color: rgb(134, 198, 208 / 90%);
     --bs-nav-link-disabled-color: var(--bs-navbar-disabled-color);
     display: -webkit-box;
     display: -ms-flexbox;
@@ -6222,7 +6222,7 @@ fieldset:disabled .btn {
     height: var(--bs-card-height);
     color: var(--bs-body-color);
     word-wrap: break-word;
-    background-color: var(--bs-card-bg);
+    background-color: #b97820 !important;
     background-clip: border-box;
     border: var(--bs-card-border-width) solid var(--bs-card-border-color);
     border-radius: var(--bs-card-border-radius);
@@ -20738,7 +20738,7 @@ fieldset:disabled .btn {
     position: relative;
     z-index: 50;
     width: 100%;
-    background: #f5f8fb
+    background: #0a273f !important
 }
 
 .app-header .navbar {
@@ -20805,7 +20805,7 @@ fieldset:disabled .btn {
 .body-wrapper {
     position: relative;
     min-height: 100vh;
-    background-color: #f5f8fb
+    background-color: #0a273f !important
 }
 
 .body-wrapper>.container-fluid,

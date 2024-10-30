@@ -10,7 +10,7 @@ include '../Koneksi.php';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report Application</title>
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo3.png" />
     <link rel="stylesheet" href="./assets/css/styles.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +26,7 @@ include '../Koneksi.php';
 
     .tulisanlogo {
         font-family: "Righteous", serif;
-        color: #780d0d;
+        color: #c5e9f7;
         font-size: 30px;
         margin-top: 10px;
     }
@@ -45,7 +45,7 @@ include '../Koneksi.php';
 
     .dashboard {
         font-family: "Varela Round", serif;
-        color: #061a32;
+        color: white;
         font-weight: bold;
         font-size: 20px;
     }
@@ -53,7 +53,7 @@ include '../Koneksi.php';
     .operation {
         font-family: "Varela Round", serif;
         font-weight: bold;
-        color: #061a32;
+        color: white;
         font-size: 20px;
     }
 
@@ -69,15 +69,6 @@ include '../Koneksi.php';
         color: #df7a15;
         font-weight: bold;
         margin-top: 10px;
-    }
-
-    .active {
-        text-decoration: underline;
-        color: #061a32;
-    }
-
-    .inactive {
-        color: grey;
     }
     </style>
 </head>
@@ -106,7 +97,7 @@ include '../Koneksi.php';
                     </ul> -->
                 <ul class="navbar-nav flex-row ms-4 align-items-center">
                     <li>
-                        <img src="../assets/images/logos/logo.png" class="logo-report">
+                        <img src="../assets/images/logos/logo3.png" class="logo-report">
                     </li>
                     <li class="text-center">
                         <!-- <img src="./assets/images/logos/tulisan-logo.png" class="tulisanlogo"> -->
@@ -132,8 +123,8 @@ include '../Koneksi.php';
                         <a class="operation nav-link" href="Barcode.php">Barcode</a>
                     </li> -->
                     <li class="nav-item dropdown">
-                        <a class="dropdown-toggle report nav-link" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="dropdown-toggle report nav-link text-white" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Database
                         </a>
                         <ul class="dropdown-menu">
