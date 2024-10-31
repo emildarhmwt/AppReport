@@ -226,10 +226,8 @@ while ($row = pg_fetch_assoc($result)) {
                             <input type="hidden" id="proses_pengawas" name="proses_pengawas" value="">
                             <input type="hidden" id="proses_kontraktor" name="proses_kontraktor" value="">
                             <input type="hidden" id="alasan_reject" name="alasan_reject" value="">
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>
-                                Submit</button>
-                            <button type="button" class="btn btn-danger mx-3" onclick="goBack()"><i
-                                    class="bi bi-back"></i> Back</button>
+                            <button type="submit" class="btn btn-primary me-2"> Submit</button>
+                            <button type="button" class="btn btn-danger" onclick="goBack()">Kembali</button>
                         </form>
                     </div>
                 </div>

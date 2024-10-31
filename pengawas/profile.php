@@ -27,18 +27,40 @@ pg_close($conn);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report Application</title>
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo3.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../assets/css/styles.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Pacifico&family=Playwrite+DE+Grund:wght@100..400&family=Rowdies:wght@300;400;700&family=Varela+Round&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Acme&family=Coiny&family=Concert+One&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Pacifico&family=Playpen+Sans:wght@100..800&family=Playwrite+DE+Grund:wght@100..400&family=Righteous&family=Sacramento&family=Varela+Round&family=Yatra+One&display=swap"
         rel="stylesheet">
     <style>
     .password {
         font-size: 10px;
         margin-top: 5px;
+        color: #8b0707;
+    }
+
+    .card-preview {
+        background-color: #b37219 !important;
+    }
+
+    .varela-round-regular {
+        font-family: "Varela Round", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    .card-subtitle {
+        color: white;
+        font-family: "Varela Round", sans-serif;
+        font-size: 20px;
+    }
+
+    .sub-judul {
+        font-family: "Varela Round", serif;
+        color: white;
     }
     </style>
 </head>
@@ -53,8 +75,9 @@ pg_close($conn);
             <div id="navbar"></div>
             <!--  Header End -->
             <div class="container-fluid">
-                <div class="card card-preview" style="border-radius: 10px 10px 10px 10px;">
-                    <div class=" card-header" style="background-color: #0e4551; width: 100%; font-size: 25px;">
+                <div class="card" style="border-radius: 10px 10px 10px 10px;">
+                    <div class=" card-header" style="background-color: #b95b10; width: 100%; font-size: 25px; color:white; font-family:
+                        Varela Round;">
                         Profil
                     </div>
                     <div class="card-body">
@@ -78,47 +101,49 @@ pg_close($conn);
                                         <form class="form-horizontal form-material mx-2" method="post"
                                             action="profile_act.php" enctype="multipart/form-data">
                                             <div class="form-group mb-3">
-                                                <label class="col-md-12">Nama</label>
+                                                <label class="col-md-12 sub-judul mb-2">Nama</label>
                                                 <div class="col-md-12">
-                                                    <input type="text" class="form-control"
+                                                    <input type="text" class="form-control text-white"
                                                         value="<?php echo htmlspecialchars($admin['nama']); ?>"
                                                         id="nama" name="nama" required="required">
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3">
-                                                <label for="example-email" class="col-md-12">Username</label>
+                                                <label for="example-email"
+                                                    class="col-md-12 sub-judul mb-2">Username</label>
                                                 <div class="col-md-12">
-                                                    <input type="text" class="form-control"
+                                                    <input type="text" class="form-control text-white"
                                                         value="<?php echo htmlspecialchars($admin['username']); ?>"
                                                         id="username" name="username" required="required">
                                                 </div>
                                             </div>
                                             <div class="mb-2">
-                                                <label for="jam_lain" class="form-label">Password :</label>
-                                                <input type="password" class="form-control" id="password"
+                                                <label for="jam_lain" class="sub-judul mb-2">Password :</label>
+                                                <input type="password" class="form-control text-white" id="password"
                                                     name="password">
                                                 <h5 class="password"> Kosongkan jika tidak ingin mengubah password</h5>
                                             </div>
                                             <div class="form-check mb-3">
                                                 <input class="form-check-input" type="checkbox" value=""
-                                                    id="flexCheckDefault" onclick="togglePasswordVisibility()">
-                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    id="flexCheckDefault" onclick="togglePasswordVisibility()"
+                                                    style="border: 1px solid white;">
+                                                <label class="form-check-label sub-judul" for="flexCheckDefault">
                                                     Show Password
                                                 </label>
                                             </div>
                                             <div class="form-group mb-3">
                                                 <div class="mb-3">
-                                                    <label for="foto" class="form-label">Foto</label>
-                                                    <input class="form-control" type="file" id="file_path"
+                                                    <label for="foto" class="sub-judul mb-2">Foto</label>
+                                                    <input class="form-control text-white" type="file" id="file_path"
                                                         name="file_path">
                                                     <h5 class="password">Kosongkan jika tidak ingin mengubah foto</h5>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <button type="submit" class="btn btn-custom-eye"><i
-                                                            class="bi bi-send"></i>
-                                                        Submit</button>
+                                                    <button type="submit" class="btn btn-primary">
+                                                        Submit
+                                                    </button>
                                                 </div>
                                             </div>
                                         </form>

@@ -31,7 +31,7 @@ if ($id) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report Application</title>
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo3.png" />
     <link rel="stylesheet" href="../assets/css/styles.min.css">
     <link rel=" stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
@@ -62,88 +62,13 @@ if ($id) {
         font-weight: 400;
     }
 
-    .btn-custom2 {
-        background-color: #ede0a0 !important;
-        color: black !important;
-        cursor: pointer;
+    .card-preview {
+        background-color: #b37219 !important;
     }
 
-    .btn-custom2:hover {
-        background-color: #bdb57b !important;
-        color: white !important;
-    }
-
-    .timeline {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: relative;
-        margin-top: 20px;
-    }
-
-    .timeline::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background-color: #ccc;
-        z-index: 1;
-    }
-
-    .timeline-item {
-        position: relative;
-        z-index: 2;
-        text-align: center;
-    }
-
-    .timeline-dot {
-        width: 10px;
-        height: 10px;
-        background-color: #00bfff;
-        border-radius: 50%;
-        margin: 0 auto;
-    }
-
-    .timeline-item p {
-        margin: 0;
-        font-size: 14px;
-        color: black;
-    }
-
-    .bg-blue {
-        background-color: #0e4551;
-        ;
-    }
-
-    .bg-gray {
-        background-color: #ccc;
-    }
-
-    /* .card-preview {
-        background-color: #0e45515c !important;
-        color: white !important;
-    } */
-
-    .btn-custom-review {
-        background-color: #11475e !important;
-        color: white !important;
-    }
-
-    .btn-custom-review:hover {
-        background-color: #609fb2 !important;
-        color: white !important;
-    }
-
-    .btn-custom-back {
-        background-color: #7c1919 !important;
-        color: white !important;
-    }
-
-    .btn-custom-back:hover {
-        background-color: #b27373 !important;
-        color: white !important;
+    .sub-judul {
+        font-family: "Varela Round", serif;
+        color: white;
     }
     </style>
 </head>
@@ -165,7 +90,7 @@ if ($id) {
                     <div class="card-body">
                         <!-- <div class="row"> -->
                         <div class="card card-preview" style="border-radius: 10px 10px 10px 10px;">
-                            <div class=" card-header" style="background-color: black; width: 100%; color:white;">
+                            <div class=" card-header" style="background-color: #b95b10; width: 100%; color:white;">
                                 Header
                             </div>
                             <?php
@@ -183,48 +108,48 @@ if ($id) {
                                 <form method="get" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-lg-4 mb-3">
-                                            <label for="shift" class="form-label">Hari / Tanggal :</label>
-                                            <p>
+                                            <label for="shift" class="sub-judul">Hari / Tanggal :</label>
+                                            <p class="sub-judul mt-2">
                                                 <td><?php echo date('d M Y', strtotime($operation_report['tanggal'])); ?>
                                                 </td>
                                             </p>
                                         </div>
                                         <div class="col-lg-4 mb-3">
-                                            <label for="shift" class="form-label">Shift :</label>
-                                            <p>
+                                            <label for="shift" class="sub-judul">Shift :</label>
+                                            <p class="sub-judul mt-2">
                                                 <td><?php echo $operation_report['shift']; ?></td>
                                             </p>
                                         </div>
                                         <div class="col-lg-4 mb-3">
-                                            <label for="shift" class="form-label">Giliran / Group :</label>
-                                            <p>
+                                            <label for="shift" class="sub-judul">Giliran / Group :</label>
+                                            <p class="sub-judul mt-2">
                                                 <td><?php echo $operation_report['grup']; ?></td>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-4 mb-3">
-                                            <label for="shift" class="form-label">Pengawas :</label>
-                                            <p>
+                                            <label for="shift" class="sub-judul">Pengawas :</label>
+                                            <p class="sub-judul mt-2">
                                                 <td><?php echo $operation_report['pengawas']; ?></td>
                                             </p>
                                         </div>
                                         <div class="col-lg-4 mb-3">
-                                            <label for="shift" class="form-label">Lokasi Kerja :</label>
-                                            <p>
+                                            <label for="shift" class="sub-judul">Lokasi Kerja :</label>
+                                            <p class="sub-judul mt-2">
                                                 <td><?php echo $operation_report['lokasi']; ?></td>
                                             </p>
                                         </div>
                                         <div class="col-lg-4 mb-3">
-                                            <label for="shift" class="form-label">Status :</label>
-                                            <p>
+                                            <label for="shift" class="sub-judul">Status :</label>
+                                            <p class="sub-judul mt-2">
                                                 <td><?php echo $operation_report['status']; ?></td>
                                             </p>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-4 mb-3">
-                                                <label for="shift" class="form-label">PIC :</label>
-                                                <p>
+                                                <label for="shift" class="sub-judul">PIC :</label>
+                                                <p class="sub-judul mt-2">
                                                     <td><?php echo $operation_report['pic']; ?></td>
                                                 </p>
                                             </div>
@@ -233,41 +158,11 @@ if ($id) {
                                 </form>
                             </div>
                         </div>
-                        <!-- </div> -->
-                        <!-- <div class="row text-center justify-content-center align-items-center mt-4">
-                            <div class="col-lg-12">
-                                <div class="timeline">
-                                    <div class="timeline-item">
-                                        <div class="timeline-dot">
-                                        </div>
-                                    </div>
-                                    <div class="timeline-item">
-                                        <div class="timeline-dot">
-                                        </div>
-                                    </div>
-                                    <div class="timeline-item">
-                                        <div class="timeline-dot">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="text-center">
-                                        <p>Uploaded</p>
-                                    </div>
-                                    <div class="text-center">
-                                        <p>Approve (Pengawas)</p>
-                                    </div>
-                                    <div class="text-center">
-                                        <p>Done </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
 
                         <div class="row mb-4 mt-4">
                             <div class="col-md-12 d-flex justify-content-between align-items-center">
-                                <a target="_blank" class="btn btn-custom-review btn-sm d-flex align-items-center me-2"
-                                    href="#" onclick="return false;">
+                                <a target="_blank" class="btn btn-primary d-flex align-items-center me-2" href="#"
+                                    onclick="return false;">
                                     Proses :
                                     <?php
                                     $processDisplay = ''; // Variable to hold the process display string
@@ -336,18 +231,15 @@ if ($id) {
 
                                 <div class="d-flex justify-content-end align-items-center">
                                     <a target="_blank"
-                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
-                                        href="./export_pdf.php?id=<?php echo $id; ?>&action=review">
-                                        <i class="ti ti-eye fs-7 mx-1"></i> Review Dokumen
+                                        class="btn btn-warning d-flex justify-content-end align-items-center me-2"
+                                        href="./export_pdf.php?id=<?php echo $id; ?>&action=review">Review Dokumen
                                     </a>
                                     <a target="_blank"
-                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
-                                        href="./export_pdf.php?id=<?php echo $id; ?>&action=download">
-                                        <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
+                                        class="btn btn-warning d-flex justify-content-end align-items-center me-2"
+                                        href="./export_pdf.php?id=<?php echo $id; ?>&action=download">Export PDF
                                     </a>
-                                    <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
-                                        href="Report.php">
-                                        <i class="ti ti-arrow-narrow-left fs-5 mx-1"></i></i> Kembali
+                                    <a class="btn btn-danger d-flex justify-content-end align-items-center"
+                                        href="Report.php">Kembali
                                     </a>
                                 </div>
                             </div>
@@ -355,25 +247,21 @@ if ($id) {
                         <div class="table-responsive products-table" data-simplebar>
                             <table class="table table-bordered text-nowrap mb-0 align-middle table-hover">
                                 <thead class="fs-4">
-                                    <tr class="text-center">
-                                        <!-- <th class="text-center fs-3" style="width: 3%;">
-                                            <div class="form-check d-flex justify-content-center">
-                                                <input class="form-check-input" type="checkbox" value=""
-                                                    id="flexCheckDefault">
-                                            </div>
-                                        </th> -->
-                                        <th class="fs-3" style="width: 3%;">No</th>
-                                        <th class="fs-3">Executor</th>
-                                        <th class="fs-3">Alat Gali / Muat</th>
-                                        <th class="fs-3">Timbunan</th>
-                                        <th class="fs-3">Material Tanah</th>
-                                        <th class="fs-3">Jarak Angkut</th>
-                                        <th class="fs-3">Tipe Hauler</th>
-                                        <th class="fs-3">Ritase</th>
-                                        <th class="fs-3">Tipe Hauler 2</th>
-                                        <th class="fs-3">Ritase 2</th>
-                                        <th class="fs-3">Total Ritase</th>
-                                        <th class="fs-3">Volume</th>
+                                    <tr class="text-center justify-content-center" style="vertical-align: middle;">
+                                        <!-- <th class="fs-3" style="width: 5%;"></th> -->
+                                        <th class="fs-3" style="width: 1%;">No</th>
+                                        <th class="fs-3" style="width: 15%;">Executor</th>
+                                        <th class="fs-3" style="width: 15%;">Alat Gali / Muat</th>
+                                        <th class="fs-3" style="width: 15%;">Timbunan</th>
+                                        <th class="fs-3" style="width: 5%;">Material <br> Tanah</th>
+                                        <th class="fs-3" style="width: 5%;">Jarak <br> Angkut</th>
+                                        <th class="fs-3" style="width: 15%;">Tipe <br> Hauler </th>
+                                        <th class="fs-3" style="width: 5%;">Ritase </th>
+                                        <th class="fs-3" style="width: 15%;">Tipe <br> Hauler 2</th>
+                                        <th class="fs-3" style="width: 5%;">Ritase 2</th>
+                                        <th class="fs-3" style="width: 5%;">Total <br> Ritase</th>
+                                        <th class="fs-3" style="width: 5%;">Volume</th>
+                                        <!-- <th class="fs-3"> </th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -385,27 +273,28 @@ if ($id) {
                                         <td><?php echo htmlspecialchars($report['alat']); ?></td>
                                         <td><?php echo htmlspecialchars($report['timbunan']); ?></td>
                                         <td><?php echo htmlspecialchars($report['material']); ?></td>
-                                        <td><?php echo htmlspecialchars($report['jarak']); ?></td>
+                                        <td class="text-center"><?php echo htmlspecialchars($report['jarak']); ?></td>
                                         <td><?php echo htmlspecialchars($report['tipe']); ?></td>
-                                        <td><?php echo htmlspecialchars($report['ritase']); ?></td>
+                                        <td class="text-center"><?php echo htmlspecialchars($report['ritase']); ?></td>
                                         <td><?php echo htmlspecialchars($report['tipe2']); ?></td>
-                                        <td><?php echo htmlspecialchars($report['ritase2']); ?></td>
-                                        <td><?php echo htmlspecialchars($report['total_ritase']); ?></td>
-                                        <td><?php echo number_format(htmlspecialchars($report['volume']), 2); ?></td>
+                                        <td class="text-center"><?php echo htmlspecialchars($report['ritase2']); ?></td>
+                                        <td class="text-center"><?php echo htmlspecialchars($report['total_ritase']); ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php echo number_format(htmlspecialchars($report['volume']), 2); ?></td>
                                     </tr>
                                     <?php endforeach; ?>
                                     <?php else: ?>
                                     <tr>
-                                        <td colspan="7" class="text-center">No production reports found.</td>
+                                        <td colspan="12" class="text-center">No production reports found.</td>
                                     </tr>
                                     <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
                         <div class="mt-3">
-                            <button class="btn btn-primary btn-sm" title="Approve"
-                                onclick="showApproveModal(<?php echo $id; ?>)">
-                                <i class="bi bi-check2"></i> Approve
+                            <button class="btn btn-primary me-2" title="Approve"
+                                onclick="showApproveModal(<?php echo $id; ?>)"> Approve
                             </button>
 
                             <div id="approveModal" class="modal" tabindex="-1">
@@ -457,9 +346,8 @@ if ($id) {
                                 </div>
                             </div>
 
-                            <button class="btn btn-danger btn-sm" title="Reject"
-                                onclick="showRejectModal(<?php echo $id; ?>)">
-                                <i class="bi bi-x-lg"></i> Reject
+                            <button class="btn btn-danger" title="Reject" onclick="showRejectModal(<?php echo $id; ?>)">
+                                Reject
                             </button>
 
                             <div id="rejectModal" class="modal" tabindex="-1">

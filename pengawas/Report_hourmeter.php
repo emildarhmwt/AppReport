@@ -37,9 +37,67 @@ $data = pg_fetch_all($result);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report Application</title>
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo3.png" />
     <link rel="stylesheet" href="../assets/css/styles.min.css">
     <link rel=" stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Acme&family=Coiny&family=Concert+One&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Pacifico&family=Playpen+Sans:wght@100..800&family=Playwrite+DE+Grund:wght@100..400&family=Righteous&family=Sacramento&family=Varela+Round&family=Yatra+One&display=swap"
+        rel="stylesheet">
+    <style>
+    .varela-round-regular {
+        font-family: "Varela Round", serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    .judul {
+        font-family: "Varela Round", serif;
+        text-align: center;
+        font-size: 30px;
+        margin-bottom: 50px;
+        margin-top: 10px;
+        color: white;
+    }
+
+    .sub-judul {
+        font-family: "Varela Round", serif;
+        color: white;
+    }
+
+    .form-select.text-white option {
+        color: black;
+    }
+
+    .form-select.text-white {
+        color: white;
+    }
+
+    .form-control::placeholder {
+        color: white;
+    }
+
+    .card-preview {
+        background-color: #b37219 !important;
+    }
+
+    .produksi {
+        color: white;
+        font-family: "Varela Round", serif;
+        font-size: 17px;
+    }
+
+    .produksi:hover {
+        color: black;
+    }
+
+    .table td {
+        word-break: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
+    </style>
 </head>
 
 <body>
@@ -57,44 +115,36 @@ $data = pg_fetch_all($result);
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-semibold mb-4">Operation Report</h5>
+                        <h5 class="judul fw-semibold">Jam Jalan Report</h5>
                         <div class="row mt-3 mb-3">
                             <div class="col-lg-6 border-end text-center">
-                                <a href="Report.php"> Produksi </a>
+                                <a href="Report.php" class="produksi"> Produksi </a>
                             </div>
                             <div class="col-lg-6 text-center">
-                                <a href="Report_hourmeter.php"> Jam Jalan </a>
+                                <a href="Report_hourmeter.php" class="produksi"> Jam Jalan </a>
                             </div>
                         </div>
 
-                        <div class="card">
+                        <div class="card card-preview">
                             <div class="card-body">
                                 <form id="form-operation" onSubmit="return handleSubmit(event)">
                                     <div class="row mb-3">
                                         <div class="col-md-6">
-                                            <label for="startDate" class="form-label">Tanggal Mulai:</label>
-                                            <input type="date" class="form-control" id="startDate"
+                                            <label for="startDate" class="sub-judul mb-2">Tanggal Awal :</label>
+                                            <input type="date" class="form-control text-white" id="startDate"
                                                 aria-describedby="startDateHelp">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="endDate" class="form-label">Tanggal Selesai:</label>
-                                            <input type="date" class="form-control" id="endDate"
+                                            <label for="endDate" class="sub-judul mb-2">Tanggal Akhir :</label>
+                                            <input type="date" class="form-control text-white" id="endDate"
                                                 aria-describedby="endDateHelp">
                                         </div>
                                     </div>
-                                    <!-- <div class="mb-3">
-                                        <label for="status" class="form-label">Status :</label>
-                                        <select class="form-select" id="status" name="status">
-                                            <option value="" selected disabled>PRODUKSI / JAM JALAN </option>
-                                            <option value="Produksi">Produksi</option>
-                                            <option value="Jam Jalan">Jam Jalan</option>
-                                        </select>
-                                    </div> -->
                                     <div class="d-flex justify-content-center mt-3">
-                                        <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i>
-                                            Search Data</button>
-                                        <button type="button" class="btn btn-primary mx-3" onclick="fetchAllData()">All
-                                            Data</button>
+                                        <button type="submit" class="btn btn-warning">
+                                            Cari Data</button>
+                                        <button type="button" class="btn btn-warning mx-3"
+                                            onclick="fetchAllData()">Semua Data</button>
                                     </div>
                                 </form>
                             </div>
@@ -102,15 +152,15 @@ $data = pg_fetch_all($result);
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="rowsPerPageSelect" class="form-label">Tampilkan:</label>
-                            <select id="rowsPerPageSelect" class="form-select"
+                            <label for="rowsPerPageSelect" class="sub-judul">Tampilkan:</label>
+                            <select id="rowsPerPageSelect" class="form-select text-white"
                                 style="width: auto; display: inline-block;" onchange="updateRowsPerPage()">
                                 <option value="5">5</option>
                                 <option value="10" selected>10</option>
                                 <option value="15">15</option>
                                 <option value="20">20</option>
                             </select>
-                            <span> data per halaman</span>
+                            <span class="sub-judul"> data per halaman</span>
                         </div>
                         <div class="d-flex align-items-stretch">
                             <div class="card w-100 overflow-hidden">
@@ -118,17 +168,17 @@ $data = pg_fetch_all($result);
                                     <div class="table-responsive products-tabel" data-simplebar>
                                         <table class="table table-bordered text-nowrap mb-0 align-middle table-hover">
                                             <thead class="fs-4">
-                                                <tr>
-                                                    <th class="fs-3">No</th>
-                                                    <th class="fs-3">Hari / Tanggal</th>
-                                                    <th class="fs-3">Shift</th>
-                                                    <th class="fs-3">Giliran / Group</th>
-                                                    <th class="fs-3">Pengawas</th>
-                                                    <th class="fs-3">Lokasi Kerja</th>
-                                                    <th class="fs-3">Status</th>
-                                                    <th class="fs-3">PIC</th>
-                                                    <th class="fs-3">Proses</th>
-                                                    <th class="fs-3"> </th>
+                                                <tr class="text-center">
+                                                    <th class="fs-3" style="width: 1%;">No</th>
+                                                    <th class="fs-3" style="width: 5%;">Hari / Tanggal</th>
+                                                    <th class="fs-3" style="width: 20%;">Shift</th>
+                                                    <th class="fs-3" style="width: 5%;">Group</th>
+                                                    <th class="fs-3" style="width: 19%;">Pengawas</th>
+                                                    <th class="fs-3" style="width: 20%;">Lokasi Kerja</th>
+                                                    <th class="fs-3" style="width: 8%;">Status</th>
+                                                    <th class="fs-3" style="width: 11%;">PIC</th>
+                                                    <th class="fs-3" style="width: 10%;">Proses</th>
+                                                    <th class="fs-3" style="width: 1%;"> </th>
                                                 </tr>
                                             </thead>
                                             <tbody id="operationTableBody">
@@ -136,10 +186,10 @@ $data = pg_fetch_all($result);
                                                 if ($data) {
                                                     foreach ($data as $index => $operation) {
                                                         echo '<tr>';
-                                                        echo '<td>' . ($index + 1) . '</td>';
+                                                        echo '<td class="text-center">' . ($index + 1) . '</td>';
                                                         echo '<td>' . htmlspecialchars(date('d M Y', strtotime($operation['tanggal']))) . '</td>';
                                                         echo '<td>' . htmlspecialchars($operation['shift']) . '</td>';
-                                                        echo '<td>' . htmlspecialchars($operation['grup']) . '</td>';
+                                                        echo '<td class="text-center">' . htmlspecialchars($operation['grup']) . '</td>';
                                                         echo '<td>' . htmlspecialchars($operation['pengawas']) . '</td>';
                                                         echo '<td>' . htmlspecialchars($operation['lokasi']) . '</td>';
                                                         echo '<td>' . htmlspecialchars($operation['status']) . '</td>';
@@ -246,10 +296,10 @@ $data = pg_fetch_all($result);
 
                 const row = `
                 <tr>
-                    <td>${start + index + 1}</td>
+                    <td class="text-center">${start + index + 1}</td>
                     <td>${formatDate(report.tanggal)}</td>
                     <td>${report.shift}</td>
-                    <td>${report.grup}</td>
+                    <td class="text-center">${report.grup}</td>
                     <td>${report.pengawas}</td>
                     <td>${report.lokasi}</td>
                     <td>${report.status}</td>

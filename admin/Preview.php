@@ -39,7 +39,7 @@ if (isset($_GET['delete_id'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report Application</title>
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo3.png" />
     <link rel="stylesheet" href="../assets/css/styles.min.css">
     <link rel=" stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
@@ -70,90 +70,6 @@ if (isset($_GET['delete_id'])) {
         font-weight: 400;
     }
 
-    .btn-custom2 {
-        background-color: #ede0a0 !important;
-        color: black !important;
-        cursor: pointer;
-    }
-
-    .btn-custom2:hover {
-        background-color: #bdb57b !important;
-        color: white !important;
-    }
-
-    .timeline {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: relative;
-        margin-top: 20px;
-    }
-
-    .timeline::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background-color: #ccc;
-        z-index: 1;
-    }
-
-    .timeline-item {
-        position: relative;
-        z-index: 2;
-        text-align: center;
-    }
-
-    .timeline-dot {
-        width: 10px;
-        height: 10px;
-        background-color: #00bfff;
-        border-radius: 50%;
-        margin: 0 auto;
-    }
-
-    .timeline-item p {
-        margin: 0;
-        font-size: 14px;
-        color: black;
-    }
-
-    .bg-blue {
-        background-color: #0e4551;
-        ;
-    }
-
-    .bg-gray {
-        background-color: #ccc;
-    }
-
-    /* .card-preview {
-        background-color: #0e45515c !important;
-        color: white !important;
-    } */
-
-    .btn-custom-review {
-        background-color: #11475e !important;
-        color: white !important;
-    }
-
-    .btn-custom-review:hover {
-        background-color: #609fb2 !important;
-        color: white !important;
-    }
-
-    .btn-custom-back {
-        background-color: #7c1919 !important;
-        color: white !important;
-    }
-
-    .btn-custom-back:hover {
-        background-color: #b27373 !important;
-        color: white !important;
-    }
-
     .card-preview {
         background-color: #b37219 !important;
     }
@@ -163,11 +79,11 @@ if (isset($_GET['delete_id'])) {
         color: white;
     }
 
-    .table td {
+    /* .table td {
         word-break: break-word;
         overflow-wrap: break-word;
         white-space: normal;
-    }
+    } */
     </style>
 </head>
 
@@ -290,24 +206,20 @@ if (isset($_GET['delete_id'])) {
                         <div class="row mb-4 mt-4">
                             <div class="col-md-12 d-flex justify-content-between align-items-center">
                                 <a target="_blank"
-                                    class="btn btn-custom-review btn-sm d-flex justify-content-start align-items-center me-2"
-                                    href="./production_create.php?id=<?php echo $id; ?>">
-                                    <i class="bi bi-file-earmark-plus fs-4 mx-1"></i> Create
+                                    class="btn btn-primary d-flex justify-content-start align-items-center me-2"
+                                    href="./production_create.php?id=<?php echo $id; ?>">Tambah
                                 </a>
                                 <div class="d-flex justify-content-end">
                                     <a target="_blank"
-                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
-                                        href="./export_pdf.php?id=<?php echo $id; ?>&action=review">
-                                        <i class="ti ti-eye fs-7 mx-1"></i> Review Dokumen
+                                        class="btn btn-warning d-flex justify-content-end align-items-center me-2"
+                                        href="./export_pdf.php?id=<?php echo $id; ?>&action=review"> Review Dokumen
                                     </a>
                                     <a target="_blank"
-                                        class="btn btn-custom-review btn-sm d-flex justify-content-end align-items-center me-2"
-                                        href="./export_pdf.php?id=<?php echo $id; ?>&action=download">
-                                        <i class="bi bi-filetype-pdf fs-4 mx-1"></i> Export PDF
+                                        class="btn btn-warning d-flex justify-content-end align-items-center me-2"
+                                        href="./export_pdf.php?id=<?php echo $id; ?>&action=download"> Export PDF
                                     </a>
-                                    <a class="btn btn-custom-back btn-sm d-flex justify-content-end align-items-center mx-2"
-                                        href="Report.php">
-                                        <i class="ti ti-arrow-narrow-left fs-7 mx-1"></i> Kembali
+                                    <a class="btn btn-danger d-flex justify-content-end align-items-center"
+                                        href="Report.php"> Kembali
                                     </a>
                                 </div>
                             </div>
@@ -315,22 +227,22 @@ if (isset($_GET['delete_id'])) {
                         <div class="table-responsive products-table" data-simplebar>
                             <table class="table table-bordered text-nowrap mb-0 align-middle table-hover">
                                 <thead class="fs-4">
-                                    <tr class="text-center">
+                                    <tr class="text-center justify-content-center" style="vertical-align: middle;">
                                         <!-- <th class="fs-3" style="width: 5%;"></th> -->
-                                        <th class="fs-3" style="width: 3%;">No</th>
-                                        <th class="fs-3" style="width: 5%;">Executor</th>
-                                        <th class="fs-3" style="width: 5%;">Alat Gali / Muat</th>
-                                        <th class="fs-3" style="width: 5%;">Timbunan</th>
-                                        <th class="fs-3" style="width: 5%;">Material Tanah</th>
-                                        <th class="fs-3" style="width: 5%;">Jarak Angkut</th>
-                                        <th class="fs-3" style="width: 5%;">Tipe Hauler </th>
+                                        <th class="fs-3" style="width: 1%;">No</th>
+                                        <th class="fs-3" style="width: 15%;">Executor</th>
+                                        <th class="fs-3" style="width: 15%;">Alat Gali / Muat</th>
+                                        <th class="fs-3" style="width: 15%;">Timbunan</th>
+                                        <th class="fs-3" style="width: 5%;">Material <br> Tanah</th>
+                                        <th class="fs-3" style="width: 5%;">Jarak <br> Angkut</th>
+                                        <th class="fs-3" style="width: 15%;">Tipe <br> Hauler </th>
                                         <th class="fs-3" style="width: 5%;">Ritase </th>
-                                        <th class="fs-3" style="width: 5%;">Tipe Hauler 2</th>
+                                        <th class="fs-3" style="width: 15%;">Tipe <br> Hauler 2</th>
                                         <th class="fs-3" style="width: 5%;">Ritase 2</th>
-                                        <th class="fs-3" style="width: 5%;">Total Ritase</th>
+                                        <th class="fs-3" style="width: 5%;">Total <br> Ritase</th>
                                         <th class="fs-3" style="width: 5%;">Volume</th>
-                                        <th class="fs-3" style="width: 5%;">Proses</th>
-                                        <th class="fs-3" style="width: 10%;">Opsi</th>
+                                        <th class="fs-3" style="width: 15%;">Proses</th>
+                                        <th class="fs-3" style="width: 1%;">Opsi</th>
                                         <!-- <th class="fs-3"> </th> -->
                                     </tr>
                                 </thead>
@@ -344,14 +256,16 @@ if (isset($_GET['delete_id'])) {
                                         <td><?php echo htmlspecialchars($report['alat']); ?></td>
                                         <td><?php echo htmlspecialchars($report['timbunan']); ?></td>
                                         <td><?php echo htmlspecialchars($report['material']); ?></td>
-                                        <td><?php echo htmlspecialchars($report['jarak']); ?></td>
+                                        <td class="text-center"><?php echo htmlspecialchars($report['jarak']); ?></td>
                                         <td><?php echo htmlspecialchars($report['tipe']); ?></td>
-                                        <td><?php echo htmlspecialchars($report['ritase']); ?></td>
+                                        <td class="text-center"><?php echo htmlspecialchars($report['ritase']); ?></td>
                                         <td><?php echo htmlspecialchars($report['tipe2']); ?></td>
-                                        <td><?php echo htmlspecialchars($report['ritase2']); ?></td>
-                                        <td><?php echo htmlspecialchars($report['total_ritase']); ?></td>
-                                        <td><?php echo number_format(htmlspecialchars($report['volume']), 2); ?></td>
-                                        <td>
+                                        <td class="text-center"><?php echo htmlspecialchars($report['ritase2']); ?></td>
+                                        <td class="text-center"><?php echo htmlspecialchars($report['total_ritase']); ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php echo number_format(htmlspecialchars($report['volume']), 2); ?></td>
+                                        <td class="proses">
                                             <?php
                                                     if (isset($report['proses_kontraktor']) && !empty($report['proses_kontraktor'])) {
                                                         echo $report['proses_kontraktor'];

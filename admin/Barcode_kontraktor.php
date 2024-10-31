@@ -19,13 +19,65 @@ $data = pg_fetch_all($result);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report Application</title>
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo3.png" />
     <link rel="stylesheet" href="../assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Acme&family=Coiny&family=Concert+One&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Pacifico&family=Playpen+Sans:wght@100..800&family=Playwrite+DE+Grund:wght@100..400&family=Righteous&family=Sacramento&family=Varela+Round&family=Yatra+One&display=swap"
+        rel="stylesheet">
+    <style>
+    .varela-round-regular {
+        font-family: "Varela Round", serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    .judul {
+        font-family: "Varela Round", serif;
+        text-align: center;
+        font-size: 30px;
+        margin-bottom: 50px;
+        margin-top: 10px;
+        color: white;
+    }
+
+    .sub-judul {
+        font-family: "Varela Round", serif;
+        color: white;
+    }
+
+    .form-select.text-white option {
+        color: black;
+    }
+
+    .form-select.text-white {
+        color: white;
+    }
+
+    .form-control::placeholder {
+        color: white;
+    }
+
+    .card-preview {
+        background-color: #b37219 !important;
+    }
+
+    .produksi {
+        color: white;
+        font-family: "Varela Round", serif;
+        font-size: 17px;
+    }
+
+    .produksi:hover {
+        color: black;
+    }
+    </style>
 </head>
 
 <body>
@@ -43,13 +95,13 @@ $data = pg_fetch_all($result);
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-semibold mb-4">Data Barcode Pengawas</h5>
+                        <h5 class="judul fw-semibold">Data Barcode Pengawas</h5>
                         <div class="row mt-3 mb-3">
                             <div class="col-lg-6 border-end text-center">
-                                <a href="Barcode.php"> Pengawas </a>
+                                <a href="Barcode.php" class="produksi"> Pengawas </a>
                             </div>
                             <div class="col-lg-6 text-center">
-                                <a href="Barcode_kontraktor.php"> Kontraktor </a>
+                                <a href="Barcode_kontraktor.php" class="produksi"> Kontraktor </a>
                             </div>
                         </div>
                         <!-- Search-->
@@ -58,23 +110,21 @@ $data = pg_fetch_all($result);
                             <div class="card-body">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label for="rowsPerPageSelect" class="form-label">Tampilkan:</label>
-                                        <select id="rowsPerPageSelect" class="form-select"
+                                        <label for="rowsPerPageSelect" class="sub-judul">Tampilkan:</label>
+                                        <select id="rowsPerPageSelect" class="form-select text-white"
                                             style="width: auto; display: inline-block;">
                                             <option value="5">5</option>
                                             <option value="10" selected>10</option>
                                             <option value="15">15</option>
                                             <option value="20">20</option>
                                         </select>
-                                        <span> data per halaman</span>
+                                        <span class="sub-judul"> data per halaman</span>
                                     </div>
                                     <div class="col-md-6 d-flex justify-content-end">
                                         <button type="button" class="btn btn-primary mx-3"
-                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .80rem;"
-                                            onclick="window.location.href='tambahBarcodeKontraktor.php'"><i
-                                                class="bi bi-plus-lg"></i>
-                                            Create</button>
-                                        <input type="text" class="form-control text-black me-2" id="searchInput"
+                                            onclick="window.location.href='tambahBarcodeKontraktor.php'">
+                                            Tambah</button>
+                                        <input type="text" class="form-control text-white me-2" id="searchInput"
                                             placeholder="Cari..."
                                             style="max-width: 200px; height: 40px; font-size: .95rem;">
                                     </div>
@@ -93,7 +143,7 @@ $data = pg_fetch_all($result);
                                         </thead>
                                         <tbody id="barcodeTableBody">
                                             <?php foreach ($data as $index => $report): ?>
-                                            <tr>
+                                            <tr class="text-center">
                                                 <td class="text-center"><?php echo $index + 1; ?></td>
                                                 <td><?php echo $report['nama']; ?></td>
                                                 <td><?php echo $report['jabatan']; ?></td>
@@ -200,7 +250,7 @@ $data = pg_fetch_all($result);
                 tableBody.innerHTML = '';
 
                 displayedData.forEach((report, index) => {
-                    const row = `<tr>
+                    const row = `<tr class="text-center">
                                     <td class="text-center">${start + index + 1}</td>
                                     <td>${report.nama}</td>
                                     <td>${report.jabatan}</td>
@@ -232,7 +282,7 @@ $data = pg_fetch_all($result);
                 pageLinks.forEach(link => {
                     link.classList.remove('active');
                 });
-                pageLinks[currentPage - 1].classList.add('active', 'bg-primary', 'text-white');
+                pageLinks[currentPage - 1].classList.add('active', '#052d47', 'text-white');
             }
 
             rowsPerPage.addEventListener('change', () => {

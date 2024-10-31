@@ -290,10 +290,8 @@
                             <input type="hidden" id="file_pengawas" name="file_pengawas" value="">
                             <input type="hidden" id="name_kontraktor" name="name_kontraktor" value="">
                             <input type="hidden" id="file_kontraktor" name="file_kontraktor" value="">
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i>
-                                Submit</button>
-                            <button type="button" class="btn btn-danger mx-3" onclick="goBack()"><i
-                                    class="bi bi-back"></i> Back</button>
+                            <button type="submit" class="btn btn-primary me-2"> Submit</button>
+                            <button type="button" class="btn btn-danger" onclick="goBack()"> Kembali</button>
                         </form>
                     </div>
                 </div>

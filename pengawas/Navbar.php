@@ -1,6 +1,25 @@
 <?php
 session_start();
 include '../Koneksi.php';
+
+$admin_id = $_SESSION['id'];
+
+// Fetch admin data using PostgreSQL
+$sql = "SELECT nama, username, file_admin FROM user_report WHERE id = $1";
+$result = pg_query_params($conn, $sql, array($admin_id));
+
+if ($result) {
+    $admin = pg_fetch_assoc($result);
+    if (!$admin) {
+        echo "No supervisor data found.";
+        exit; // Stop execution if no data is found
+    }
+} else {
+    echo "Error fetching supervisor data.";
+    exit; // Stop execution on error
+}
+
+pg_close($conn);
 ?>
 
 <!doctype html>
@@ -10,7 +29,7 @@ include '../Koneksi.php';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report Application</title>
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo3.png" />
     <link rel="stylesheet" href="./assets/css/styles.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +45,7 @@ include '../Koneksi.php';
 
     .tulisanlogo {
         font-family: "Righteous", serif;
-        color: #780d0d;
+        color: #c5e9f7;
         font-size: 30px;
         margin-top: 10px;
     }
@@ -45,7 +64,7 @@ include '../Koneksi.php';
 
     .dashboard {
         font-family: "Varela Round", serif;
-        color: #061a32;
+        color: white;
         font-weight: bold;
         font-size: 20px;
     }
@@ -53,7 +72,7 @@ include '../Koneksi.php';
     .operation {
         font-family: "Varela Round", serif;
         font-weight: bold;
-        color: #061a32;
+        color: white;
         font-size: 20px;
     }
 
@@ -71,13 +90,50 @@ include '../Koneksi.php';
         margin-top: 10px;
     }
 
-    .active {
-        text-decoration: underline;
-        color: #061a32;
+
+    .notification-dropdown {
+        width: 280px;
+        right: 0;
+        left: auto;
+        max-height: 400px;
+        overflow-y: auto;
+        z-index: 1050;
+        /* Tambahkan z-index yang lebih tinggi */
     }
 
-    .inactive {
-        color: grey;
+    .notification-dropdown .message-body {
+        padding: 10px;
+    }
+
+    .notification-dropdown .message-title {
+        font-size: 14px;
+    }
+
+    .notification-dropdown .dropdown-item {
+        padding: 8px 10px;
+    }
+
+    .notification-dropdown .notification-content h6 {
+        font-size: 12px;
+        margin-bottom: 2px;
+    }
+
+    .notification-dropdown .notification-content p {
+        font-size: 11px;
+        margin-bottom: 2px;
+    }
+
+    .notification-dropdown .notification-content small {
+        font-size: 10px;
+    }
+
+    .notification-dropdown .btn-sm {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .bg-danger {
+        background-color: #ffcc00 !important;
     }
     </style>
 </head>
@@ -109,7 +165,7 @@ include '../Koneksi.php';
                     </ul> -->
                 <ul class="navbar-nav flex-row ms-4 align-items-center">
                     <li>
-                        <img src="../assets/images/logos/logo.png" class="logo-report">
+                        <img src="../assets/images/logos/logo3.png" class="logo-report">
                     </li>
                     <li class="text-center">
                         <!-- <img src="./assets/images/logos/tulisan-logo.png" class="tulisanlogo"> -->
@@ -143,6 +199,8 @@ include '../Koneksi.php';
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <div>
                                     <h5 class="profile" id="adminNameDisplay">
+                                        <img src="<?php echo isset($admin['file_admin']) && file_exists($admin['file_admin']) ? htmlspecialchars($admin['file_admin']) : '../assets/images/default.png'; ?>"
+                                            alt="Image" style="width: 50px; height: auto; border-radius: 50%;">
                                         <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; ?>
                                         [Pengawas]
                                     </h5>
@@ -161,6 +219,32 @@ include '../Koneksi.php';
                                     </a> -->
                                     <a href="../Logout.php"
                                         class="btn btn-outline-primary mx-3 mt-2 d-block shadow-none">Logout</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="ti ti-bell-ringing text-white"></i>
+                                <div class="notification bg-danger rounded-circle"></div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up notification-dropdown"
+                                aria-labelledby="drop2">
+                                <div class="message-body">
+                                    <h5 class="message-title mb-2">Riwayat unduh arsip</h5>
+                                    <div class="message-list">
+
+                                        <a href="riwayat_unduh.php" class="dropdown-item py-2 border-bottom">
+                                            <div class="notification-content">
+                                                <h6 class="mb-0 fs-3"></h6>
+                                                <p class="mb-0 fs-3 text-truncate" style="max-width: 200px;">
+                                                </p>
+                                                <small class="text-muted fs-2"></small>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <a href="riwayat_unduh.php"
+                                        class="btn btn-outline-primary btn-sm mt-2 d-block">Lihat Semua</a>
                                 </div>
                             </div>
                         </li>

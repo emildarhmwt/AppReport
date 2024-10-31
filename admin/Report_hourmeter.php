@@ -89,6 +89,12 @@ $data = pg_fetch_all($result);
     .produksi:hover {
         color: black;
     }
+
+    .table td {
+        word-break: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
     </style>
 </head>
 
@@ -122,12 +128,12 @@ $data = pg_fetch_all($result);
                                 <form id="form-operation" onSubmit="return handleSubmit(event)">
                                     <div class="row mb-3">
                                         <div class="col-md-6">
-                                            <label for="startDate" class="sub-judul mb-2">Tanggal Mulai:</label>
+                                            <label for="startDate" class="sub-judul mb-2">Tanggal Awal :</label>
                                             <input type="date" class="form-control text-white" id="startDate"
                                                 aria-describedby="startDateHelp">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="endDate" class="sub-judul mb-2">Tanggal Selesai:</label>
+                                            <label for="endDate" class="sub-judul mb-2">Tanggal Akhir :</label>
                                             <input type="date" class="form-control text-white" id="endDate"
                                                 aria-describedby="endDateHelp">
                                         </div>
@@ -141,10 +147,9 @@ $data = pg_fetch_all($result);
                                         </select>
                                     </div> -->
                                     <div class="d-flex justify-content-center mt-3">
-                                        <button type="submit" class="btn btn-warning"><i class="bi bi-search"></i>
-                                            Search Data</button>
-                                        <button type="button" class="btn btn-warning mx-3" onclick="fetchAllData()">All
-                                            Data</button>
+                                        <button type="submit" class="btn btn-warning">Cari Data</button>
+                                        <button type="button" class="btn btn-warning mx-3"
+                                            onclick="fetchAllData()">Semua Data</button>
                                     </div>
                                 </form>
                             </div>
@@ -169,16 +174,16 @@ $data = pg_fetch_all($result);
                                         <table class="table table-bordered text-nowrap mb-0 align-middle table-hover">
                                             <thead class="fs-4">
                                                 <tr class="text-center">
-                                                    <th class="fs-3">No</th>
-                                                    <th class="fs-3">Hari / Tanggal</th>
-                                                    <th class="fs-3">Shift</th>
-                                                    <th class="fs-3">Group</th>
-                                                    <th class="fs-3">Pengawas</th>
-                                                    <th class="fs-3">Lokasi Kerja</th>
-                                                    <th class="fs-3">Status</th>
-                                                    <th class="fs-3">PIC</th>
-                                                    <th class="fs-3">Proses</th>
-                                                    <th class="fs-3"> </th>
+                                                    <th class="fs-3" style="width: 1%;">No</th>
+                                                    <th class="fs-3" style="width: 5%;">Hari / Tanggal</th>
+                                                    <th class="fs-3" style="width: 20%;">Shift</th>
+                                                    <th class="fs-3" style="width: 5%;">Group</th>
+                                                    <th class="fs-3" style="width: 19%;">Pengawas</th>
+                                                    <th class="fs-3" style="width: 20%;">Lokasi Kerja</th>
+                                                    <th class="fs-3" style="width: 8%;">Status</th>
+                                                    <th class="fs-3" style="width: 11%;">PIC</th>
+                                                    <th class="fs-3" style="width: 10%;">Proses</th>
+                                                    <th class="fs-3" style="width: 1%;"> </th>
                                                 </tr>
                                             </thead>
                                             <tbody id="operationTableBody">

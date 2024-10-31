@@ -151,7 +151,7 @@
                                 </div>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary mt-4"><i class="bi bi-send"></i>
+                                <button type="submit" class="btn btn-primary mt-4">
                                     Submit
                                 </button>
                             </div>
