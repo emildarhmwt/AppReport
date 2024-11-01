@@ -282,14 +282,14 @@
                             <input type="hidden" id="operation_report_id" name="operation_report_id"
                                 value="<?php echo $_GET['id']; ?>">
                             <input type="hidden" id="proses_admin" name="proses_admin" value="Uploaded">
-                            <input type="hidden" id="proses_pengawas" name="proses_pengawas" value="">
-                            <input type="hidden" id="proses_kontraktor" name="proses_kontraktor" value="">
-                            <input type="hidden" id="alasan_reject" name="alasan_reject" value="">
-                            <input type="hidden" id="kontraktor" name="kontraktor" value="">
-                            <input type="hidden" id="name_pengawas" name="name_pengawas" value="">
-                            <input type="hidden" id="file_pengawas" name="file_pengawas" value="">
-                            <input type="hidden" id="name_kontraktor" name="name_kontraktor" value="">
-                            <input type="hidden" id="file_kontraktor" name="file_kontraktor" value="">
+                            <input type="hidden" id="proses_pengawas" name="proses_pengawas">
+                            <input type="hidden" id="proses_kontraktor" name="proses_kontraktor">
+                            <input type="hidden" id="alasan_reject" name="alasan_reject">
+                            <input type="hidden" id="kontraktor" name="kontraktor">
+                            <input type="hidden" id="name_pengawas" name="name_pengawas">
+                            <input type="hidden" id="file_pengawas" name="file_pengawas">
+                            <input type="hidden" id="name_kontraktor" name="name_kontraktor">
+                            <input type="hidden" id="file_kontraktor" name="file_kontraktor">
                             <button type="submit" class="btn btn-primary me-2"> Submit</button>
                             <button type="button" class="btn btn-danger" onclick="goBack()"> Kembali</button>
                         </form>

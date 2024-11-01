@@ -17,8 +17,6 @@ if ($result) {
     echo "Error fetching supervisor data.";
     exit; // Stop execution on error
 }
-
-pg_close($conn);
 ?>
 
 <!doctype html>
@@ -248,20 +246,71 @@ pg_close($conn);
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up notification-dropdown"
                                 aria-labelledby="drop2">
                                 <div class="message-body">
-                                    <h5 class="message-title mb-2">Riwayat unduh arsip</h5>
+                                    <h5 class="message-title mb-3 text-center">Notifikasi</h5>
                                     <div class="message-list">
+                                        <?php
+                                            // Update SQL query to join operation_report and production_report
+                                            $arsip_sql = "SELECT DISTINCT ON (op.id) op.tanggal, op.pic, pr.alasan_reject 
+                                                          FROM operation_report op 
+                                                          JOIN production_report pr ON op.id = pr.operation_report_id 
+                                                          WHERE pr.proses_pengawas = 'Rejected Pengawas' 
+                                                          ORDER BY op.id, pr.alasan_reject"; // Order by op.id to ensure DISTINCT ON works correctly
+                                            $arsip = pg_query($conn, $arsip_sql);
+                                            if (!$arsip) {
+                                                echo "Error executing query: " . pg_last_error($conn);
+                                                exit; // Stop execution if the query fails
+                                            }
 
-                                        <a href="riwayat_unduh.php" class="dropdown-item py-2 border-bottom">
-                                            <div class="notification-content">
-                                                <h6 class="mb-0 fs-3"></h6>
-                                                <p class="mb-0 fs-3 text-truncate" style="max-width: 200px;">
-                                                </p>
-                                                <small class="text-muted fs-2"></small>
+                                            while ($p = pg_fetch_assoc($arsip)) {
+                                        ?>
+                                        <a href="report.php" class="dropdown-item py-2 border-bottom">
+                                            <div class="notification-content"
+                                                style="white-space: normal; max-width: 200px;">
+                                                <h6 class="mb-0 fs-1">
+                                                    Laporan produksi
+                                                    <?php echo date('d M Y', strtotime($p['tanggal'])); ?> ditolak
+                                                    <?php echo htmlspecialchars($p['pic']); ?> karena
+                                                    <?php echo htmlspecialchars($p['alasan_reject']); ?>. Silakan segera
+                                                    perbaiki dan ajukan kembali.
+                                                </h6>
                                             </div>
                                         </a>
+                                        <?php
+                                            }
+                                        ?>
+
+                                        <?php
+                                            $arsip_sql = "SELECT DISTINCT ON (op.id) op.tanggal, op.pic, hr.alasan_reject 
+                                                          FROM operation_report op 
+                                                          JOIN hourmeter_report hr ON op.id = hr.operation_report_id 
+                                                          WHERE hr.proses_pengawas = 'Rejected Pengawas' 
+                                                          ORDER BY op.id, hr.alasan_reject";
+                                            $arsip = pg_query($conn, $arsip_sql);
+                                            if (!$arsip) {
+                                                echo "Error executing query: " . pg_last_error($conn);
+                                                exit; // Stop execution if the query fails
+                                            }
+
+                                            while ($p = pg_fetch_assoc($arsip)) {
+                                        ?>
+                                        <a href="report_hourmeter.php" class="dropdown-item py-2 border-bottom">
+                                            <div class="notification-content"
+                                                style="white-space: normal; max-width: 200px;">
+                                                <h6 class="mb-0 fs-1">
+                                                    Laporan jam jalan
+                                                    <?php echo date('d M Y', strtotime($p['tanggal'])); ?> ditolak
+                                                    <?php echo htmlspecialchars($p['pic']); ?> karena
+                                                    <?php echo htmlspecialchars($p['alasan_reject']); ?>. Silakan segera
+                                                    perbaiki dan ajukan kembali.
+                                                </h6>
+                                            </div>
+                                        </a>
+                                        <?php
+                                            }
+                                        ?>
                                     </div>
-                                    <a href="riwayat_unduh.php"
-                                        class="btn btn-outline-primary btn-sm mt-2 d-block">Lihat Semua</a>
+                                    <!-- <a href="report.php" class="btn btn-primary btn-sm mt-2 d-block">Lihat
+                                        Semua</a> -->
                                 </div>
                             </div>
                         </li>

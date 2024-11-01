@@ -292,7 +292,7 @@ $data = pg_fetch_all($result);
 
         if (paginatedData.length === 0) {
             tbody.innerHTML =
-                '<tr><td colspan="8" class="text-center">Tidak ada data yang ditemukan</td></tr>';
+                '<tr><td colspan="10" class="text-center">Tidak ada data yang ditemukan</td></tr>';
         } else {
             paginatedData.forEach((report, index) => {
                 const processDisplay = report.proses_kontraktor ||

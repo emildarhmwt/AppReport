@@ -19,6 +19,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $total_hm = isset($_POST['total_hm']) ? $_POST['total_hm'] : 0;
     $jam_operasi = isset($_POST['jam_operasi']) ? $_POST['jam_operasi'] : 0;
     $no_order = isset($_POST['no_order']) ? $_POST['no_order'] : 0;
+    $kontraktor = $_POST['kontraktor'];
+    $name_pengawas = $_POST['name_pengawas'];
+    $file_pengawas = $_POST['file_pengawas'];
+    $name_kontraktor = $_POST['name_kontraktor'];
+    $file_kontraktor = $_POST['file_kontraktor'];
 
     // // Validasi input
     // if (!$operation_report_id || !$equipment || !$hm_awal || !$hm_akhir || !$jam_lain || !$breakdown || !$no_operator || !$hujan || !$ket) {
@@ -28,9 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Simpan data ke database
     $query = "INSERT INTO hourmeter_report
-    (operation_report_id, equipment, hm_awal, hm_akhir, jam_lain, breakdown, no_operator, hujan, ket, proses_admin, proses_pengawas, proses_kontraktor, alasan_reject, tipe_unit, total_hm, jam_operasi, no_order) 
-    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING id";
-    $result = pg_query_params($conn, $query, array($operation_report_id, $equipment, $hm_awal, $hm_akhir, $jam_lain, $breakdown, $no_operator, $hujan, $ket, $proses_admin, $proses_pengawas, $proses_kontraktor, $alasan_reject, $tipe_unit, $total_hm, $jam_operasi, $no_order));
+    (operation_report_id, equipment, hm_awal, hm_akhir, jam_lain, breakdown, no_operator, hujan, ket, proses_admin, proses_pengawas, proses_kontraktor, alasan_reject, tipe_unit, total_hm, jam_operasi, no_order, kontraktor, name_pengawas, file_pengawas, name_kontraktor, file_kontraktor) 
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NULL, NULL, NULL, $11, $12, $13, $14, NULL, NULL, NULL, NULL, NULL) RETURNING id";
+    $result = pg_query_params($conn, $query, array($operation_report_id, $equipment, $hm_awal, $hm_akhir, $jam_lain, $breakdown, $no_operator, $hujan, $ket, $proses_admin, $tipe_unit, $total_hm, $jam_operasi, $no_order));
 
     if ($result) {
         echo json_encode(["message" => "Hour Meter report created successfully"]);

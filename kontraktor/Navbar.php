@@ -18,8 +18,6 @@ if ($result) {
     echo "Error fetching supervisor data.";
     exit; // Stop execution on error
 }
-
-pg_close($conn);
 ?>
 
 <!doctype html>
@@ -227,20 +225,69 @@ pg_close($conn);
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up notification-dropdown"
                                 aria-labelledby="drop2">
                                 <div class="message-body">
-                                    <h5 class="message-title mb-2">Riwayat unduh arsip</h5>
+                                    <h5 class="message-title mb-3 text-center">Notifikasi</h5>
                                     <div class="message-list">
 
-                                        <a href="riwayat_unduh.php" class="dropdown-item py-2 border-bottom">
-                                            <div class="notification-content">
-                                                <h6 class="mb-0 fs-3"></h6>
-                                                <p class="mb-0 fs-3 text-truncate" style="max-width: 200px;">
-                                                </p>
-                                                <small class="text-muted fs-2"></small>
+                                        <?php
+                                            $arsip_sql = "SELECT DISTINCT ON (op.id) op.tanggal, pr.kontraktor
+                                                          FROM operation_report op 
+                                                          JOIN production_report pr ON op.id = pr.operation_report_id 
+                                                          WHERE pr.proses_pengawas = 'Approved Pengawas' AND pr.proses_kontraktor IS NULL
+                                                          AND pr.kontraktor = $1 
+                                                          ORDER BY op.id";
+                                            $arsip = pg_query_params($conn, $arsip_sql, array($_SESSION['username']));
+                                            if (!$arsip) {
+                                                echo "Error executing query: " . pg_last_error($conn);
+                                                exit;
+                                            }
+
+                                            while ($p = pg_fetch_assoc($arsip)) {
+                                        ?>
+                                        <a href="report.php" class="dropdown-item py-2 border-bottom">
+                                            <div class="notification-content"
+                                                style="white-space: normal; max-width: 200px;">
+                                                <h6 class="mb-0 fs-1">
+                                                    Laporan produksi
+                                                    <?php echo date('d M Y', strtotime($p['tanggal'])); ?> menunggu
+                                                    persetujuan
+                                                </h6>
                                             </div>
                                         </a>
+                                        <?php
+                                            }
+                                        ?>
+
+                                        <?php
+                                            $arsip_sql = "SELECT DISTINCT ON (op.id) op.tanggal, hr.kontraktor
+                                                          FROM operation_report op 
+                                                          JOIN hourmeter_report hr ON op.id = hr.operation_report_id 
+                                                          WHERE hr.proses_pengawas = 'Approved Pengawas' AND hr.proses_kontraktor IS NULL
+                                                          AND hr.kontraktor = $1 
+                                                          ORDER BY op.id";
+                                            $arsip = pg_query_params($conn, $arsip_sql, array($_SESSION['username']));
+                                            if (!$arsip) {
+                                                echo "Error executing query: " . pg_last_error($conn);
+                                                exit;
+                                            }
+
+                                            while ($p = pg_fetch_assoc($arsip)) {
+                                        ?>
+                                        <a href="report_hourmeter.php" class="dropdown-item py-2 border-bottom">
+                                            <div class="notification-content"
+                                                style="white-space: normal; max-width: 200px;">
+                                                <h6 class="mb-0 fs-1">
+                                                    Laporan jam jalan
+                                                    <?php echo date('d M Y', strtotime($p['tanggal'])); ?> menunggu
+                                                    persetujuan
+                                                </h6>
+                                            </div>
+                                        </a>
+                                        <?php
+                                            }
+                                        ?>
                                     </div>
-                                    <a href="riwayat_unduh.php"
-                                        class="btn btn-outline-primary btn-sm mt-2 d-block">Lihat Semua</a>
+                                    <!-- <a href="riwayat_unduh.php"
+                                        class="btn btn-outline-primary btn-sm mt-2 d-block">Lihat Semua</a> -->
                                 </div>
                             </div>
                         </li>

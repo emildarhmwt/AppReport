@@ -32,8 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $query = "INSERT INTO production_report
     (operation_report_id, alat, timbunan, material, jarak, tipe, ritase, proses_admin, proses_pengawas, proses_kontraktor, alasan_reject, excecutor, tipe2, ritase2, muatan, volume, total_ritase, kontraktor, muatan2, volume2, total_volume, name_pengawas, file_pengawas, name_kontraktor, file_kontraktor)
-    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25) RETURNING id";
-    $result = pg_query_params($conn, $query, array($operation_report_id, $alat, $timbunan, $material, $jarak, $tipe, $ritase, $proses_admin, $proses_pengawas, $proses_kontraktor, $alasan_reject, $excecutor, $tipeKedua, $ritaseKedua, $muatan, $volume, $total_ritase, $kontraktor, $muatanKedua, $volumeKedua, $total_volume, $name_pengawas, $file_pengawas, $name_kontraktor, $file_kontraktor ));
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, NULL, NULL, NULL, $9, $10, $11, $12, $13, $14, NULL, $15, $16, $17, NULL, NULL, NULL, NULL) RETURNING id";
+    $result = pg_query_params($conn, $query, array($operation_report_id, $alat, $timbunan, $material, $jarak, $tipe, $ritase, $proses_admin, $excecutor, $tipeKedua, $ritaseKedua, $muatan, $volume, $total_ritase, $muatanKedua, $volumeKedua, $total_volume ));
     
     if ($result) {
         echo json_encode(["message" => "Production report created successfully"]);
