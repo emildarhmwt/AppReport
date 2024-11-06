@@ -186,12 +186,13 @@ if ($result) {
                     <li class="nav-item dropdown">
                         <a class="dropdown-toggle report nav-link text-white" href="#" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Database
+                            Master Data
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="Barcode.php">Barcode</a></li>
-                            <li><a class="dropdown-item" href="Muatan.php">Muatan</a></li>
-                            <li><a class="dropdown-item" href="Equipment.php">Equipment</a></li>
+                            <li><a class="dropdown-item" href="Shift.php">Operation</a></li>
+                            <li><a class="dropdown-item" href="Executor.php">Produksi</a></li>
+                            <li><a class="dropdown-item" href="Equipment.php">Jam Jalan</a></li>
                         </ul>
                     </li>
                     <!-- <li class="nav-item dropdown">

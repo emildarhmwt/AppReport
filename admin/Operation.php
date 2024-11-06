@@ -71,12 +71,7 @@
                                         :</label>
                                     <select class="form-select text-white" id="shift" name="shift" required>
                                         <option value="" selected disabled>Shift</option>
-                                        <option value="Shift 1 (23.00 s/d 07.00)">
-                                            Shift 1 (23.00 s/d 07.00)</option>
-                                        <option value="Shift 2 (07.00 s/d 15.00)">
-                                            Shift 2 (07.00 s/d 15.00)</option>
-                                        <option value="Shift 3 (15.00 s/d 23.00)">
-                                            Shift 3 (15.00 s/d 23.00)</option>
+                                        {{ edit_1 }}
                                     </select>
                                 </div>
                                 <div class="col-lg-6 mb-3">
@@ -84,10 +79,7 @@
                                         Group :</label>
                                     <select class="form-select text-white" id="grup" name="grup" required>
                                         <option value="" selected disabled>Giliran / Grup</option>
-                                        <option value="A">A</option>
-                                        <option value="B">B</option>
-                                        <option value="C">C</option>
-                                        <option value="D">D</option>
+                                        {{ edit_1 }}
                                     </select>
                                 </div>
                             </div>
@@ -97,7 +89,7 @@
                                     <label for="pic" class="sub-judul mb-2"><span class="wajib_isi">*</span> PIC
                                         :</label>
                                     <select class="form-select text-white" id="pic" name="pic" required>
-                                        <option value="" selected disabled">PIC</option>
+                                        <option value="" selected disabled>PIC</option>
                                         {{ edit_1 }}
                                     </select>
                                 </div>
@@ -106,26 +98,7 @@
                                         Pengawas :</label>
                                     <select class="form-select text-white" id="pengawas" name="pengawas" required>
                                         <option value="" selected disabled>Pengawas</option>
-                                        <option value="DENIS YOGIS GEOFANI">DENIS YOGIS GEOFANI</option>
-                                        <option value="DOLVI SASMITA">DOLVI SASMITA</option>
-                                        <option value="EFY MAFTAZANI">EFY MAFTAZANI</option>
-                                        <option value="EKOMELAN HODIMANGKU">EKOMELAN HODIMANGKU</option>
-                                        <option value="ELMARC YOPHA PETRUS HUTASOIT">ELMARC YOPHA PETRUS HUTASOIT
-                                        </option>
-                                        <option value="FAUZI IRFAN MAULANA">FAUZI IRFAN MAULANA</option>
-                                        <option value="FREDI ALFINDO">FREDI ALFINDO</option>
-                                        <option value="HENDRIK KUSTIADI">HENDRIK KUSTIADI</option>
-                                        <option value="HERU KURNIAWAN">HERU KURNIAWAN</option>
-                                        <option value="JUMADI">JUMADI</option>
-                                        <option value="MARTINUS DIMAS RUSDIANTO">MARTINUS DIMAS RUSDIANTO</option>
-                                        <option value="MUHAMMAD NOVALDI ZUHRI">MUHAMMAD NOVALDI ZUHRI</option>
-                                        <option value="MUHAMMAD RIDHO">MUHAMMAD RIDHO</option>
-                                        <option value="MUHAMMAD SAZILI">MUHAMMAD SAZILI</option>
-                                        <option value="MUKHAMMAD IDHAM">MUKHAMMAD IDHAM</option>
-                                        <option value="NATANAIL GINTING">NATANAIL GINTING</option>
-                                        <option value="ROY REINALDY">ROY REINALDY</option>
-                                        <option value="RUDY SIREGAR">RUDY SIREGAR</option>
-                                        <option value="SUBANDI GUSMAN">SUBANDI GUSMAN</option>
+                                        {{ edit_1 }}
                                     </select>
                                 </div>
                             </div>
@@ -135,9 +108,7 @@
                                         Kerja :</label>
                                     <select class="form-select text-white" id="lokasi" name="lokasi" required>
                                         <option value="" selected disabled>Lokasi Kerja</option>
-                                        <option value="Banko Barat - PIT 2">Banko Barat - PIT 2</option>
-                                        <option value="Banko Tengah - PIT 3 TIMUR">Banko Tengah - PIT 3 TIMUR
-                                        </option>
+                                        {{ edit_1 }}
                                     </select>
                                 </div>
                                 <div class="col-lg-6 mb-3">
@@ -206,6 +177,58 @@
                 option.value = user.username; // Use the 'username' field
                 option.textContent = user.username; // Display the username
                 picSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching user report:', error));
+
+    fetch('lokasi_report.php') // Fetch data from user_report
+        .then(response => response.json())
+        .then(users => {
+            const lokasiSelect = document.getElementById('lokasi');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.lokasi; // Use the 'username' field
+                option.textContent = user.lokasi; // Display the username
+                lokasiSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching user report:', error));
+
+    fetch('pengawas_report.php') // Fetch data from user_report
+        .then(response => response.json())
+        .then(users => {
+            const pengawasSelect = document.getElementById('pengawas');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.nama; // Use the 'username' field
+                option.textContent = user.nama; // Display the username
+                pengawasSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching user report:', error));
+
+    fetch('grup_report.php') // Fetch data from user_report
+        .then(response => response.json())
+        .then(users => {
+            const grupSelect = document.getElementById('grup');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.grup; // Use the 'username' field
+                option.textContent = user.grup; // Display the username
+                grupSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching user report:', error));
+
+    fetch('shift_report.php') // Fetch data from user_report
+        .then(response => response.json())
+        .then(users => {
+            const shiftSelect = document.getElementById('shift');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.shift; // Use the 'username' field
+                option.textContent = user.shift; // Display the username
+                shiftSelect.appendChild(option);
             });
         })
         .catch(error => console.error('Error fetching user report:', error));

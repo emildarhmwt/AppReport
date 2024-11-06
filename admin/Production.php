@@ -74,20 +74,9 @@
                             <div class="mb-3">
                                 <label for="executor" class="sub-judul mb-2"><span class="wajib_isi">*</span>
                                     Executor :</label>
-                                <select class="form-select text-white" id="excecutor" name="excecutor" required>
+                                <select class="form-select text-white" id="executor" name="executor" required>
                                     <option value="" selected disabled>Executor</option>
-                                    <option value="SPPH 95 - PT PUTRA PERKASA ABADI">
-                                        SPPH 95 - PT PUTRA PERKASA ABADI
-                                    </option>
-                                    <option value="SPPH 17518 - PT PUTRA PERKASA ABADI">
-                                        SPPH 17518 - PT PUTRA PERKASA ABADI
-                                    </option>
-                                    <option value="SPPH 17443 - PT PUTRA PERKASA ABADI">
-                                        SPPH 17443 - PT PUTRA PERKASA ABADI
-                                    </option>
-                                    <option value="ELEKTRIFIKASI - PT BUKIT ASAM TBK">
-                                        ELEKTRIFIKASI - PT BUKIT ASAM TBK
-                                    </option>
+                                    {{ edit_1 }}
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -95,72 +84,7 @@
                                     / Muat :</label>
                                 <select class="form-select text-white" id="alat" name="alat" required>
                                     <option value="" selected disabled>Alat Gali / Muat</option>
-                                    <option value="E2043 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
-                                        E2043 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                    </option>
-                                    <option value="E2044 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
-                                        E2044 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                    </option>
-                                    <option value="E2045 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
-                                        E2045 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                    </option>
-                                    <option value="E1226 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
-                                        E1226 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                    </option>
-                                    <option value="E1227 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
-                                        E1227 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                    </option>
-                                    <option value="E1228 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
-                                        E1228 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                    </option>
-                                    <option value="E1229 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
-                                        E1229 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                    </option>
-                                    <option value="E1230 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
-                                        E1230 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                    </option>
-                                    <option value="E6101 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
-                                        E6101 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                    </option>
-                                    <option value="E6102 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
-                                        E6102 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                    </option>
-                                    <option value="E6103 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
-                                        E6103 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                    </option>
-                                    <option value="E6104 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
-                                        E6104 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                    </option>
-                                    <option value="E6105 - PT PUTRA PERKASA ABADI ( SPPH 17443 )">
-                                        E6105 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                    </option>
-                                    <option value="E52007 - PT PUTRA PERKASA ABADI">
-                                        E52007 - PT PUTRA PERKASA ABADI
-                                    </option>
-                                    <option value="E52009 - PT PUTRA PERKASA ABADI">
-                                        E52009 - PT PUTRA PERKASA ABADI
-                                    </option>
-                                    <option value="SE-3001 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
-                                        SE-3001 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                    </option>
-                                    <option value="SE-3002 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
-                                        SE-3002 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                    </option>
-                                    <option value="SE-3003 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
-                                        SE-3003 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                    </option>
-                                    <option value="SE-3004 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
-                                        SE-3004 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                    </option>
-                                    <option value="SE-3005 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
-                                        SE-3005 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                    </option>
-                                    <option value="SE-3006 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
-                                        SE-3006 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                    </option>
-                                    <option value="SE-3007 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )">
-                                        SE-3007 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                    </option>
+                                    {{ edit_1 }}
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -168,18 +92,7 @@
                                     Timbunan :</label>
                                 <select class="form-select text-white" id="timbunan" name="timbunan" required>
                                     <option value="" selected disabled>Timbunan</option>
-                                    <option value="Banko Barat - Disposal Backfill Pit 1 Utara">
-                                        Banko Barat - Disposal Backfill Pit 1 Utara
-                                    </option>
-                                    <option value="Banko Tengah - Disposal Utara Pit 3 Timur">
-                                        Banko Tengah - Disposal Utara Pit 3 Timur
-                                    </option>
-                                    <option value="Banko Tengah - Disposal Selatan Pit 3 Timur">
-                                        Banko Tengah - Disposal Selatan Pit 3 Timur
-                                    </option>
-                                    <option value="Banko Barat - Disposal Selatan Timur Pit 2">
-                                        Banko Barat - Disposal Selatan Timur Pit 2
-                                    </option>
+                                    {{ edit_1 }}
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -187,17 +100,7 @@
                                     Material :</label>
                                 <select class="form-select text-white" id="material" name="material" required>
                                     <option value="" selected disabled>Material</option>
-                                    <option value="OB A1">OB A1</option>
-                                    <option value="OB A2">OB A2</option>
-                                    <option value="OB B1">OB B1</option>
-                                    <option value="OB B2">OB B2</option>
-                                    <option value="OB BC">OB BC</option>
-                                    <option value="OB C">OB C</option>
-                                    <option value="Overburden">Overburden</option>
-                                    <option value="Lumpur">Lumpur</option>
-                                    <option value="Lumpur C">Lumpur C</option>
-                                    <option value="Interburden">Interburden</option>
-                                    <option value="Topsoil">Topsoil</option>
+                                    {{ edit_1 }}
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -405,6 +308,58 @@
         const totalVolume = volume + volume2;
         document.getElementById('total_volume').value = totalVolume.toFixed(2);
     }
+
+    fetch('executor_report.php') // Fetch data from user_report
+        .then(response => response.json())
+        .then(users => {
+            const executorSelect = document.getElementById('executor');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.executor; // Use the 'username' field
+                option.textContent = user.executor; // Display the username
+                executorSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching user report:', error));
+
+    fetch('alat_report.php') // Fetch data from user_report
+        .then(response => response.json())
+        .then(users => {
+            const alatSelect = document.getElementById('alat');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.alat; // Use the 'username' field
+                option.textContent = user.alat; // Display the username
+                alatSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching user report:', error));
+
+    fetch('timbunan_report.php') // Fetch data from user_report
+        .then(response => response.json())
+        .then(users => {
+            const timbunanSelect = document.getElementById('timbunan');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.timbunan; // Use the 'username' field
+                option.textContent = user.timbunan; // Display the username
+                timbunanSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching user report:', error));
+
+    fetch('material_report.php') // Fetch data from user_report
+        .then(response => response.json())
+        .then(users => {
+            const materialSelect = document.getElementById('material');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.material; // Use the 'username' field
+                option.textContent = user.material; // Display the username
+                materialSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching user report:', error));
     </script>
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
