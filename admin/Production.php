@@ -74,7 +74,7 @@
                             <div class="mb-3">
                                 <label for="executor" class="sub-judul mb-2"><span class="wajib_isi">*</span>
                                     Executor :</label>
-                                <select class="form-select text-white" id="executor" name="executor" required>
+                                <select class="form-select text-white" id="excecutor" name="excecutor" required>
                                     <option value="" selected disabled>Executor</option>
                                     {{ edit_1 }}
                                 </select>
@@ -312,7 +312,7 @@
     fetch('executor_report.php') // Fetch data from user_report
         .then(response => response.json())
         .then(users => {
-            const executorSelect = document.getElementById('executor');
+            const executorSelect = document.getElementById('excecutor');
             users.forEach(user => {
                 const option = document.createElement('option');
                 option.value = user.executor; // Use the 'username' field
