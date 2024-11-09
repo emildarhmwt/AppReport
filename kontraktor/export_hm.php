@@ -215,5 +215,5 @@ if (empty($file_kontraktor['file_kontraktor'])) {
     $pdf->Ln(50);
 }
 
-$pdf->Output('Laporan Jam Jalan - ' . date('d M Y') . '.pdf', isset($_GET['action']) && $_GET['action'] === 'download' ? 'D' : 'I');
+$pdf->Output('Laporan Jam Jalan - ' . date('d M Y', strtotime($operation_report['tanggal'])) . '.pdf', isset($_GET['action']) && $_GET['action'] === 'download' ? 'D' : 'I');
 ?>
