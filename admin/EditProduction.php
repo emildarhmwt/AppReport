@@ -101,190 +101,36 @@ if (isset($_GET['id'])) {
                                     <label for="executor" class="sub-judul mb-2">
                                         Executor :</label>
                                     <select class="form-select text-white" id="excecutor" name="excecutor" required>
-                                        <option value="" disabled>Executor</option>
-                                        <option value="SPPH 95 - PT PUTRA PERKASA ABADI"
-                                            <?php echo ($adminData['excecutor'] == 'SPPH 95 - PT PUTRA PERKASA ABADI') ? 'selected' : ''; ?>>
-                                            SPPH 95 - PT PUTRA PERKASA ABADI
+                                        <option value="<?php echo $adminData['excecutor']; ?>" selected disabled>
+                                            <?php echo $adminData['excecutor']; ?>
                                         </option>
-                                        <option value="SPPH 17518 - PT PUTRA PERKASA ABADI"
-                                            <?php echo ($adminData['excecutor'] == 'SPPH 17518 - PT PUTRA PERKASA ABADI') ? 'selected' : ''; ?>>
-                                            SPPH 17518 - PT PUTRA PERKASA ABADI
-                                        </option>
-                                        <option value="SPPH 17443 - PT PUTRA PERKASA ABADI"
-                                            <?php echo ($adminData['excecutor'] == 'SPPH 17443 - PT PUTRA PERKASA ABADI') ? 'selected' : ''; ?>>
-                                            SPPH 17443 - PT PUTRA PERKASA ABADI
-                                        </option>
-                                        <option value="ELEKTRIFIKASI - PT BUKIT ASAM TBK"
-                                            <?php echo ($adminData['excecutor'] == 'ELEKTRIFIKASI - PT BUKIT ASAM TBK') ? 'selected' : ''; ?>>
-                                            ELEKTRIFIKASI - PT BUKIT ASAM TBK
-                                        </option>
+                                        {{ edit_1 }}
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="alat" class="sub-judul mb-2"> Alat Gali/ Muat :</label>
                                     <select class="form-select text-white" id="alat" name="alat" required>
-                                        <option value="" selected disabled>Alat Gali / Muat</option>
-                                        <option value="E2043 - PT PUTRA PERKASA ABADI ( SPPH 17443 )"
-                                            <?php echo ($adminData['alat'] == 'E2043 - PT PUTRA PERKASA ABADI ( SPPH 17443 )') ? 'selected' : ''; ?>>
-                                            E2043 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                        </option>
-                                        <option value="E2044 - PT PUTRA PERKASA ABADI ( SPPH 17443 )"
-                                            <?php echo ($adminData['alat'] == 'E2044 - PT PUTRA PERKASA ABADI ( SPPH 17443 )') ? 'selected' : ''; ?>>
-                                            E2044 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                        </option>
-                                        <option value="E2045 - PT PUTRA PERKASA ABADI ( SPPH 17443 )"
-                                            <?php echo ($adminData['alat'] == 'E2045 - PT PUTRA PERKASA ABADI ( SPPH 17443 )') ? 'selected' : ''; ?>>
-                                            E2045 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                        </option>
-                                        <option value="E1226 - PT PUTRA PERKASA ABADI ( SPPH 17443 )"
-                                            <?php echo ($adminData['alat'] == 'E1226 - PT PUTRA PERKASA ABADI ( SPPH 17443 )') ? 'selected' : ''; ?>>
-                                            E1226 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                        </option>
-                                        <option value="E1227 - PT PUTRA PERKASA ABADI ( SPPH 17443 )"
-                                            <?php echo ($adminData['alat'] == 'E1227 - PT PUTRA PERKASA ABADI ( SPPH 17443 )') ? 'selected' : ''; ?>>
-                                            E1227 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                        </option>
-                                        <option value="E1228 - PT PUTRA PERKASA ABADI ( SPPH 17443 )"
-                                            <?php echo ($adminData['alat'] == 'E1228 - PT PUTRA PERKASA ABADI ( SPPH 17443 )') ? 'selected' : ''; ?>>
-                                            E1228 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                        </option>
-                                        <option value="E1229 - PT PUTRA PERKASA ABADI ( SPPH 17443 )"
-                                            <?php echo ($adminData['alat'] == 'E1229 - PT PUTRA PERKASA ABADI ( SPPH 17443 )') ? 'selected' : ''; ?>>
-                                            E1229 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                        </option>
-                                        <option value="E1230 - PT PUTRA PERKASA ABADI ( SPPH 17443 )"
-                                            <?php echo ($adminData['alat'] == 'E1230 - PT PUTRA PERKASA ABADI ( SPPH 17443 )') ? 'selected' : ''; ?>>
-                                            E1230 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                        </option>
-                                        <option value="E6101 - PT PUTRA PERKASA ABADI ( SPPH 17443 )"
-                                            <?php echo ($adminData['alat'] == 'E6101 - PT PUTRA PERKASA ABADI ( SPPH 17443 )') ? 'selected' : ''; ?>>
-                                            E6101 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                        </option>
-                                        <option value="E6102 - PT PUTRA PERKASA ABADI ( SPPH 17443 )"
-                                            <?php echo ($adminData['alat'] == 'E6102 - PT PUTRA PERKASA ABADI ( SPPH 17443 )') ? 'selected' : ''; ?>>
-                                            E6102 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                        </option>
-                                        <option value="E6103 - PT PUTRA PERKASA ABADI ( SPPH 17443 )"
-                                            <?php echo ($adminData['alat'] == 'E6103 - PT PUTRA PERKASA ABADI ( SPPH 17443 )') ? 'selected' : ''; ?>>
-                                            E6103 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                        </option>
-                                        <option value="E6104 - PT PUTRA PERKASA ABADI ( SPPH 17443 )"
-                                            <?php echo ($adminData['alat'] == 'E6104 - PT PUTRA PERKASA ABADI ( SPPH 17443 )') ? 'selected' : ''; ?>>
-                                            E6104 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                        </option>
-                                        <option value="E6105 - PT PUTRA PERKASA ABADI ( SPPH 17443 )"
-                                            <?php echo ($adminData['alat'] == 'E6105 - PT PUTRA PERKASA ABADI ( SPPH 17443 )') ? 'selected' : ''; ?>>
-                                            E6105 - PT PUTRA PERKASA ABADI ( SPPH 17443 )
-                                        </option>
-                                        <option value="E52007 - PT PUTRA PERKASA ABADI"
-                                            <?php echo ($adminData['alat'] == 'E52007 - PT PUTRA PERKASA ABADI') ? 'selected' : ''; ?>>
-                                            E52007 - PT PUTRA PERKASA ABADI
-                                        </option>
-                                        <option value="E52009 - PT PUTRA PERKASA ABADI"
-                                            <?php echo ($adminData['alat'] == 'E52009 - PT PUTRA PERKASA ABADI') ? 'selected' : ''; ?>>
-                                            E52009 - PT PUTRA PERKASA ABADI
-                                        </option>
-                                        <option value="SE-3001 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )"
-                                            <?php echo ($adminData['alat'] == 'SE-3001 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )') ? 'selected' : ''; ?>>
-                                            SE-3001 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                        </option>
-                                        <option value="SE-3002 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )"
-                                            <?php echo ($adminData['alat'] == 'SE-3002 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )') ? 'selected' : ''; ?>>
-                                            SE-3002 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                        </option>
-                                        <option value="SE-3003 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )"
-                                            <?php echo ($adminData['alat'] == 'SE-3003 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )') ? 'selected' : ''; ?>>
-                                            SE-3003 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                        </option>
-                                        <option value="SE-3004 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )"
-                                            <?php echo ($adminData['alat'] == 'SE-3004 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )') ? 'selected' : ''; ?>>
-                                            SE-3004 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                        </option>
-                                        <option value="SE-3005 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )"
-                                            <?php echo ($adminData['alat'] == 'SE-3005 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )') ? 'selected' : ''; ?>>
-                                            SE-3005 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                        </option>
-                                        <option value="SE-3006 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )"
-                                            <?php echo ($adminData['alat'] == 'SE-3006 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )') ? 'selected' : ''; ?>>
-                                            SE-3006 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                        </option>
-                                        <option value="SE-3007 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )"
-                                            <?php echo ($adminData['alat'] == 'SE-3007 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )') ? 'selected' : ''; ?>>
-                                            SE-3007 - PT BUKIT ASAM TBK ( Penambangan Swakelola 1 )
-                                        </option>
+                                        <option value="<?php echo $adminData['alat']; ?>" selected disabled>
+                                            <?php echo $adminData['alat']; ?></option>
+                                        {{ edit_1 }}
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="timbunan" class="sub-judul mb-2"> Timbunan :</label>
                                     <select class="form-select text-white" id="timbunan" name="timbunan" required>
-                                        <option value="" selected disabled>Timbunan</option>
-                                        <option value="Banko Barat - Disposal Backfill Pit 1 Utara"
-                                            <?php echo ($adminData['timbunan'] == 'Banko Barat - Disposal Backfill Pit 1 Utara') ? 'selected' : ''; ?>>
-                                            Banko Barat - Disposal Backfill Pit 1 Utara
-                                        </option>
-                                        <option value="Banko Tengah - Disposal Utara Pit 3 Timur"
-                                            <?php echo ($adminData['timbunan'] == 'Banko Tengah - Disposal Utara Pit 3 Timur') ? 'selected' : ''; ?>>
-                                            Banko Tengah - Disposal Utara Pit 3 Timur
-                                        </option>
-                                        <option value="Banko Tengah - Disposal Selatan Pit 3 Timur"
-                                            <?php echo ($adminData['timbunan'] == 'Banko Tengah - Disposal Selatan Pit 3 Timur') ? 'selected' : ''; ?>>
-                                            Banko Tengah - Disposal Selatan Pit 3 Timur
-                                        </option>
-                                        <option value="Banko Barat - Disposal Selatan Timur Pit 2"
-                                            <?php echo ($adminData['timbunan'] == 'Banko Barat - Disposal Selatan Timur Pit 2') ? 'selected' : ''; ?>>
-                                            Banko Barat - Disposal Selatan Timur Pit 2
-                                        </option>
+                                        <option value="<?php echo $adminData['timbunan']; ?>" selected disabled>
+                                            <?php echo $adminData['timbunan']; ?></option>
+                                        {{ edit_1 }}
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="material" class="sub-judul mb-2">
                                         Material :</label>
                                     <select class="form-select text-white" id="material" name="material" required>
-                                        <option value="" selected disabled>Material</option>
-                                        <option value="OB A1"
-                                            <?php echo ($adminData['material'] == 'OB A1') ? 'selected' : ''; ?>>
-                                            OB A1
+                                        <option value="<?php echo $adminData['material']; ?>" selected disabled>
+                                            <?php echo $adminData['material']; ?>
                                         </option>
-                                        <option value="OB A2"
-                                            <?php echo ($adminData['material'] == 'OB A2') ? 'selected' : ''; ?>>
-                                            OB A2
-                                        </option>
-                                        <option value="OB B1"
-                                            <?php echo ($adminData['material'] == 'OB B1') ? 'selected' : ''; ?>>
-                                            OB B1
-                                        </option>
-                                        <option value="OB B2"
-                                            <?php echo ($adminData['material'] == 'OB B2') ? 'selected' : ''; ?>>
-                                            OB B2
-                                        </option>
-                                        <option value="OB BC"
-                                            <?php echo ($adminData['material'] == 'OB BC') ? 'selected' : ''; ?>>
-                                            OB BC
-                                        </option>
-                                        <option value="OB C"
-                                            <?php echo ($adminData['material'] == 'OB C') ? 'selected' : ''; ?>>
-                                            OB C
-                                        </option>
-                                        <option value="Overburden"
-                                            <?php echo ($adminData['material'] == 'Overburden') ? 'selected' : ''; ?>>
-                                            Overburden
-                                        </option>
-                                        <option value="Lumpur"
-                                            <?php echo ($adminData['material'] == 'Lumpur') ? 'selected' : ''; ?>>
-                                            Lumpur
-                                        </option>
-                                        <option value="Lumpur C"
-                                            <?php echo ($adminData['material'] == 'Lumpur C') ? 'selected' : ''; ?>>
-                                            Lumpur C
-                                        </option>
-                                        <option value="Interburden"
-                                            <?php echo ($adminData['material'] == 'Interburden') ? 'selected' : ''; ?>>
-                                            Interburden
-                                        </option>
-                                        <option value="Topsoil"
-                                            <?php echo ($adminData['material'] == 'Topsoil') ? 'selected' : ''; ?>>
-                                            Topsoil
-                                        </option>
+                                        {{ edit_1 }}
                                     </select>
                                 </div>
                                 <div class="mb-3">
@@ -495,6 +341,58 @@ if (isset($_GET['id'])) {
         const totalVolume = volume + volume2;
         document.getElementById('total_volume').value = totalVolume;
     }
+
+    fetch('executor_report.php') // Fetch data from user_report
+        .then(response => response.json())
+        .then(users => {
+            const executorSelect = document.getElementById('excecutor');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.executor; // Use the 'username' field
+                option.textContent = user.executor; // Display the username
+                executorSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching user report:', error));
+
+    fetch('alat_report.php') // Fetch data from user_report
+        .then(response => response.json())
+        .then(users => {
+            const alatSelect = document.getElementById('alat');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.alat; // Use the 'username' field
+                option.textContent = user.alat; // Display the username
+                alatSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching user report:', error));
+
+    fetch('timbunan_report.php') // Fetch data from user_report
+        .then(response => response.json())
+        .then(users => {
+            const timbunanSelect = document.getElementById('timbunan');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.timbunan; // Use the 'username' field
+                option.textContent = user.timbunan; // Display the username
+                timbunanSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching user report:', error));
+
+    fetch('material_report.php') // Fetch data from user_report
+        .then(response => response.json())
+        .then(users => {
+            const materialSelect = document.getElementById('material');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.material; // Use the 'username' field
+                option.textContent = user.material; // Display the username
+                materialSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching user report:', error));
     </script>
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

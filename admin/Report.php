@@ -26,6 +26,19 @@ if (!$result) {
 }
 
 $data = pg_fetch_all($result);
+
+if (isset($_POST['delete_id'])) {
+    $deleteId = $_POST['delete_id'];
+    $deleteQuery = "DELETE FROM operation_report WHERE id = $1";
+    $result = pg_query_params($conn, $deleteQuery, array($deleteId));
+
+    if ($result) {
+        echo "Data berhasil dihapus.";
+    } else {
+        echo "Terjadi kesalahan saat menghapus data.";
+    }
+    exit;
+}
 ?>
 
 <!doctype html>
@@ -170,36 +183,16 @@ $data = pg_fetch_all($result);
                                                     <th class="fs-3" style="width: 5%;">Hari / Tanggal</th>
                                                     <th class="fs-3" style="width: 20%;">Shift</th>
                                                     <th class="fs-3" style="width: 5%;">Group</th>
-                                                    <th class="fs-3" style="width: 19%;">Pengawas</th>
-                                                    <th class="fs-3" style="width: 20%;">Lokasi Kerja</th>
+                                                    <th class="fs-3" style="width: 18%;">Pengawas</th>
+                                                    <th class="fs-3" style="width: 16%;">Lokasi Kerja</th>
                                                     <th class="fs-3" style="width: 8%;">Status</th>
                                                     <th class="fs-3" style="width: 11%;">PIC</th>
                                                     <th class="fs-3" style="width: 10%;">Proses</th>
-                                                    <th class="fs-3" style="width: 1%;"> </th>
+                                                    <th class="fs-3" style="width: 5%;"> </th>
                                                 </tr>
                                             </thead>
                                             <tbody id="operationTableBody" class="text-center">
-                                                <?php
-                                                if ($data) {
-                                                    foreach ($data as $index => $operation) {
-                                                        echo '<tr>';
-                                                        echo '<td class="text-center">' . ($index + 1) . '</td>';
-                                                        echo '<td>' . htmlspecialchars(date('d M Y', strtotime($operation['tanggal']))) . '</td>';
-                                                        echo '<td>' . htmlspecialchars($operation['shift']) . '</td>';
-                                                        echo '<td class="text-center">' . htmlspecialchars($operation['grup']) . '</td>';
-                                                        echo '<td>' . htmlspecialchars($operation['pengawas']) . '</td>';
-                                                        echo '<td>' . htmlspecialchars($operation['lokasi']) . '</td>';
-                                                        echo '<td>' . htmlspecialchars($operation['status']) . '</td>';
-                                                        echo '<td>' . htmlspecialchars($operation['pic']) . '</td>';
-                                                        $processDisplay = $operation['proses_kontraktor'] ?: ($operation['proses_pengawas'] && !$operation['proses_kontraktor'] ? $operation['proses_pengawas'] : ($operation['proses_admin'] && !$operation['proses_kontraktor'] && !$operation['proses_pengawas'] ? $operation['proses_admin'] : ''));
-                                                        echo '<td>' . htmlspecialchars($processDisplay) . '</td>';
-                                                        echo '<td><button onclick="window.location.href=\'Preview.php?id=' . $operation['id'] . '\'" class="btn btn-primary btn-sm" title="Edit"><i class="bi bi-eye"></i></button></td>';
-                                                        echo '</tr>';
-                                                    }
-                                                } else {
-                                                    echo '<tr><td colspan="10" class="text-center">Tidak ada data yang ditemukan</td></tr>';
-                                                }
-                                                ?>
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -292,7 +285,7 @@ $data = pg_fetch_all($result);
                             .proses_admin : ''));
 
                 const row = `
-                <tr>
+                <tr class="text-center">
                     <td class="text-center">${start + index + 1}</td>
                     <td>${formatDate(report.tanggal)}</td>
                     <td>${report.shift}</td>
@@ -303,9 +296,11 @@ $data = pg_fetch_all($result);
                     <td>${report.pic}</td>
                     <td>${processDisplay}</td> 
                     <td>
-                     <button onclick="window.location.href='Preview.php?id=${report.id}'" class="btn btn-primary btn-sm" title="Edit">
-                        <i class="bi bi-eye"></i>
-                    </button>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-warning btn-sm me-2" title="Edit" onclick="window.location.href='editoperation.php?id=${report.id}'"><i class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-danger btn-sm" title="Delete" onclick="deleteOperation(${report.id})"><i class="bi bi-trash"></i></button>
+                    </div>
+                        <button onclick="window.location.href='Preview.php?id=${report.id}'" class="btn btn-primary btn-sm mt-1" title="Edit"><i class="bi bi-eye"></i></button>
                     </td>
                 </tr>`;
                 tbody.innerHTML += row;
@@ -331,6 +326,26 @@ $data = pg_fetch_all($result);
         currentPage = page;
         const data = <?php echo json_encode($data); ?>;
         renderTable(data);
+    }
+
+    function deleteOperation(id) {
+        if (confirm(
+                'Apakah Anda yakin ingin menghapus data ini? Jika data ini dihapus, data yang terkait dalam laporan produksi juga akan terhapus.'
+            )) {
+            fetch('Report.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'delete_id=' + id
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    location.reload(); // Reload the page to reflect changes
+                })
+                .catch(error => console.error('Error:', error));
+        }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
