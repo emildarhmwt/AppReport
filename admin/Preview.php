@@ -205,10 +205,12 @@ if (isset($_GET['delete_id'])) {
 
                         <div class="row mb-4 mt-4">
                             <div class="col-md-12 d-flex justify-content-between align-items-center">
-                                <a target="_blank"
-                                    class="btn btn-primary d-flex justify-content-start align-items-center me-2"
-                                    href="./production_create.php?id=<?php echo $id; ?>">Tambah
-                                </a>
+                                <div class="d-flex">
+                                    <a target="_blank"
+                                        class="btn btn-primary d-flex justify-content-start align-items-center me-2"
+                                        href="./production_create.php?id=<?php echo $id; ?>">Tambah
+                                    </a>
+                                </div>
                                 <div class="d-flex justify-content-end">
                                     <a target="_blank"
                                         class="btn btn-warning d-flex justify-content-end align-items-center me-2"
