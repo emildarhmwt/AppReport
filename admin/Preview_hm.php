@@ -39,7 +39,7 @@ if (isset($_GET['delete_id'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report Application</title>
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo3.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
     <link rel="stylesheet" href="../assets/css/styles.min.css">
     <link rel=" stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>

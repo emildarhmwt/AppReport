@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report Application</title>
-    <link rel="shortcut icon" type="image/png" href="./assets/images/logos/logo3.png" />
+    <link rel="shortcut icon" type="image/png" href="./assets/images/logos/logo.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
         rel="stylesheet">
     <style>
     body {
-        background-color: #0a273f;
+        background-color: #7aacc5d6;
     }
 
     .img-login {
@@ -58,13 +58,13 @@
         font-family: 'Varela Round', sans-serif;
         font-weight: bold;
         font-size: 35px;
-        color: white;
+        color: #07303f;
     }
 
     .sub-judul {
         font-family: 'Varela Round', sans-serif;
         font-weight: bold;
-        color: white;
+        color: #07303f;
     }
 
     .page-wrapper {
@@ -118,9 +118,9 @@
     }
 
     .latar {
-        width: 350%;
+        width: 200%;
         height: 270%;
-        left: -65%;
+        left: 5%;
         z-index: -1;
     }
 
@@ -142,7 +142,7 @@
                     <div class="col-md-6">
                         <h3 class="text-center judul">WELCOME BACK!</h3>
                         <p class="text-center sub-judul">Please enter your details</p>
-                        <img src="./assets/images/logos/logo3.png" alt="Logo" class="img-login">
+                        <img src="./assets/images/logos/logo.png" alt="Logo" class="img-login">
                         <div id="notification" class="text-danger text-center"></div>
                         <form action="index_aksi.php" method="post" id="loginForm">
                             <div class="mb-3">
@@ -180,7 +180,7 @@
 
                     </div>
                     <div class="col-md-6 d-flex align-items-center justify-content-center right-column">
-                        <img src="./assets/images/logos/latar2.png" class="latar">
+                        <img src="./assets/images/logos/latar3.png" class="latar">
                         <img src="./assets/images/logos/login.png" class="login">
                     </div>
                 </div>
