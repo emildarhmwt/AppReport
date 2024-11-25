@@ -80,6 +80,11 @@ if (isset($_POST['delete_id'])) {
 
     .sub-judul {
         font-family: "Varela Round", serif;
+        color: white;
+    }
+
+    .sub-judul2 {
+        font-family: "Varela Round", serif;
         color: #0f3f61;
     }
 
@@ -113,6 +118,14 @@ if (isset($_POST['delete_id'])) {
         word-break: break-word;
         overflow-wrap: break-word;
         white-space: normal;
+    }
+
+    .form-control {
+        border-color: white;
+    }
+
+    .text-black {
+        color: white !important;
     }
     </style>
 </head>
@@ -148,12 +161,12 @@ if (isset($_POST['delete_id'])) {
                                     <div class="row mb-3">
                                         <div class="col-md-6">
                                             <label for="startDate" class="sub-judul mb-2">Tanggal Awal :</label>
-                                            <input type="date" class="form-control text-white" id="startDate"
+                                            <input type="date" class="form-control text-black" id="startDate"
                                                 aria-describedby="startDateHelp">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="endDate" class="sub-judul mb-2">Tanggal Akhir :</label>
-                                            <input type="date" class="form-control text-white" id="endDate"
+                                            <input type="date" class="form-control text-black" id="endDate"
                                                 aria-describedby="endDateHelp">
                                         </div>
                                     </div>
@@ -168,7 +181,7 @@ if (isset($_POST['delete_id'])) {
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="rowsPerPageSelect" class="sub-judul">Tampilkan:</label>
+                            <label for="rowsPerPageSelect" class="sub-judul2">Tampilkan:</label>
                             <select id="rowsPerPageSelect" class="form-select text-white"
                                 style="width: auto; display: inline-block;" onchange="updateRowsPerPage()">
                                 <option value="5">5</option>
@@ -176,7 +189,7 @@ if (isset($_POST['delete_id'])) {
                                 <option value="15">15</option>
                                 <option value="20">20</option>
                             </select>
-                            <span class="sub-judul"> data per halaman</span>
+                            <span class="sub-judul2"> data per halaman</span>
                         </div>
                         <div class="d-flex align-items-stretch">
                             <div class="card w-100 overflow-hidden">

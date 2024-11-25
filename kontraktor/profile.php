@@ -27,7 +27,7 @@ pg_close($conn);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report Application</title>
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo3.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../assets/css/styles.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,6 +36,12 @@ pg_close($conn);
         href="https://fonts.googleapis.com/css2?family=Acme&family=Coiny&family=Concert+One&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Pacifico&family=Playpen+Sans:wght@100..800&family=Playwrite+DE+Grund:wght@100..400&family=Righteous&family=Sacramento&family=Varela+Round&family=Yatra+One&display=swap"
         rel="stylesheet">
     <style>
+    .body-wrapper {
+        background-image: url(../assets/images/backgrounds/4.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
     .password {
         font-size: 10px;
         margin-top: 5px;
@@ -43,7 +49,7 @@ pg_close($conn);
     }
 
     .card-preview {
-        background-color: #b37219 !important;
+        background-color: #5ea1b5 !important;
     }
 
     .varela-round-regular {
@@ -56,11 +62,20 @@ pg_close($conn);
         color: white;
         font-family: "Varela Round", sans-serif;
         font-size: 20px;
+        font-weight: bold;
     }
 
     .sub-judul {
         font-family: "Varela Round", serif;
         color: white;
+    }
+
+    .form-control {
+        border-color: white;
+    }
+
+    .text-black {
+        color: white !important;
     }
     </style>
 </head>
@@ -76,7 +91,7 @@ pg_close($conn);
             <!--  Header End -->
             <div class="container-fluid">
                 <div class="card" style="border-radius: 10px 10px 10px 10px;">
-                    <div class=" card-header" style="background-color: #b95b10; width: 100%; font-size: 25px; color:white; font-family:
+                    <div class=" card-header" style="background-color: #092c43; width: 100%; font-size: 25px; color:white; font-family:
                         Varela Round;">
                         Profil
                     </div>
@@ -103,7 +118,7 @@ pg_close($conn);
                                             <div class="form-group mb-3">
                                                 <label class="col-md-12 sub-judul mb-2">Nama</label>
                                                 <div class="col-md-12">
-                                                    <input type="text" class="form-control text-white"
+                                                    <input type="text" class="form-control text-black"
                                                         value="<?php echo htmlspecialchars($admin['nama']); ?>"
                                                         id="nama" name="nama" required="required">
                                                 </div>
@@ -112,14 +127,14 @@ pg_close($conn);
                                                 <label for="example-email"
                                                     class="col-md-12 sub-judul mb-2">Username</label>
                                                 <div class="col-md-12">
-                                                    <input type="text" class="form-control text-white"
+                                                    <input type="text" class="form-control text-black"
                                                         value="<?php echo htmlspecialchars($admin['username']); ?>"
                                                         id="username" name="username" required="required">
                                                 </div>
                                             </div>
                                             <div class="mb-2">
                                                 <label for="jam_lain" class="sub-judul mb-2">Password :</label>
-                                                <input type="password" class="form-control text-white" id="password"
+                                                <input type="password" class="form-control text-black" id="password"
                                                     name="password">
                                                 <h5 class="password"> Kosongkan jika tidak ingin mengubah password</h5>
                                             </div>
@@ -127,14 +142,14 @@ pg_close($conn);
                                                 <input class="form-check-input" type="checkbox" value=""
                                                     id="flexCheckDefault" onclick="togglePasswordVisibility()"
                                                     style="border: 1px solid white;">
-                                                <label class="form-check-label text-white" for="flexCheckDefault">
+                                                <label class="form-check-label sub-judul" for="flexCheckDefault">
                                                     Show Password
                                                 </label>
                                             </div>
                                             <div class="form-group mb-3">
                                                 <div class="mb-3">
                                                     <label for="foto" class="sub-judul mb-2">Foto</label>
-                                                    <input class="form-control text-white" type="file" id="file_path"
+                                                    <input class="form-control text-black" type="file" id="file_path"
                                                         name="file_path">
                                                     <h5 class="password">Kosongkan jika tidak ingin mengubah foto</h5>
                                                 </div>

@@ -67,7 +67,7 @@ $data = pg_fetch_all($result);
     }
 
     .form-control::placeholder {
-        color: white;
+        color: #0f3f61;
     }
 
     .card-preview {

@@ -31,7 +31,7 @@ if ($id) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report Application</title>
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo3.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
     <link rel="stylesheet" href="../assets/css/styles.min.css">
     <link rel=" stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
@@ -43,6 +43,12 @@ if ($id) {
         href="https://fonts.googleapis.com/css2?family=Pacifico&family=Playwrite+DE+Grund:wght@100..400&family=Rowdies:wght@300;400;700&family=Varela+Round&display=swap"
         rel="stylesheet">
     <style>
+    .body-wrapper {
+        background-image: url(../assets/images/backgrounds/4.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
     .pacifico-regular {
         font-family: "Pacifico", cursive;
         font-weight: 400;
@@ -63,7 +69,7 @@ if ($id) {
     }
 
     .card-preview {
-        background-color: #b37219 !important;
+        background-color: #5ea1b5 !important;
     }
 
     .sub-judul {
@@ -90,7 +96,7 @@ if ($id) {
                     <div class="card-body">
                         <!-- <div class="row"> -->
                         <div class="card card-preview" style="border-radius: 10px 10px 10px 10px;">
-                            <div class=" card-header" style="background-color: #b95b10; width: 100%; color:white;">
+                            <div class=" card-header" style="background-color: #092c43; width: 100%; color:white;">
                                 Header
                             </div>
                             <?php

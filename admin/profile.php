@@ -59,14 +59,23 @@ pg_close($conn);
     }
 
     .card-subtitle {
-        color: #0f3f61;
+        color: white;
         font-family: "Varela Round", sans-serif;
         font-size: 20px;
+        font-weight: bold;
     }
 
     .sub-judul {
         font-family: "Varela Round", serif;
-        color: #0f3f61;
+        color: white;
+    }
+
+    .form-control {
+        border-color: white;
+    }
+
+    .text-black {
+        color: white !important;
     }
     </style>
 </head>
@@ -109,7 +118,7 @@ pg_close($conn);
                                             <div class="form-group mb-3">
                                                 <label class="col-md-12 sub-judul mb-2">Nama</label>
                                                 <div class="col-md-12">
-                                                    <input type="text" class="form-control text-white"
+                                                    <input type="text" class="form-control text-black"
                                                         value="<?php echo htmlspecialchars($admin['nama']); ?>"
                                                         id="nama" name="nama" required="required">
                                                 </div>
@@ -118,21 +127,21 @@ pg_close($conn);
                                                 <label for="example-email"
                                                     class="col-md-12 sub-judul mb-2">Username</label>
                                                 <div class="col-md-12">
-                                                    <input type="text" class="form-control text-white"
+                                                    <input type="text" class="form-control text-black"
                                                         value="<?php echo htmlspecialchars($admin['username']); ?>"
                                                         id="username" name="username" required="required">
                                                 </div>
                                             </div>
                                             <div class="mb-2">
                                                 <label for="jam_lain" class="sub-judul mb-2">Password :</label>
-                                                <input type="password" class="form-control text-white" id="password"
+                                                <input type="password" class="form-control text-black" id="password"
                                                     name="password">
                                                 <h5 class="password"> Kosongkan jika tidak ingin mengubah password</h5>
                                             </div>
                                             <div class="form-check mb-3">
                                                 <input class="form-check-input" type="checkbox" value=""
                                                     id="flexCheckDefault" onclick="togglePasswordVisibility()"
-                                                    style="border: 1px solid #0f3f61;">
+                                                    style="border: 1px solid white;">
                                                 <label class="form-check-label sub-judul" for="flexCheckDefault">
                                                     Show Password
                                                 </label>
@@ -140,7 +149,7 @@ pg_close($conn);
                                             <div class="form-group mb-3">
                                                 <div class="mb-3">
                                                     <label for="foto" class="sub-judul mb-2">Foto</label>
-                                                    <input class="form-control text-white" type="file" id="file_path"
+                                                    <input class="form-control text-black" type="file" id="file_path"
                                                         name="file_path">
                                                     <h5 class="password">Kosongkan jika tidak ingin mengubah foto</h5>
                                                 </div>

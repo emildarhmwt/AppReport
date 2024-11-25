@@ -42,7 +42,7 @@ $data = pg_fetch_all($result);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report Application</title>
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo3.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
     <link rel="stylesheet" href="../assets/css/styles.min.css">
     <link rel=" stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,6 +51,12 @@ $data = pg_fetch_all($result);
         href="https://fonts.googleapis.com/css2?family=Acme&family=Coiny&family=Concert+One&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Pacifico&family=Playpen+Sans:wght@100..800&family=Playwrite+DE+Grund:wght@100..400&family=Righteous&family=Sacramento&family=Varela+Round&family=Yatra+One&display=swap"
         rel="stylesheet">
     <style>
+    .body-wrapper {
+        background-image: url(../assets/images/backgrounds/4.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
     .varela-round-regular {
         font-family: "Varela Round", serif;
         font-weight: 400;
@@ -63,12 +69,17 @@ $data = pg_fetch_all($result);
         font-size: 30px;
         margin-bottom: 50px;
         margin-top: 10px;
-        color: white;
+        color: #0f3f61;
     }
 
     .sub-judul {
         font-family: "Varela Round", serif;
         color: white;
+    }
+
+    .sub-judul2 {
+        font-family: "Varela Round", serif;
+        color: #0f3f61;
     }
 
     .form-select.text-white option {
@@ -84,11 +95,11 @@ $data = pg_fetch_all($result);
     }
 
     .card-preview {
-        background-color: #b37219 !important;
+        background-color: #5ea1b5 !important;
     }
 
     .produksi {
-        color: white;
+        color: #0f3f61;
         font-family: "Varela Round", serif;
         font-size: 17px;
     }
@@ -101,6 +112,14 @@ $data = pg_fetch_all($result);
         word-break: break-word;
         overflow-wrap: break-word;
         white-space: normal;
+    }
+
+    .form-control {
+        border-color: white;
+    }
+
+    .text-black {
+        color: white !important;
     }
     </style>
 </head>
@@ -136,12 +155,12 @@ $data = pg_fetch_all($result);
                                     <div class="row mb-3">
                                         <div class="col-md-6">
                                             <label for="startDate" class="sub-judul mb-2">Tanggal Awal :</label>
-                                            <input type="date" class="form-control text-white" id="startDate"
+                                            <input type="date" class="form-control text-black" id="startDate"
                                                 aria-describedby="startDateHelp">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="endDate" class="sub-judul mb-2">Tanggal Akhir :</label>
-                                            <input type="date" class="form-control text-white" id="endDate"
+                                            <input type="date" class="form-control text-black" id="endDate"
                                                 aria-describedby="endDateHelp">
                                         </div>
                                     </div>
@@ -154,9 +173,9 @@ $data = pg_fetch_all($result);
                                         </select>
                                     </div> -->
                                     <div class="d-flex justify-content-center mt-3">
-                                        <button type="submit" class="btn btn-warning">
+                                        <button type="submit" class="btn btn-primary">
                                             Cari Data</button>
-                                        <button type="button" class="btn btn-warning mx-3"
+                                        <button type="button" class="btn btn-primary mx-3"
                                             onclick="fetchAllData()">Semua Data</button>
                                     </div>
                                 </form>
@@ -165,7 +184,7 @@ $data = pg_fetch_all($result);
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="rowsPerPageSelect" class="sub-judul">Tampilkan:</label>
+                            <label for="rowsPerPageSelect" class="sub-judul2">Tampilkan:</label>
                             <select id="rowsPerPageSelect" class="form-select text-white"
                                 style="width: auto; display: inline-block;" onchange="updateRowsPerPage()">
                                 <option value="5">5</option>
@@ -173,7 +192,7 @@ $data = pg_fetch_all($result);
                                 <option value="15">15</option>
                                 <option value="20">20</option>
                             </select>
-                            <span class="sub-judul"> data per halaman</span>
+                            <span class="sub-judul2"> data per halaman</span>
                         </div>
                         <div class="d-flex align-items-stretch">
                             <div class="card w-100 overflow-hidden">
