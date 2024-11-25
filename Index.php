@@ -14,7 +14,9 @@
         rel="stylesheet">
     <style>
     body {
-        background-color: #7aacc5d6;
+        background-image: url(./assets/images/backgrounds/5.png);
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 
     .img-login {
@@ -127,7 +129,7 @@
     .login {
         width: 100%;
         height: auto;
-        right: -20%;
+        right: -15%;
         z-index: 2;
     }
     </style>
@@ -180,7 +182,7 @@
 
                     </div>
                     <div class="col-md-6 d-flex align-items-center justify-content-center right-column">
-                        <img src="./assets/images/logos/latar3.png" class="latar">
+                        <!-- <img src="./assets/images/logos/latar3.png" class="latar"> -->
                         <img src="./assets/images/logos/login.png" class="login">
                     </div>
                 </div>

@@ -64,7 +64,8 @@
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <div class="body-wrapper">
-            <div id="navbar"></div>
+            <div id="navbar">
+            </div>
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body">
