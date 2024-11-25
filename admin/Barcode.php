@@ -32,6 +32,12 @@ $data = pg_fetch_all($result);
         href="https://fonts.googleapis.com/css2?family=Acme&family=Coiny&family=Concert+One&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Pacifico&family=Playpen+Sans:wght@100..800&family=Playwrite+DE+Grund:wght@100..400&family=Righteous&family=Sacramento&family=Varela+Round&family=Yatra+One&display=swap"
         rel="stylesheet">
     <style>
+    .body-wrapper {
+        background-image: url(../assets/images/backgrounds/4.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
     .varela-round-regular {
         font-family: "Varela Round", serif;
         font-weight: 400;
@@ -44,12 +50,12 @@ $data = pg_fetch_all($result);
         font-size: 30px;
         margin-bottom: 50px;
         margin-top: 10px;
-        color: white;
+        color: #0f3f61;
     }
 
     .sub-judul {
         font-family: "Varela Round", serif;
-        color: white;
+        color: #0f3f61;
     }
 
     .form-select.text-white option {
@@ -61,7 +67,7 @@ $data = pg_fetch_all($result);
     }
 
     .form-control::placeholder {
-        color: white;
+        color: #0f3f61;
     }
 
     .card-preview {
@@ -69,7 +75,7 @@ $data = pg_fetch_all($result);
     }
 
     .produksi {
-        color: white;
+        color: #0f3f61;
         font-family: "Varela Round", serif;
         font-size: 17px;
     }
@@ -281,7 +287,7 @@ $data = pg_fetch_all($result);
                 pageLinks.forEach(link => {
                     link.classList.remove('active');
                 });
-                pageLinks[currentPage - 1].classList.add('active', '#052d47', 'text-white');
+                pageLinks[currentPage - 1].classList.add('active', '#052d47', '#ffffff');
             }
 
             rowsPerPage.addEventListener('change', () => {

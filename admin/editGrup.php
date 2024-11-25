@@ -33,6 +33,12 @@ if (isset($_GET['id'])) {
         href="https://fonts.googleapis.com/css2?family=Acme&family=Coiny&family=Concert+One&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Pacifico&family=Playpen+Sans:wght@100..800&family=Playwrite+DE+Grund:wght@100..400&family=Righteous&family=Sacramento&family=Varela+Round&family=Yatra+One&display=swap"
         rel="stylesheet">
     <style>
+    .body-wrapper {
+        background-image: url(../assets/images/backgrounds/4.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
     .password {
         font-size: 10px;
         margin-top: 5px;
@@ -51,12 +57,12 @@ if (isset($_GET['id'])) {
         font-size: 30px;
         margin-bottom: 50px;
         margin-top: 10px;
-        color: white;
+        color: #0f3f61;
     }
 
     .sub-judul {
         font-family: "Varela Round", serif;
-        color: white;
+        color: #0f3f61;
     }
 
     .form-select.text-white option {
@@ -64,11 +70,11 @@ if (isset($_GET['id'])) {
     }
 
     .form-select.text-white {
-        color: white;
+        color: #0f3f61;
     }
 
     .form-control::placeholder {
-        color: white;
+        color: #0f3f61;
     }
 
     .card-preview {
@@ -76,7 +82,7 @@ if (isset($_GET['id'])) {
     }
 
     .produksi {
-        color: white;
+        color: #0f3f61;
         font-family: "Varela Round", serif;
         font-size: 17px;
     }
@@ -102,7 +108,7 @@ if (isset($_GET['id'])) {
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="judul fw-semibold">Form Edit Shift</h5>
+                        <h5 class="judul fw-semibold">Form Edit Giliran / Group</h5>
                         <form method="post" action="grup_update.php" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="nama" class="sub-judul mb-2">Shift :</label>

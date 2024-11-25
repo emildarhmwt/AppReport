@@ -56,6 +56,12 @@ if (isset($_POST['delete_id'])) {
         href="https://fonts.googleapis.com/css2?family=Acme&family=Coiny&family=Concert+One&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Pacifico&family=Playpen+Sans:wght@100..800&family=Playwrite+DE+Grund:wght@100..400&family=Righteous&family=Sacramento&family=Varela+Round&family=Yatra+One&display=swap"
         rel="stylesheet">
     <style>
+    .body-wrapper {
+        background-image: url(../assets/images/backgrounds/4.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
     .varela-round-regular {
         font-family: "Varela Round", serif;
         font-weight: 400;
@@ -68,12 +74,12 @@ if (isset($_POST['delete_id'])) {
         font-size: 30px;
         margin-bottom: 50px;
         margin-top: 10px;
-        color: white;
+        color: #0f3f61;
     }
 
     .sub-judul {
         font-family: "Varela Round", serif;
-        color: white;
+        color: #0f3f61;
     }
 
     .form-select.text-white option {
@@ -89,11 +95,11 @@ if (isset($_POST['delete_id'])) {
     }
 
     .card-preview {
-        background-color: #b37219 !important;
+        background-color: #5ea1b5 !important;
     }
 
     .produksi {
-        color: white;
+        color: #0f3f61;
         font-family: "Varela Round", serif;
         font-size: 17px;
     }
@@ -159,8 +165,8 @@ if (isset($_POST['delete_id'])) {
                                         </select>
                                     </div> -->
                                     <div class="d-flex justify-content-center mt-3">
-                                        <button type="submit" class="btn btn-warning">Cari Data</button>
-                                        <button type="button" class="btn btn-warning mx-3"
+                                        <button type="submit" class="btn btn-primary">Cari Data</button>
+                                        <button type="button" class="btn btn-primary mx-3"
                                             onclick="fetchAllData()">Semua Data</button>
                                     </div>
                                 </form>

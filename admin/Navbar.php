@@ -40,9 +40,13 @@ if ($result) {
         margin-right: 10px;
     }
 
+    .text-white {
+        color: #0f3c61 !important;
+    }
+
     .tulisanlogo {
         font-family: "Righteous", serif;
-        color: #c5e9f7;
+        color: #5b1313;
         font-size: 30px;
         margin-top: 10px;
     }
@@ -61,7 +65,7 @@ if ($result) {
 
     .dashboard {
         font-family: "Varela Round", serif;
-        color: white;
+        color: #0f3c61;
         font-weight: bold;
         font-size: 20px;
     }
@@ -69,7 +73,7 @@ if ($result) {
     .operation {
         font-family: "Varela Round", serif;
         font-weight: bold;
-        color: white;
+        color: #0f3c61;
         font-size: 20px;
     }
 
@@ -129,7 +133,7 @@ if ($result) {
     }
 
     .bg-danger {
-        background-color: #ffcc00 !important;
+        background-color: #b90808 !important;
     }
     </style>
 </head>
@@ -158,7 +162,7 @@ if ($result) {
                     </ul> -->
                 <ul class="navbar-nav flex-row ms-4 align-items-center">
                     <li>
-                        <img src="../assets/images/logos/logo3.png" class="logo-report">
+                        <img src="../assets/images/logos/logo.png" class="logo-report">
                     </li>
                     <li class="text-center">
                         <!-- <img src="./assets/images/logos/tulisan-logo.png" class="tulisanlogo"> -->
@@ -184,8 +188,8 @@ if ($result) {
                         <a class="operation nav-link" href="Barcode.php">Barcode</a>
                     </li> -->
                     <li class="nav-item dropdown">
-                        <a class="dropdown-toggle report nav-link text-white" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="dropdown-toggle nav-link dashboard" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             Master Data
                         </a>
                         <ul class="dropdown-menu">

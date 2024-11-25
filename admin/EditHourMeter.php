@@ -45,6 +45,12 @@ while ($row = pg_fetch_assoc($equipmentResult)) {
         rel="stylesheet">
 </head>
 <style>
+.body-wrapper {
+    background-image: url(../assets/images/backgrounds/4.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .suggestions {
     border: 1px solid #ccc;
     max-height: 150px;
@@ -91,12 +97,12 @@ while ($row = pg_fetch_assoc($equipmentResult)) {
     font-size: 30px;
     margin-bottom: 50px;
     margin-top: 10px;
-    color: white;
+    color: #0f3f61;
 }
 
 .sub-judul {
     font-family: "Varela Round", serif;
-    color: white;
+    color: #0f3f61;
 }
 
 .form-select.text-white option {

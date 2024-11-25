@@ -36,6 +36,12 @@ pg_close($conn);
         href="https://fonts.googleapis.com/css2?family=Acme&family=Coiny&family=Concert+One&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Pacifico&family=Playpen+Sans:wght@100..800&family=Playwrite+DE+Grund:wght@100..400&family=Righteous&family=Sacramento&family=Varela+Round&family=Yatra+One&display=swap"
         rel="stylesheet">
     <style>
+    .body-wrapper {
+        background-image: url(../assets/images/backgrounds/4.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
     .password {
         font-size: 10px;
         margin-top: 5px;
@@ -43,7 +49,7 @@ pg_close($conn);
     }
 
     .card-preview {
-        background-color: #b37219 !important;
+        background-color: #5ea1b5 !important;
     }
 
     .varela-round-regular {
@@ -53,14 +59,14 @@ pg_close($conn);
     }
 
     .card-subtitle {
-        color: white;
+        color: #0f3f61;
         font-family: "Varela Round", sans-serif;
         font-size: 20px;
     }
 
     .sub-judul {
         font-family: "Varela Round", serif;
-        color: white;
+        color: #0f3f61;
     }
     </style>
 </head>
@@ -76,7 +82,7 @@ pg_close($conn);
             <!--  Header End -->
             <div class="container-fluid">
                 <div class="card" style="border-radius: 10px 10px 10px 10px;">
-                    <div class=" card-header" style="background-color: #b95b10; width: 100%; font-size: 25px; color:white; font-family:
+                    <div class=" card-header" style="background-color: #092c43; width: 100%; font-size: 25px; color:white; font-family:
                         Varela Round;">
                         Profil
                     </div>
@@ -126,7 +132,7 @@ pg_close($conn);
                                             <div class="form-check mb-3">
                                                 <input class="form-check-input" type="checkbox" value=""
                                                     id="flexCheckDefault" onclick="togglePasswordVisibility()"
-                                                    style="border: 1px solid white;">
+                                                    style="border: 1px solid #0f3f61;">
                                                 <label class="form-check-label sub-judul" for="flexCheckDefault">
                                                     Show Password
                                                 </label>

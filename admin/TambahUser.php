@@ -14,6 +14,12 @@
         href="https://fonts.googleapis.com/css2?family=Acme&family=Coiny&family=Concert+One&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Pacifico&family=Playpen+Sans:wght@100..800&family=Playwrite+DE+Grund:wght@100..400&family=Righteous&family=Sacramento&family=Varela+Round&family=Yatra+One&display=swap"
         rel="stylesheet">
     <style>
+    .body-wrapper {
+        background-image: url(../assets/images/backgrounds/4.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
     .notif {
         font-size: 12px;
         margin-top: 5px;
@@ -38,12 +44,12 @@
         font-size: 30px;
         margin-bottom: 50px;
         margin-top: 10px;
-        color: white;
+        color: #0f3f61;
     }
 
     .sub-judul {
         font-family: "Varela Round", serif;
-        color: white;
+        color: #0f3f61;
     }
 
     .form-select.text-white option {
@@ -51,11 +57,11 @@
     }
 
     .form-select.text-white {
-        color: white;
+        color: #0f3f61;
     }
 
     .form-control::placeholder {
-        color: white;
+        color: #0f3f61;
     }
     </style>
 </head>
@@ -94,7 +100,7 @@
                             </div>
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
-                                    onclick="togglePasswordVisibility()" style="border: 1px solid white;">
+                                    onclick="togglePasswordVisibility()" style="border: 1px solid #0f3f61;">
                                 <label class="form-check-label sub-judul" for="flexCheckDefault">
                                     Show Password
                                 </label>

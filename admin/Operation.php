@@ -14,6 +14,12 @@
         href="https://fonts.googleapis.com/css2?family=Acme&family=Coiny&family=Concert+One&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Pacifico&family=Playpen+Sans:wght@100..800&family=Playwrite+DE+Grund:wght@100..400&family=Righteous&family=Sacramento&family=Varela+Round&family=Yatra+One&display=swap"
         rel="stylesheet">
     <style>
+    .body-wrapper {
+        background-image: url(../assets/images/backgrounds/4.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
     .wajib_isi {
         color: #8b0707;
         font-size: 15px;
@@ -31,12 +37,12 @@
         font-size: 30px;
         margin-bottom: 50px;
         margin-top: 10px;
-        color: white;
+        color: #0f3f61;
     }
 
     .sub-judul {
         font-family: "Varela Round", serif;
-        color: white;
+        color: #0f3f61;
     }
 
     .form-select.text-white option {
@@ -45,6 +51,10 @@
 
     .form-select.text-white {
         color: white;
+    }
+
+    .text-white {
+        color: #0f3c61 !important;
     }
     </style>
 </head>
