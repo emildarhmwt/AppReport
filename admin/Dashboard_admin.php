@@ -168,14 +168,14 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
         font-family: "Varela Round", serif;
         font-size: 35px;
         font-weight: bold;
-        color: #b9d0d6;
+        color: #e7e9d8;
         margin-left: 10%;
     }
 
     .kamu {
         font-family: "Varela Round", serif;
         font-size: 10px;
-        color: #b9d0d6;
+        color: #e7e9d8;
         margin-left: 10%;
     }
 
