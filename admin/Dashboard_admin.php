@@ -29,10 +29,14 @@ $total_rejected = $rejected_production + $rejected_hourmeter;
 $sql_admin = "SELECT COUNT(*) FROM admin_report";
 $sql_user = "SELECT COUNT(*) FROM user_report";
 $sql_kontraktor = "SELECT COUNT(*) FROM kontraktor_report";
+$sql_total_produksi = "SELECT COUNT(*) FROM production_report";
+$sql_total_jamjalan = "SELECT COUNT(*) FROM hourmeter_report";
 
 $rejected_admin = pg_fetch_result(pg_query($conn, $sql_admin), 0, 0);
 $rejected_user = pg_fetch_result(pg_query($conn, $sql_user), 0, 0);
 $rejected_kontraktor = pg_fetch_result(pg_query($conn, $sql_kontraktor), 0, 0);
+$rejected_total_produksi = pg_fetch_result(pg_query($conn, $sql_total_produksi), 0, 0);
+$rejected_total_jamjalan = pg_fetch_result(pg_query($conn, $sql_total_jamjalan), 0, 0);
 
 // Fetch production data for the current year
 $current_year = date("Y");
@@ -170,6 +174,7 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
         font-weight: bold;
         color: #e7e9d8;
         margin-left: 10%;
+        margin-top: 4%;
     }
 
     .kamu {
@@ -233,6 +238,62 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
         background-repeat: no-repeat;
         background-position: center;
     }
+
+    .total_produksi {
+        background-image: url(../assets/images/backgrounds/12.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .gmbr-jj {
+        width: 110%;
+        height: auto;
+        margin-left: -8%;
+        margin-bottom: -5%;
+    }
+
+    .gmbr-p {
+        width: 130%;
+        height: auto;
+        margin-left: -8%;
+        margin-bottom: -5%;
+    }
+
+    .tj {
+        font-family: "Varela Round", serif;
+        font-size: 25px;
+        color: #0f3c61;
+        font-weight: bold;
+        margin-top: 8%;
+        margin-left: 8%;
+    }
+
+    .tj2 {
+        font-family: "Varela Round", serif;
+        font-size: 25px;
+        color: #0f3c61;
+        font-weight: bold;
+        margin-left: 8%;
+    }
+
+    .tjp {
+        font-family: "Varela Round", serif;
+        font-size: 25px;
+        color: #0f3c61;
+        font-weight: bold;
+        margin-top: 8%;
+        margin-left: 8%;
+    }
+
+    .tjp2 {
+        font-family: "Varela Round", serif;
+        font-size: 25px;
+        color: #0f3c61;
+        font-weight: bold;
+        margin-top: 8%;
+        margin-left: 8%;
+    }
     </style>
 </head>
 
@@ -245,7 +306,7 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
             <div id="navbar"></div>
             <!--  Header End -->
             <div class="container-fluid">
-                <div class="row" style="margin-top: 15px;">
+                <div class="row" style="margin-top: 17px;">
                     <div class=" col-lg-1">
                         <img src="../assets/images/backgrounds/6.png" class="hello">
                     </div>
@@ -255,7 +316,8 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
                                 <h1 class="selamat"> Selamat Datang
                                     <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; ?>
                                 </h1>
-                                <h5 class="kamu"> Kamu punya <?php echo $total_rejected; ?> berkas yang perlu diperbaiki
+                                <h5 class="kamu"> Anda memiliki <?php echo $total_rejected; ?> berkas yang perlu
+                                    diperbaiki
                                     dan diajukan kembali.</h5>
                                 <a href="Report.php" class="view">View Details</a>
                             </div>
@@ -286,6 +348,49 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
                                 <h5 class="total2"><?php echo $rejected_kontraktor; ?></h5>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2">
+
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card total_produksi">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-5 d-flex align-items-center">
+                                        <img src="../assets/images/backgrounds/14.png" class="gmbr-p">
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <h5 class="tjp"> Total Produksi</h5>
+                                        <h5 class="tjp2"><?php echo $rejected_total_produksi; ?></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class=" col-lg-4">
+                        <div class="card total_produksi">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4 d-flex align-items-center">
+                                        <img src="../assets/images/backgrounds/13.png" class="gmbr-jj">
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <h5 class="tj"> Total Jam Jalan</h5>
+                                        <h5 class="tj2"><?php echo $rejected_total_jamjalan; ?>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2">
+
                     </div>
                 </div>
 
@@ -350,7 +455,8 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
     const productionChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
+                'Nov',
                 'Dec'
             ],
             datasets: [{
@@ -428,7 +534,8 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
     const hourmeterChart = new Chart(ctxy, {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
+                'Nov',
                 'Dec'
             ],
             datasets: [{
