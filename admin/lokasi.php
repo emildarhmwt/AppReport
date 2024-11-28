@@ -82,6 +82,12 @@ $data = pg_fetch_all($result);
     .produksi:hover {
         color: black;
     }
+
+    @media (max-width: 768px) {
+        .sub-judul {
+            display: none;
+        }
+    }
     </style>
 </head>
 
@@ -95,13 +101,13 @@ $data = pg_fetch_all($result);
                     <div class="card-body">
                         <h5 class="judul fw-semibold">Data Lokasi Kerja</h5>
                         <div class="row mt-3 mb-3">
-                            <div class="col-lg-4 border-end text-center">
+                            <div class="col-lg-4 col-4 border-end text-center">
                                 <a href="shift.php" class="produksi"> Shift </a>
                             </div>
-                            <div class="col-lg-4 border-end text-center">
+                            <div class="col-lg-4 col-4 border-end text-center">
                                 <a href="grup.php" class="produksi"> Giliran / Group </a>
                             </div>
-                            <div class="col-lg-4 text-center">
+                            <div class="col-lg-4 col-4 text-center">
                                 <a href="lokasi.php" class="produksi"> Lokasi Kerja </a>
                             </div>
                         </div>
@@ -122,7 +128,7 @@ $data = pg_fetch_all($result);
                                     </div>
                                     <div class="col-md-6 d-flex justify-content-end">
                                         <button class="btn btn-primary me-3" title="Reject"
-                                            onclick="showImportModal()">Import excel
+                                            onclick="showImportModal()">Import
                                         </button>
 
                                         <div id="importModal" class="modal" tabindex="-1">

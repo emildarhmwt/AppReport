@@ -135,6 +135,91 @@ if ($result) {
     .bg-danger {
         background-color: #b90808 !important;
     }
+
+    @media (max-width:1024px) {
+        .tulisanlogo {
+            font-family: "Righteous", serif;
+            color: #5b1313;
+            font-size: 10px;
+            margin-top: 10px;
+        }
+
+        .logo-report {
+            width: 20px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .dashboard {
+            font-family: "Varela Round", serif;
+            color: #0f3c61;
+            font-weight: bold;
+            font-size: 13px !important;
+        }
+
+        .operation {
+            font-family: "Varela Round", serif;
+            font-weight: bold;
+            color: #0f3c61;
+            font-size: 13px !important;
+        }
+
+        .report {
+            font-family: "Varela Round", serif;
+            font-weight: bold;
+            color: #061a32;
+            font-size: 13px !important;
+        }
+    }
+
+    @media (max-width:768px) {
+        .tulisanlogo {
+            font-family: "Righteous", serif;
+            color: #5b1313;
+            font-size: 10px;
+            margin-top: 10px;
+        }
+
+        .logo-report {
+            width: 20px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .dashboard {
+            font-family: "Varela Round", serif;
+            color: #0f3c61;
+            font-weight: bold;
+            font-size: 5px !important;
+        }
+
+        .operation {
+            font-family: "Varela Round", serif;
+            font-weight: bold;
+            color: #0f3c61;
+            font-size: 5px !important;
+        }
+
+        .report {
+            font-family: "Varela Round", serif;
+            font-weight: bold;
+            color: #061a32;
+            font-size: 5px !important;
+        }
+
+        .img-manusia {
+            width: 20px !important;
+            height: auto !important;
+        }
+
+        .profile {
+            font-family: "Varela Round", serif;
+            color: #df7a15;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 10px;
+        }
+    }
     </style>
 </head>
 
@@ -146,20 +231,6 @@ if ($result) {
         <!--  Header Start -->
         <header class="app-header">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <!-- <ul class="navbar-nav">
-                        <li class="nav-item d-block d-xl-none">
-                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse"
-                                href="javascript:void(0)">
-                                <i class="ti ti-menu-2"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-icon-hover" href="javascript:void(0)">
-                                <i class="ti ti-bell-ringing"></i>
-                                <div class="notification bg-primary rounded-circle"></div>
-                            </a>
-                        </li>
-                    </ul> -->
                 <ul class="navbar-nav flex-row ms-4 align-items-center">
                     <li>
                         <img src="../assets/images/logos/logo.png" class="logo-report">
@@ -172,22 +243,39 @@ if ($result) {
 
                 <ul class="navbar-nav me-auto flex-row align-items-center"
                     style="flex-grow: 30; justify-content: center;">
-                    <li class="nav-item me-3">
+                    <li class="nav-item me-3 d-none d-sm-block">
                         <a class="dashboard nav-link" aria-current="page" href="Dashboard_admin.php">Dashboard</a>
                     </li>
-                    <li class="nav-item me-3">
-                        <a class="operation nav-link" href="Operation.php">Form Input</a>
+                    <li class="nav-item me-3 d-block d-sm-none">
+                        <a class="dashboard nav-link" aria-current="page" href="Dashboard_admin.php">
+                            <i class="bi bi-house"></i>
+                        </a>
                     </li>
-                    <li class="nav-item me-3">
+                    <li class="nav-item me-3 d-none d-sm-block">
+                        <a class="operation nav-link" aria-current="page" href="Operation.php">Input</a>
+                    </li>
+                    <li class="nav-item me-3 d-block d-sm-none">
+                        <a class="dashboard nav-link" aria-current="page" href="Operation.php">
+                            <i class="bi bi-file-plus"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item me-3 d-none d-sm-block">
                         <a class="operation nav-link" href="Report.php">Report</a>
                     </li>
-                    <li class="nav-item me-3">
+                    <li class="nav-item me-3 d-block d-sm-none">
+                        <a class="dashboard nav-link" aria-current="page" href="Report.php">
+                            <i class="bi bi-archive"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item me-3 d-none d-sm-block">
                         <a class="operation nav-link" href="Admin.php">Pengguna</a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a class="operation nav-link" href="Barcode.php">Barcode</a>
-                    </li> -->
-                    <li class="nav-item dropdown">
+                    <li class="nav-item me-3 d-block d-sm-none">
+                        <a class="dashboard nav-link" aria-current="page" href="Admin.php">
+                            <i class="bi bi-person"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown d-none d-sm-block">
                         <a class="dropdown-toggle nav-link dashboard" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Master Data
@@ -199,17 +287,6 @@ if ($result) {
                             <li><a class="dropdown-item" href="Equipment.php">Jam Jalan</a></li>
                         </ul>
                     </li>
-                    <!-- <li class="nav-item dropdown">
-                        <a class="dropdown-toggle report nav-link" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Pengguna
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="Admin.php">Admin</a></li>
-                            <li><a class="dropdown-item" href="User.php">Pengawas</a></li>
-                            <li><a class="dropdown-item" href="Kontraktor.php">Kontraktor</a></li>
-                        </ul>
-                    </li> -->
                 </ul>
 
                 <div class="navbar-collapse justify-content-end px-4" id="navbarNav">
@@ -220,7 +297,8 @@ if ($result) {
                                 <div>
                                     <h5 class="profile" id="adminNameDisplay">
                                         <img src="<?php echo isset($admin['file_admin']) && file_exists($admin['file_admin']) ? htmlspecialchars($admin['file_admin']) : '../assets/images/default.png'; ?>"
-                                            alt="Image" style="width: 50px; height: auto; border-radius: 50%;">
+                                            alt="Image" style="width: 50px; height: auto; border-radius: 50%;"
+                                            class="img-manusia">
                                         <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; ?>
                                         [Admin]
                                     </h5>
@@ -326,6 +404,14 @@ if ($result) {
         </header>
         <!--  Header End -->
     </div>
+    <script>
+    document.getElementById('menuToggle').addEventListener('click', function() {
+        const navItems = document.querySelectorAll('.navbar-nav .nav-item');
+        navItems.forEach(item => {
+            item.classList.toggle('d-none'); // Toggle visibility of nav items
+        });
+    });
+    </script>
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/sidebarmenu.js"></script>

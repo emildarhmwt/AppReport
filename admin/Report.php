@@ -127,6 +127,8 @@ if (isset($_POST['delete_id'])) {
     .text-black {
         color: white !important;
     }
+
+    @media (max-width: 768px) {}
     </style>
 </head>
 
@@ -143,10 +145,10 @@ if (isset($_POST['delete_id'])) {
                     <div class="card-body">
                         <h5 class="judul fw-semibold">Produksi Report</h5>
                         <div class="row mt-3 mb-3">
-                            <div class="col-lg-6 border-end text-center">
+                            <div class="col-lg-6 col-6 border-end text-center">
                                 <a href="Report.php" class="produksi"> Produksi </a>
                             </div>
-                            <div class="col-lg-6 text-center">
+                            <div class="col-lg-6 col-6 text-center">
                                 <a href="Report_hourmeter.php" class="produksi"> Jam Jalan </a>
                             </div>
                         </div>

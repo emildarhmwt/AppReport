@@ -82,6 +82,12 @@ $data = pg_fetch_all($result);
     .produksi:hover {
         color: black;
     }
+
+    @media (max-width: 768px) {
+        .sub-judul {
+            display: none;
+        }
+    }
     </style>
 </head>
 
@@ -111,7 +117,7 @@ $data = pg_fetch_all($result);
                                     </div>
                                     <div class="col-md-6 d-flex justify-content-end">
                                         <button class="btn btn-primary me-3" title="Reject"
-                                            onclick="showImportModal()">Import excel
+                                            onclick="showImportModal()">Import
                                         </button>
 
                                         <div id="importModal" class="modal" tabindex="-1">

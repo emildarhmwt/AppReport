@@ -83,6 +83,12 @@ $data = pg_fetch_all($result);
     .produksi:hover {
         color: black;
     }
+
+    @media (max-width: 768px) {
+        .sub-judul {
+            display: none;
+        }
+    }
     </style>
 </head>
 
@@ -103,10 +109,10 @@ $data = pg_fetch_all($result);
                     <div class="card-body">
                         <h5 class="judul fw-semibold">Data Barcode Kontraktor</h5>
                         <div class="row mt-3 mb-3">
-                            <div class="col-lg-6 border-end text-center">
+                            <div class="col-lg-6 col-6 border-end text-center">
                                 <a href="Barcode.php" class="produksi"> Pengawas </a>
                             </div>
-                            <div class="col-lg-6 text-center">
+                            <div class="col-lg-6 col-6 text-center">
                                 <a href="Barcode_kontraktor.php" class="produksi"> Kontraktor </a>
                             </div>
                         </div>

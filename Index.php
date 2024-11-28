@@ -132,6 +132,12 @@
         right: -15%;
         z-index: 2;
     }
+
+    @media (max-width:576px) {
+        .login {
+            display: none;
+        }
+    }
     </style>
 </head>
 

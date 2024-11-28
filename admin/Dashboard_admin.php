@@ -132,7 +132,12 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
     <title>Report Application</title>
     <link rel="shortcut icon" type="image/png" href="../assets/images/logos/logo.png" />
     <link rel="stylesheet" href="../assets/css/styles.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Acme&family=Coiny&family=Concert+One&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Pacifico&family=Playpen+Sans:wght@100..800&family=Playwrite+DE+Grund:wght@100..400&family=Righteous&family=Sacramento&family=Varela+Round&family=Yatra+One&display=swap"
@@ -294,6 +299,111 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
         margin-top: 8%;
         margin-left: 8%;
     }
+
+    @media (max-width:1024px) {
+        .tj {
+            font-family: "Varela Round", serif;
+            font-size: 15px;
+            color: #0f3c61;
+            font-weight: bold;
+            margin-top: 8%;
+            margin-left: 8%;
+        }
+
+        .tj2 {
+            font-family: "Varela Round", serif;
+            font-size: 15px;
+            color: #0f3c61;
+            font-weight: bold;
+            margin-left: 8%;
+        }
+
+        .tjp {
+            font-family: "Varela Round", serif;
+            font-size: 15px;
+            color: #0f3c61;
+            font-weight: bold;
+            margin-top: 8%;
+            margin-left: 8%;
+        }
+
+        .tjp2 {
+            font-family: "Varela Round", serif;
+            font-size: 15px;
+            color: #0f3c61;
+            font-weight: bold;
+            margin-top: 8%;
+            margin-left: 8%;
+        }
+
+        .selamat {
+            font-family: "Varela Round", serif;
+            font-size: 25px;
+            font-weight: bold;
+            color: #e7e9d8;
+            margin-left: 10%;
+            margin-top: 4%;
+        }
+
+        .hello {
+            width: 160%;
+            height: auto;
+            z-index: 1;
+            right: 5%;
+            bottom: 5%;
+            position: relative;
+        }
+
+        .total {
+            font-family: "Varela Round", serif;
+            font-size: 5px;
+            color: #0f3c61;
+            font-weight: bold;
+            margin-top: 90%;
+            z-index: 1;
+        }
+
+        .total2 {
+            font-family: "Varela Round", serif;
+            font-size: 5px;
+            color: #0f3c61;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .selamat {
+                font-family: "Varela Round", serif;
+                font-size: 17px;
+                font-weight: bold;
+                color: #e7e9d8;
+                margin-left: 10%;
+                margin-top: 4%;
+            }
+
+            .hello {
+                width: 200%;
+                height: auto;
+                z-index: 1;
+                right: 15%;
+                bottom: -5%;
+                position: relative;
+            }
+
+            .total {
+                font-family: "Varela Round", serif;
+                font-size: 5px;
+                color: #0f3c61;
+                font-weight: bold;
+            }
+
+            .total2 {
+                font-family: "Varela Round", serif;
+                font-size: 5px;
+                color: #0f3c61;
+                font-weight: bold;
+            }
+        }
+    }
     </style>
 </head>
 
@@ -307,11 +417,11 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
             <!--  Header End -->
             <div class="container-fluid">
                 <div class="row" style="margin-top: 17px;">
-                    <div class=" col-lg-1">
+                    <div class=" col-lg-1 col-1">
                         <img src="../assets/images/backgrounds/6.png" class="hello">
                     </div>
-                    <div class="col-lg-5">
-                        <div class="card bg-selamat" style="height: 77%;">
+                    <div class="col-lg-5 col-5">
+                        <div class="card bg-selamat" style="height: 77%;  @media (max-width: 768px){ height: 60%;}">
                             <div class="card-body">
                                 <h1 class="selamat"> Selamat Datang
                                     <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; ?>
@@ -323,8 +433,8 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                        <div class="card admin" style="height: 77%;">
+                    <div class="col-lg-2 col-2">
+                        <div class="card admin" style="height: 77%; @media (max-width: 768px){ height: 60%;}">
                             <div class="card-body">
                                 <h5 class="total"> Total Admin</h5>
                                 <h5 class="total2"><?php echo $rejected_admin; ?></h5>
@@ -332,8 +442,8 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
                         </div>
                     </div>
 
-                    <div class="col-lg-2">
-                        <div class="card user" style="height: 77%;">
+                    <div class="col-lg-2 col-2">
+                        <div class="card user" style="height: 77%; @media (max-width: 768px){ height: 60%;}">
                             <div class="card-body">
                                 <h5 class="total"> Total Pengawas</h5>
                                 <h5 class="total2"><?php echo $rejected_user; ?></h5>
@@ -341,8 +451,8 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
                         </div>
                     </div>
 
-                    <div class="col-lg-2">
-                        <div class="card kontraktor" style="height: 77%;">
+                    <div class="col-lg-2 col-2">
+                        <div class="card kontraktor" style="height: 77%; @media (max-width: 768px){ height: 60%;}">
                             <div class="card-body">
                                 <h5 class="total"> Total Kontraktor</h5>
                                 <h5 class="total2"><?php echo $rejected_kontraktor; ?></h5>
@@ -356,14 +466,14 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
 
                     </div>
 
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-6">
                         <div class="card total_produksi">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-lg-5 d-flex align-items-center">
+                                    <div class="col-lg-5 col-5 d-flex align-items-center">
                                         <img src="../assets/images/backgrounds/14.png" class="gmbr-p">
                                     </div>
-                                    <div class="col-lg-7">
+                                    <div class="col-lg-7 col-7">
                                         <h5 class="tjp"> Total Produksi</h5>
                                         <h5 class="tjp2"><?php echo $rejected_total_produksi; ?></h5>
                                     </div>
@@ -372,14 +482,14 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
                         </div>
                     </div>
 
-                    <div class=" col-lg-4">
+                    <div class=" col-lg-4 col-6">
                         <div class="card total_produksi">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-lg-4 d-flex align-items-center">
+                                    <div class="col-lg-4 col-4 d-flex align-items-center">
                                         <img src="../assets/images/backgrounds/13.png" class="gmbr-jj">
                                     </div>
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-8 col-8">
                                         <h5 class="tj"> Total Jam Jalan</h5>
                                         <h5 class="tj2"><?php echo $rejected_total_jamjalan; ?>
                                         </h5>
@@ -399,10 +509,10 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
                         <div class="card">
                             <div class="card-body">
                                 <div class="row mb-3">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 col-6">
                                         <h5 class="judul-grafik"> Laporan Produksi</h5>
                                     </div>
-                                    <div class="col-lg-6 d-flex justify-content-end">
+                                    <div class="col-lg-6 col-6 d-flex justify-content-end">
                                         <input type="number" class="form-control text-white me-2"
                                             style="width: 100px; height: 32px;" id="yearInput" placeholder="Year"
                                             min="2000" />
@@ -420,10 +530,10 @@ while ($row = pg_fetch_assoc($result_hourmeter_data)) {
                         <div class="card">
                             <div class="card-body">
                                 <div class="row mb-3">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 col-6">
                                         <h5 class="judul-grafik"> Laporan Jam Jalan</h5>
                                     </div>
-                                    <div class="col-lg-6 d-flex justify-content-end">
+                                    <div class="col-lg-6 col-6 d-flex justify-content-end">
                                         <input type="number" class="form-control text-white me-2"
                                             style="width: 100px; height: 32px;" id="yearInputs" placeholder="Year"
                                             min="2000" />

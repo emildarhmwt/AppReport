@@ -82,6 +82,12 @@ $data = pg_fetch_all($result);
     .produksi:hover {
         color: black;
     }
+
+    @media (max-width: 768px) {
+        .sub-judul {
+            display: none;
+        }
+    }
     </style>
 </head>
 
@@ -95,19 +101,19 @@ $data = pg_fetch_all($result);
                     <div class="card-body">
                         <h5 class="judul fw-semibold">Data Muatan</h5>
                         <div class="row mt-3 mb-3">
-                            <div class="col-lg-2 border-end text-center">
+                            <div class="col-lg-2 col-2 border-end text-center">
                                 <a href="executor.php" class="produksi"> Executor </a>
                             </div>
-                            <div class="col-lg-3 border-end text-center">
+                            <div class="col-lg-3 col-3 border-end text-center">
                                 <a href="alat.php" class="produksi"> Alat Gali / Muat </a>
                             </div>
-                            <div class="col-lg-2 border-end text-center">
+                            <div class="col-lg-2 col-2 border-end text-center">
                                 <a href="timbunan.php" class="produksi"> Timbunan </a>
                             </div>
-                            <div class="col-lg-3 border-end text-center">
+                            <div class="col-lg-3 col-3 border-end text-center">
                                 <a href="material.php" class="produksi"> Material Tanah</a>
                             </div>
-                            <div class="col-lg-2 text-center">
+                            <div class="col-lg-2 col-2 text-center">
                                 <a href="muatan.php" class="produksi"> Muatan </a>
                             </div>
                         </div>
@@ -127,8 +133,8 @@ $data = pg_fetch_all($result);
                                         <span class="sub-judul"> data per halaman</span>
                                     </div>
                                     <div class="col-md-6 d-flex justify-content-end">
-                                        <button class="btn btn-primary me-3" title="Reject"
-                                            onclick="showImportModal()">Import excel
+                                        <button class="btn btn-primary me-3 import" title="Reject"
+                                            onclick="showImportModal()">Import
                                         </button>
 
                                         <div id="importModal" class="modal" tabindex="-1">
